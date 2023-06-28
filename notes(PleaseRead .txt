@@ -1,0 +1,36 @@
+Migration Scripts/=========================================================================
+*Recipes Table
+•	recipe_id (Primary Key)
+•	user_id (Foreign Key r- Users table)
+•	title
+•	ingredients
+•	instructions
+•	image_url
+•	other recipe-related columns (e.g., created date, update date)
+*Categories Table/
+•	category_id (Primary Key)
+•	name
+*RecipeCategories Table (Many-to-Many relationship between Recipes and Categories)
+•	recipe_id (Foreign Key - Recipes table)
+•	category_id (Foreign Key - Categories table)
+*Ingredients Table/
+•	ingredient_id (Primary Key)
+•	name
+•	other ingredient-related columns (e.g., nutritional information)
+*RecipeIngredients Table (Many-to-Many relationship between Recipes and Ingredients)
+•	recipe_id (Foreign Key - Recipes table)
+•	ingredient_id (Foreign Key - Ingredients table)
+•	quantity
+•	measurement_unit
+
+Models/Relations/=========================================================================
+
+*Recipes Table
+*Categories Table
+*Ingredients Table
+
+CRUD/w Datatables=========================================================================
+
+*Recipes Table ayos na talaga
+*Categories Table
+Ingredients Table
