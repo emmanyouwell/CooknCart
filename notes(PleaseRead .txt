@@ -33,4 +33,4 @@ CRUD/w Datatables===============================================================
 
 *Recipes Table ayos na talaga
 *Categories Table
-Ingredients Table
+Ingredients Table(need to change)
