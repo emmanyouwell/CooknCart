@@ -1,5 +1,6 @@
 @extends('layouts.app')
     <title>Recipes</title>
+@section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -20,7 +21,7 @@
             </div>
         </div>
     </div>
-
+@endsection
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script>

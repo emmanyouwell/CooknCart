@@ -1,7 +1,7 @@
 @extends('layouts.app')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Category</title>
-
+@section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -19,3 +19,4 @@
         </div>
     </div>
 
+@endsection

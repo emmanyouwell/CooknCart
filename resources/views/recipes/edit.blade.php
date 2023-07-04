@@ -1,6 +1,6 @@
 @extends('layouts.app')
     <title>Edit Recipe</title>
-
+@section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -32,6 +32,6 @@
             </div>
         </div>
     </div>
-</body>
 
-</html>
+@endsection
+

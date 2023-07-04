@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('content')
     <div class="container">
         <h2>Categories</h2>
         <div class="mb-3">
@@ -17,7 +17,7 @@
             </tbody>
         </table>
     </div>
-
+@endsection
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script>
