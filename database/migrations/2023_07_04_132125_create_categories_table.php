@@ -9,11 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+    //  categories for recipes
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->id('category_id');
+            $table->id();
             $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

@@ -45,7 +45,7 @@ class User extends Authenticatable
     // Define the relationships with other models
     public function recipes()
     {
-        return $this->hasMany(Recipe::class, 'user_id', 'user_id');
+        return $this->hasMany(Recipe::class);
     }
 }
 

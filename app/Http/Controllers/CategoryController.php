@@ -11,11 +11,11 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $categories = Category::select(['category_id', 'name']);
+            $categories = Category::select(['id', 'name','description']);
             return DataTables::of($categories)
                 ->addColumn('action', function ($category) {
-                    $editUrl = route('categories.edit', $category->category_id);
-                    $deleteUrl = route('categories.destroy', $category->category_id);
+                    $editUrl = route('categories.edit', $category->id);
+                    $deleteUrl = route('categories.destroy', $category->id);
                     $btns = "<a href='{$editUrl}' class='btn btn-primary btn-sm'>Edit</a>";
                     $btns .= "<form action='{$deleteUrl}' method='POST' style='display:inline'>
                                 " . method_field('DELETE') . csrf_field() . "
@@ -41,6 +41,7 @@ class CategoryController extends Controller
     // Validate the request data
     $validatedData = $request->validate([
         'name' => 'required',
+        'description' => 'required',
     ]);
     // Create the category
     $category = Category::create($validatedData);
@@ -48,11 +49,8 @@ class CategoryController extends Controller
     // Debug and inspect the data
     //dd($category);
 
-    // Return a JSON response with a success message
-    return response()->json([
-        'message' => 'Category stored successfully',
-        'category' => $category
-    ], 201);
+    return view('categories.index');
+
 }
 
 
@@ -68,6 +66,7 @@ class CategoryController extends Controller
         // Validate the request data
         $validatedData = $request->validate([
             'name' => 'required',
+            'description' => 'required',
         ]);
 
         // Update the category

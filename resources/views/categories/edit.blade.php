@@ -12,6 +12,9 @@
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" name="name" id="name" class="form-control" value="{{ $category->name }}" required>
+
+                        <label for="description">Description:</label>
+                        <textarea type="text" name="description" id="description" class="form-control" value="{{ $category->description }}" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>

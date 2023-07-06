@@ -12,10 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ingredients', function (Blueprint $table) {
-            $table->id('ingredient_id');
+            $table->id();
+            $table->unsignedBigInteger('ingredient_category_id');
             $table->string('name');
-            // Add any other ingredient-related columns here
+            $table->string('description');
+            $table->string('image');
+            $table->decimal('quantity');
+            $table->decimal('price');
             $table->timestamps();
+
+            $table->foreign('ingredient_category_id')->references('id')->on('ingredients_categories')->onDelete('cascade');
         });
     }
 

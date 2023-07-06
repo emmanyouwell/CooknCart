@@ -3,85 +3,106 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
+use App\Models\IngredientCategory;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
+use Yajra\DataTables\DataTables;
+
 
 class IngredientController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Ingredient::latest()->get();
+            $data = Ingredient::with('category')->latest()->get();
             return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $editUrl = route('ingredients.edit', $row->id);
-                    $deleteUrl = route('ingredients.destroy', $row->id);
-                    $btns = "<a href='{$editUrl}' class='btn btn-primary btn-sm'>Edit</a>";
-                    $btns .= "<form action='{$deleteUrl}' method='POST' style='display:inline'>
-                                " . method_field('DELETE') . csrf_field() . "
-                                <button type='submit' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this ingredient?\")'>Delete</button>
-                              </form>";
-                    return $btns;
+                ->addColumn('category', function ($ingredient) {
+                    return $ingredient->category->name;
                 })
-                ->addColumn('image', function ($row) {
-                    $imagePath = asset('storage/' . $row->image);
-                    return "<img src='{$imagePath}' alt='Ingredient Image' width='50' height='50'>";
+                ->addColumn('action', function ($ingredient) {
+                    $button = '<a href="' . route('ingredients.edit', $ingredient->id) . '" class="edit btn btn-primary btn-sm">Edit</a>';
+                    $button .= '&nbsp;&nbsp;';
+                    $button .= '<button type="button" name="delete" id="' . $ingredient->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
+                    return $button;
                 })
-                ->rawColumns(['action', 'image'])
+                ->rawColumns(['action'])
                 ->make(true);
         }
         return view('ingredients.index');
     }
+
     public function create()
     {
+
         return view('ingredients.create');
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'required',
+            'image' => 'required|image|max:2048',
+            'quantity' => 'required|numeric',
+            'price' => 'required|numeric',
+            'ingredient_category_id' => 'required|exists:ingredient_categories,id',
+            'ingredients' => 'required|array',
+            'ingredients.*' => 'exists:ingredients,id', 
         ]);
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/ingredients', $imageName);
-            $validatedData['image'] = 'ingredients/' . $imageName;
-        }
-        Ingredient::create($validatedData);
-
+    
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+    
+        $ingredient = Ingredient::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $imageName,
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+            'ingredient_category_id' => $request->ingredient_category_id,
+        ]);
+    
+        $ingredient->ingredients()->attach($request->input('ingredients'));
+      
         return redirect()->route('ingredients.index')->with('success', 'Ingredient created successfully.');
     }
+    
+
     public function edit(Ingredient $ingredient)
     {
-        return view('ingredients.edit', compact('ingredient'));
+        return view('ingredients.edit', compact('ingredient', 'categories'));
     }
 
     public function update(Request $request, Ingredient $ingredient)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'required',
+            'image' => 'image|max:2048',
+            'quantity' => 'required|numeric',
+            'price' => 'required|numeric',
+            'ingredient_category_id' => 'required|exists:ingredient_categories,id',
         ]);
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/ingredients', $imageName);
-            $validatedData['image'] = 'ingredients/' . $imageName;
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $ingredient->update(['image' => $imageName]);
         }
-        $ingredient->update($validatedData);
+
+        $ingredient->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+            'ingredient_category_id' => $request->ingredient_category_id,
+        ]);
 
         return redirect()->route('ingredients.index')->with('success', 'Ingredient updated successfully.');
     }
+
     public function destroy(Ingredient $ingredient)
     {
         $ingredient->delete();
-
-        return redirect()->route('ingredients.index')->with('success', 'Ingredient deleted successfully.');
+        return response()->json(['success' => 'Ingredient deleted successfully.']);
     }
 }
-

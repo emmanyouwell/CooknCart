@@ -10,6 +10,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Description</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -27,8 +28,9 @@
                 serverSide: true,
                 ajax: "{{ route('categories.index') }}",
                 columns: [
-                    { data: 'category_id', name: 'category_id' },
+                    { data: 'id', name: 'id' },
                     { data: 'name', name: 'name' },
+                    { data: 'description', name: 'description' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ]
             });

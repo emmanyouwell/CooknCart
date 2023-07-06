@@ -1,55 +1,48 @@
 @extends('layouts.app')
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">Ingredients</div>
-
-                <div class="card-body">
-                    <a href="{{ route('ingredients.create') }}" class="btn btn-primary mb-3">Create Ingredient</a>
-
-                    <table id="ingredients-table" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Image</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
+    <div class="container">
+        <h2>Ingredients</h2>
+        <div align="right">
+            <a href="{{ route('ingredients.create') }}" class="btn btn-success btn-sm">Add Ingredient</a>
         </div>
+        <br />
+        <table class="table table-bordered" id="ingredient_table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    {{-- <th>Category</th> --}}
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
     </div>
-</div>
-@endsection
-<script>
-    $(function () {
-        $('#ingredients-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('ingredients.index') }}",
-            columns: [
-                { data: 'id', name: 'id' },
-                { data: 'name', name: 'name' },
-                {
-                    data: 'image',
-                    name: 'image',
-                    orderable: false,
-                    searchable: false,
-                    render: function (data, type, full, meta) {
-                        if (data) {
-                            return '<img src="{{ asset('storage') }}/' + data + '" alt="Ingredient Image" width="100">';
-                        } else {
-                            return '';
-                        }
-                    }
-                },
-                { data: 'action', name: 'action', orderable: false, searchable: false },
-            ]
+    @endsection
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#ingredient_table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('ingredients.index') }}",
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'description', name: 'description'},
+                    {data: 'image', name: 'image'},
+                    {data: 'quantity', name: 'quantity'},
+                    {data: 'price', name: 'price'},
+                    // {data: 'category', name: 'category.name'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ]
+            });
         });
-    });
-</script>
+    </script>
 
