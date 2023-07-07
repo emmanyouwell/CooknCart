@@ -4,7 +4,7 @@
     <div class="container">
         <h2>Ingredients</h2>
         <div align="right">
-            <a href="{{ route('ingredients.create') }}" class="btn btn-success btn-sm">Add the Ingredient</a>
+            <a href="{{ route('ingredients.create') }}" class="btn btn-success btn-sm">Add Ingredient</a>
         </div>
         <br />
         <table class="table table-bordered" id="ingredient_table">
