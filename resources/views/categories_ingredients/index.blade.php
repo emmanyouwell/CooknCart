@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="container">
-        <h2>Categories</h2>
+        <h2>Ingredients Categories</h2>
         <div class="mb-3">
-            <a href="{{ route('categories_ingredients.create') }}" class="btn btn-primary">Create Category</a>
+            <a href="{{ route('categories_ingredients.create') }}" class="btn btn-primary">Add Ingredient Category</a>
         </div>
         <table id="categories_ingredients-table" class="table table-striped">
             <thead>

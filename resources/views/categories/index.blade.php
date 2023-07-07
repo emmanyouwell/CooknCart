@@ -3,7 +3,7 @@
     <div class="container">
         <h2>Categories</h2>
         <div class="mb-3">
-            <a href="{{ route('categories.create') }}" class="btn btn-primary">Create Category</a>
+            <a href="{{ route('categories.create') }}" class="btn btn-primary">Add Category</a>
         </div>
         <table id="categories-table" class="table table-striped">
             <thead>

@@ -63,8 +63,7 @@ class RecipeController extends Controller
         'ingredients.*' => 'exists:ingredients,id',
     ]);
 
-    $imageName = time() . '.' . $request->image->extension();
-    $request->image->move(public_path('images'), $imageName);
+    $imagePath = $request->file('image')->store('recipes', 'public');
 
     $recipe = Recipe::create([
         'user_id' => auth()->user()->id,
@@ -72,7 +71,7 @@ class RecipeController extends Controller
         'description' => $request->description,
         'instruction' => $request->instruction,
         'category_id' => $request->category_id,
-        'image' => $imageName,
+        'image' => $imagePath,
     ]);
 
     $recipe->ingredients()->attach($request->ingredients);
@@ -107,9 +106,9 @@ class RecipeController extends Controller
     
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-            $recipe->image = $imageName;
+            $imagePath = time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = $request->file('image')->store('recipes', 'public');
+            $recipe->image = $imagePath;
         }
     
         $recipe->save();

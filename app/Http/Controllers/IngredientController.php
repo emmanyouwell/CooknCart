@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
@@ -16,6 +15,9 @@ class IngredientController extends Controller
         if ($request->ajax()) {
             $data = Ingredient::with('category')->latest()->get();
             return DataTables::of($data)
+                ->addColumn('image', function ($ingredient) {
+                    return '<img src="' . asset('\public\storage/' . $ingredient->image) . '" height="50">';
+                })
                 ->addColumn('category', function ($ingredient) {
                     return $ingredient->category->name;
                 })
@@ -25,13 +27,13 @@ class IngredientController extends Controller
 
                     $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
                     $buttons .= "<form action='{$deleteUrl}' method='POST' style='display:inline'>
-                                " . method_field('DELETE') . csrf_field() . "
-                                <button type='submit' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Delete</button>
-                              </form>";
+                                    " . method_field('DELETE') . csrf_field() . "
+                                    <button type='submit' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Delete</button>
+                                  </form>";
 
                     return $buttons;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'image'])
                 ->make(true);
         }
 
@@ -55,12 +57,16 @@ class IngredientController extends Controller
             'ingredient_category_id' => 'required|exists:ingredients_categories,id',
         ]);
 
-        $imagePath = $request->file('image')->store('ingredients', 'public');
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $filename = 'ingredient_' . time() . '.' . $extension;
+
+        $file->storeAs('public/ingredients', $filename);
 
         Ingredient::create([
             'name' => $request->name,
             'description' => $request->description,
-            'image' => $imagePath,
+            'image' => 'ingredients/' . $filename,
             'quantity' => $request->quantity,
             'price' => $request->price,
             'ingredient_category_id' => $request->ingredient_category_id,
@@ -96,11 +102,11 @@ class IngredientController extends Controller
 
         if ($request->hasFile('image')) {
             // Delete old image
-            Storage::disk('public')->delete($ingredient->image);
+            Storage::delete('public/' . $ingredient->image);
 
             // Upload new image
-            $imagePath = $request->file('image')->store('ingredients', 'public');
-            $data['image'] = $imagePath;
+            $imagePath = $request->file('image')->store('public/ingredients');
+            $data['image'] = str_replace('public/', '', $imagePath);
         }
 
         $ingredient->update($data);
@@ -111,13 +117,10 @@ class IngredientController extends Controller
     public function destroy(Ingredient $ingredient)
     {
         // Delete image
-        Storage::disk('public')->delete($ingredient->image);
-    
-        $ingredient->delete();
-    
-        return redirect()->route('ingredients.index')->with('success', 'Category deleted successfully.');
-        
-    }
+        Storage::delete('public/' . $ingredient->image);
 
-    
+        $ingredient->delete();
+
+        return redirect()->route('ingredients.index')->with('success', 'Ingredient deleted successfully.');
+    }
 }

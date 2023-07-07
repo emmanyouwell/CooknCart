@@ -3,8 +3,8 @@
 @section('content')
     <div class="container">
         <h2>Ingredients</h2>
-        <div align="right">
-            <a href="{{ route('ingredients.create') }}" class="btn btn-success btn-sm">Add Ingredient</a>
+        <div class="mb-3">
+            <a href="{{ route('ingredients.create') }}" class="btn btn-primary">Add Ingredient</a>
         </div>
         <br />
         <table class="table table-bordered" id="ingredient_table">
@@ -22,10 +22,10 @@
             </thead>
         </table>
     </div>
-    @endsection
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+@endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#ingredient_table').DataTable({
@@ -33,14 +33,20 @@
                 serverSide: true,
                 ajax: "{{ route('ingredients.index') }}",
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'description', name: 'description'},
-                    {data: 'image', name: 'image'},
-                    {data: 'quantity', name: 'quantity'},
-                    {data: 'price', name: 'price'},
-                    {data: 'category', name: 'category.name'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                    { data: 'id', name: 'id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'description', name: 'description' },
+                    { 
+                        data: 'image',
+                        name: 'image',
+                        render: function(data) {
+                            return '<img src="' + data + '" height="50">';
+                        }
+                    },
+                    { data: 'quantity', name: 'quantity' },
+                    { data: 'price', name: 'price' },
+                    { data: 'category', name: 'category' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]
             });
         });

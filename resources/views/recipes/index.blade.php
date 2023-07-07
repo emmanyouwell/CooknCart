@@ -3,8 +3,8 @@
 @section('content')
     <div class="container">
         <h2>Recipes</h2>
-        <div align="right">
-            <a href="{{ route('recipes.create') }}" class="btn btn-success btn-sm">Add Recipe</a>
+        <div class="mb-3">
+            <a href="{{ route('recipes.create') }}" class="btn btn-primary">Add Recipe</a>
         </div>
         <br />
         <table class="table table-bordered" id="recipe_table">
@@ -15,6 +15,7 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Instruction</th>
+                    <th>Image</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -36,9 +37,17 @@
                     {data: 'name', name: 'name'},
                     {data: 'description', name: 'description'},
                     {data: 'instruction', name: 'instruction'},
+                    {
+                        data: 'image',
+                        name: 'image',
+                        render: function (data) {
+                         return '<img src="/storage/recipes/' + data + '" height="50">';
+                        },
+                        orderable: false,
+                        searchable: false
+                    },
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
         });
     </script>
-
