@@ -9,10 +9,11 @@ class IngredientsCategory extends Model
 {
     use HasFactory;
 
+   
     protected $fillable = ['ingredient_category_id','name','description','image','quantity','price'];
 
     public function ingredients()
     {
-        return $this->hasMany(Ingredient::class);
+        return $this->hasMany(Ingredient::class, 'ingredient_category_id');
     }
 }

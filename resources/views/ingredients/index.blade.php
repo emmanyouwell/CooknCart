@@ -16,7 +16,7 @@
                     <th>Image</th>
                     <th>Quantity</th>
                     <th>Price</th>
-                    {{-- <th>Category</th> --}}
+                    <th>Category</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -39,7 +39,7 @@
                     {data: 'image', name: 'image'},
                     {data: 'quantity', name: 'quantity'},
                     {data: 'price', name: 'price'},
-                    // {data: 'category', name: 'category.name'},
+                    {data: 'category', name: 'category.name'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
