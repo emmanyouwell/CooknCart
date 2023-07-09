@@ -38,13 +38,11 @@
                     {data: 'description', name: 'description'},
                     {data: 'instruction', name: 'instruction'},
                     {
-                        data: 'image',
-                        name: 'image',
-                        render: function (data) {
-                         return '<img src="/storage/recipes/' + data + '" height="50">';
-                        },
-                        orderable: false,
-                        searchable: false
+                    data: 'image',
+                    name: 'image',
+                    render: function (data) {
+                        return '<img src="' + data + '" height="50" />';
+                    }
                     },
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]

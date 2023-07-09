@@ -6,7 +6,6 @@ use App\Models\Ingredient;
 use App\Models\IngredientsCategory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Storage;
 
 class IngredientController extends Controller
 {
@@ -14,13 +13,14 @@ class IngredientController extends Controller
     {
         if ($request->ajax()) {
             $data = Ingredient::with('category')->latest()->get();
+
+            // Apply the path to the image
+            $data->transform(function ($item) {
+                $item->image = asset('storage/' . $item->image);
+                return $item;
+            });
+
             return DataTables::of($data)
-                ->addColumn('image', function ($ingredient) {
-                    return '<img src="' . asset('\public\storage/' . $ingredient->image) . '" height="50">';
-                })
-                ->addColumn('category', function ($ingredient) {
-                    return $ingredient->category->name;
-                })
                 ->addColumn('action', function ($ingredient) {
                     $editUrl = route('ingredients.edit', $ingredient->id);
                     $deleteUrl = route('ingredients.destroy', $ingredient->id);
@@ -33,12 +33,13 @@ class IngredientController extends Controller
 
                     return $buttons;
                 })
-                ->rawColumns(['action', 'image'])
+                ->rawColumns(['action'])
                 ->make(true);
         }
 
         return view('ingredients.index');
     }
+
 
     public function create()
     {

@@ -11,37 +11,43 @@ use Yajra\DataTables\DataTables;
 class RecipeController extends Controller
 {
     public function index(Request $request)
-    {
-        if ($request->ajax()) {
-            $recipes = Recipe::with('user')->where('user_id', auth()->id())->latest()->get();
+{
+    if ($request->ajax()) {
+        $recipes = Recipe::with('user')->where('user_id', auth()->id())->latest()->get();
 
-            return DataTables::of($recipes)
-                ->addColumn('category', function ($recipe) {
-                    return $recipe->categories->pluck('name')->implode(', ');
-                })
-                ->addColumn('ingredients', function ($recipe) {
-                    return $recipe->ingredients->pluck('name')->implode(', ');
-                })
-                ->addColumn('action', function ($recipe) {
-                    $editUrl = route('recipes.edit', $recipe->id);
-                    $deleteUrl = route('recipes.destroy', $recipe->id);
+        // Apply the path to the image
+        $recipes->transform(function ($recipe) {
+            $recipe->image = asset('storage/' . $recipe->image);
+            return $recipe;
+        });
 
-                    $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
-                    $buttons .= '<form action="' . $deleteUrl . '" method="POST" class="d-inline">
-                        ' . csrf_field() . '
-                        ' . method_field('DELETE') . '
-                        <button type="submit" class="btn btn-sm btn-danger"
-                            onclick="return confirm(\'Are you sure you want to delete this recipe?\')">Delete</button>
-                    </form>';
+        return DataTables::of($recipes)
+            ->addColumn('category', function ($recipe) {
+                return $recipe->categories->pluck('name')->implode(', ');
+            })
+            ->addColumn('ingredients', function ($recipe) {
+                return $recipe->ingredients->pluck('name')->implode(', ');
+            })
+            ->addColumn('action', function ($recipe) {
+                $editUrl = route('recipes.edit', $recipe->id);
+                $deleteUrl = route('recipes.destroy', $recipe->id);
 
-                    return $buttons;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
+                $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
+                $buttons .= '<form action="' . $deleteUrl . '" method="POST" class="d-inline">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm(\'Are you sure you want to delete this recipe?\')">Delete</button>
+                </form>';
 
-        return view('recipes.index');
+                return $buttons;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
+
+    return view('recipes.index');
+}
     public function create()
     {
         $categories = Category::pluck('name', 'id');

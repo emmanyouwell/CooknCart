@@ -26,29 +26,31 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#ingredient_table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('ingredients.index') }}",
-                columns: [
-                    { data: 'id', name: 'id' },
-                    { data: 'name', name: 'name' },
-                    { data: 'description', name: 'description' },
-                    { 
-                        data: 'image',
-                        name: 'image',
-                        render: function(data) {
-                            return '<img src="' + data + '" height="50">';
-                        }
-                    },
-                    { data: 'quantity', name: 'quantity' },
-                    { data: 'price', name: 'price' },
-                    { data: 'category', name: 'category' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false }
-                ]
-            });
+<script>
+    $(document).ready(function () {
+        $('#ingredient_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('ingredients.index') }}",
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'description', name: 'description' },
+                {
+                    data: 'image',
+                    name: 'image',
+                    render: function (data) {
+                        return '<img src="' + data + '" height="50" />';
+                    }
+                },
+                { data: 'quantity', name: 'quantity' },
+                { data: 'price', name: 'price' },
+                { data: 'category', name: 'category.name' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
         });
-    </script>
+    });
+</script>
+
+    
 
