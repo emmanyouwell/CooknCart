@@ -27,13 +27,13 @@ class CategoryController extends Controller
                 ->make(true);
         }
 
-        return view('categories.index');
+        return view('Admin.categories.index');
     }
 
     public function create()
     {
         // Show the create form
-        return view('categories.create');
+        return view('Admin.categories.create');
     }
 
     public function store(Request $request)
@@ -58,7 +58,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         // Show the edit form
-        return view('categories.edit', compact('category'));
+        return view('Admin.categories.edit', compact('category'));
     }
 
     public function update(Request $request, Category $category)

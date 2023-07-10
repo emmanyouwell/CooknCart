@@ -1,14 +1,12 @@
 <?php
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientCategoryController;
 use App\Http\Controllers\IngredientController;
-
-
-
-
+use App\Http\Controllers\AdminController;
+use Illuminate\Routing\RouteGroup;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +28,23 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::group(['middleware' => ['auth']], function () {
+Route::middleware(['auth'])->group(function () {
+    // Route::get('cart', [CartController::class, 'viewcart']);
+    // Route::get('checkout', [CheckoutController::class, 'index']);
+    // Route::post('place-order', [CheckoutController::class, 'placeorder']);
+
+    // Route::get('my-orders', [UserController::class,'index']);
+    // Route::get('cancel-order/{id}', [UserController::class, 'cancelOrder'])->name('cancel-order');
+    // Route::get('view-order/{id}', [UserController::class,'view']);
+
+    // Route::get('wishlist',[WishlistController::class,'index' ]);
+    // Route::post('proceed-to-pay', [CheckoutController::class, 'placeorder']);
+});
+
+
+ Route::middleware(['auth','isAdmin'])->group(function(){
+    Route::get('/dashboard', [AdminController::class, 'index']);
+    //CRUD
     //Categories
     Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
     Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
@@ -61,4 +75,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ingredients/{ingredient}/edit', [IngredientController::class, 'edit'])->name('ingredients.edit');
     Route::put('/ingredients/{ingredient}', [IngredientController::class, 'update'])->name('ingredients.update');
     Route::delete('/ingredients/{ingredient}', [IngredientController::class, 'destroy'])->name('ingredients.destroy');
-});
+
+ });

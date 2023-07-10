@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('Admin.index')
 @section('content')
 <div class="container">
     <h2>Edit Recipe</h2>

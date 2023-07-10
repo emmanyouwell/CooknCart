@@ -37,14 +37,14 @@ class IngredientController extends Controller
                 ->make(true);
         }
 
-        return view('ingredients.index');
+        return view('Admin.ingredients.index');
     }
 
 
     public function create()
     {
         $categories = IngredientsCategory::pluck('name', 'id');
-        return view('ingredients.create', compact('categories'));
+        return view('Admin.ingredients.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -79,7 +79,7 @@ class IngredientController extends Controller
     public function edit(Ingredient $ingredient)
     {
         $categories = IngredientsCategory::pluck('name', 'id');
-        return view('ingredients.edit', compact('ingredient', 'categories'));
+        return view('Admin.ingredients.edit', compact('ingredient', 'categories'));
     }
 
     public function update(Request $request, Ingredient $ingredient)

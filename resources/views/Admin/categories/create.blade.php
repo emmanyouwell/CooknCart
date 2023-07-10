@@ -1,6 +1,6 @@
-@extends('layouts.app')
-    <title>Create Category</title>
+@extends('Admin.index')
 @section('content')
+    <title>Create Category</title>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -19,5 +19,4 @@
             </div>
         </div>
     </div>
-
 @endsection

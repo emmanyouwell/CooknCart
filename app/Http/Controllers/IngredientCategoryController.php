@@ -27,13 +27,13 @@ class IngredientCategoryController extends Controller
                 ->make(true);
         }
 
-        return view('categories_ingredients.index');
+        return view('Admin.categories_ingredients.index');
     }
 
     public function create()
     {
         // Show the create form
-        return view('categories_ingredients.create');
+        return view('Admin.categories_ingredients.create');
     }
 
     public function store(Request $request)
@@ -62,7 +62,7 @@ class IngredientCategoryController extends Controller
     public function edit(IngredientsCategory $ingredientscategories)
     {
         // Show the edit form
-        return view('categories_ingredients.edit', compact('ingredientscategories'));
+        return view('Admin.categories_ingredients.edit', compact('ingredientscategories'));
     }
 
     public function update(Request $request, IngredientsCategory $ingredientscategories)

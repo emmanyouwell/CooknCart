@@ -46,7 +46,7 @@ class RecipeController extends Controller
             ->make(true);
     }
 
-    return view('recipes.index');
+    return view('Admin.recipes.index');
 }
     public function create()
     {
@@ -54,7 +54,7 @@ class RecipeController extends Controller
         $ingredients = Ingredient::pluck('name', 'id');
         $ingredients = Ingredient::all();
 
-        return view('recipes.create', compact('categories', 'ingredients'));
+        return view('Admin.recipes.create', compact('categories', 'ingredients'));
     }
 
     public function store(Request $request)
@@ -90,7 +90,7 @@ class RecipeController extends Controller
         $categories = Category::pluck('name', 'id');
         $ingredients = Ingredient::pluck('name', 'id');
 
-        return view('recipes.edit', compact('recipe', 'categories', 'ingredients'));
+        return view('Admin.recipes.edit', compact('recipe', 'categories', 'ingredients'));
     }
 
     public function update(Request $request, Recipe $recipe)
