@@ -7,13 +7,14 @@ use App\Models\Recipe;
 use App\Models\Category;
 use App\Models\Ingredient;
 use Yajra\DataTables\DataTables;
+use Storage;
 
 class RecipeController extends Controller
 {
     public function index(Request $request)
 {
     if ($request->ajax()) {
-        $recipes = Recipe::with('user')->where('user_id', auth()->id())->latest()->get();
+        $recipes = Recipe::with('user')->latest()->get();
 
         // Apply the path to the image
         $recipes->transform(function ($recipe) {
@@ -68,8 +69,23 @@ class RecipeController extends Controller
         'ingredients' => 'required|array',
         'ingredients.*' => 'exists:ingredients,id',
     ]);
-
-    $imagePath = $request->file('image')->store('recipes', 'public');
+  
+    
+        if($request->file()) {
+        
+            $fileName = time().'_'.$request->file('image')->getClientOriginalName();
+           
+            // $filePath = $request->file('img_path')->storeAs('uploads', $fileName,'public');
+            // dd($fileName,$filePath);
+           
+            $path = Storage::putFileAs(
+                'public/images/dp', $request->file('image'), $fileName
+            );
+            
+           
+        }
+    
+    // $imagePath = $request->file('image')->store('recipes', 'public');
 
     $recipe = Recipe::create([
         'user_id' => auth()->user()->id,
@@ -77,7 +93,7 @@ class RecipeController extends Controller
         'description' => $request->description,
         'instruction' => $request->instruction,
         'category_id' => $request->category_id,
-        'image' => $imagePath,
+        'image' => '/images/dp/' . $fileName,
     ]);
 
     $recipe->ingredients()->attach($request->ingredients);
