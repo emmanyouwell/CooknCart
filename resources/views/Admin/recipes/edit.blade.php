@@ -41,7 +41,15 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <div class="form-group">
            
             <label for="ingredients">Select Ingredients:</label><br>
-            <select class="tags form-control" id="tags" name="tags[]" multiple="multiple"></select>
+            
+            <select class="tags form-control" id="tags" name="tags[]" multiple="multiple">
+              @if($recipe->tags) 
+                @foreach(json_decode($recipe->tags) as $tag)
+                <option selected value="{{$tag}}">{{$ingredients[$tag]}}</option>
+                @endforeach
+              @endif
+            </select>
+            
             @error('tags')
                 <label for="" class="text-danger">{{ $message }}</label>
             @enderror

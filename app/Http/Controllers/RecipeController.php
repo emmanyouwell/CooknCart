@@ -106,7 +106,8 @@ class RecipeController extends Controller
     {
         $categories = Category::pluck('name', 'id');
         $ingredients = Ingredient::pluck('name', 'id');
-
+       
+        
         return view('Admin.recipes.edit', compact('recipe', 'categories', 'ingredients'));
     }
 
