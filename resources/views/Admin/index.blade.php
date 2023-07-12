@@ -7,7 +7,9 @@
     <title>Document</title>
     {{-- bootstrap-css --}}
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> --}}
-</head>
+    @yield('scriptsHead')
+   
+
 </head>
 <body>
     <div class="wrapper">
@@ -17,7 +19,9 @@
         <div class="content">
             @yield('content')
         </div>
+        
     </div>
+    
     {{--datatables --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>

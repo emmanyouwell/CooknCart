@@ -66,8 +66,8 @@ class RecipeController extends Controller
         'instruction' => 'required',
         'category_id' => 'required|exists:categories,id',
         'image' => 'required|image|max:2048',
-        'ingredients' => 'required|array',
-        'ingredients.*' => 'exists:ingredients,id',
+        'tags' => 'required',
+        // 'ingredients.*' => 'exists:ingredients,id',
     ]);
   
     
@@ -86,7 +86,7 @@ class RecipeController extends Controller
         }
     
     // $imagePath = $request->file('image')->store('recipes', 'public');
-
+    
     $recipe = Recipe::create([
         'user_id' => auth()->user()->id,
         'name' => $request->name,
@@ -94,9 +94,10 @@ class RecipeController extends Controller
         'instruction' => $request->instruction,
         'category_id' => $request->category_id,
         'image' => '/images/dp/' . $fileName,
+        'tags' => json_encode($request->tags)
     ]);
 
-    $recipe->ingredients()->attach($request->ingredients);
+    // $recipe->ingredients()->attach($request->ingredients);
 
     return redirect()->route('recipes.index')->with('success', 'Recipe created successfully.');
 }
@@ -116,16 +117,16 @@ class RecipeController extends Controller
             'description' => 'required',
             'instruction' => 'required',
             'category_id' => 'required',
-            'ingredients' => 'required|array',
-            'ingredients.*' => 'exists:ingredients,id',
+            'tags' => 'required',
+            // 'ingredients.*' => 'exists:ingredients,id',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+        $validatedData['tags'] = json_encode($request->tags);
         $recipe->name = $validatedData['name'];
         $recipe->description = $validatedData['description'];
         $recipe->instruction = $validatedData['instruction'];
         $recipe->category_id = $validatedData['category_id'];
-    
+        $recipe->tags = $validatedData['tags'];
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imagePath = time() . '.' . $image->getClientOriginalExtension();
@@ -135,7 +136,7 @@ class RecipeController extends Controller
     
         $recipe->save();
     
-        $recipe->ingredients()->sync($validatedData['ingredients']);
+       
     
         return redirect()->route('recipes.index')->with('success', 'Recipe updated successfully.');
     }

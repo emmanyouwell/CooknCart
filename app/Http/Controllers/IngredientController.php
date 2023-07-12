@@ -40,6 +40,14 @@ class IngredientController extends Controller
         return view('Admin.ingredients.index');
     }
 
+    public function getIngredient(Request $request){
+        $tags=[];
+        if ($search=$request->name){
+            $tags=Ingredient::where('name','LIKE',"%$search%")->get();
+        }
+        return response()->json($tags);
+
+    }
 
     public function create()
     {

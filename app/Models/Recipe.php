@@ -15,6 +15,7 @@ class Recipe extends Model
         'description',
         'instruction',
         'image',
+        'tags',
     ];
 
     public function user()
