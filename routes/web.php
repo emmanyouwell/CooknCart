@@ -75,5 +75,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ingredients/{ingredient}/edit', [IngredientController::class, 'edit'])->name('ingredients.edit');
     Route::put('/ingredients/{ingredient}', [IngredientController::class, 'update'])->name('ingredients.update');
     Route::delete('/ingredients/{ingredient}', [IngredientController::class, 'destroy'])->name('ingredients.destroy');
-
+    Route::post('tags',[IngredientController::class,'getIngredient'])->name('get-ingredient');
  });
