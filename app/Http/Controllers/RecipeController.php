@@ -8,50 +8,58 @@ use App\Models\Category;
 use App\Models\Ingredient;
 use Yajra\DataTables\DataTables;
 use Storage;
+use Auth;
 
 class RecipeController extends Controller
 {
     public function index(Request $request)
 {
-    if ($request->ajax()) {
-        $recipes = Recipe::with('user')->latest()->get();
-
-        // Apply the path to the image
-        $recipes->transform(function ($recipe) {
-            $recipe->image = asset('storage/' . $recipe->image);
-            return $recipe;
-        });
-
-        return DataTables::of($recipes)
-            ->addColumn('category', function ($recipe) {
-                return $recipe->categories->pluck('name')->implode(', ');
-            })
-            ->addColumn('ingredients', function ($recipe) {
-                return $recipe->ingredients->pluck('name')->implode(', ');
-            })
-            ->addColumn('action', function ($recipe) {
-                $editUrl = route('recipes.edit', $recipe->id);
-                $deleteUrl = route('recipes.destroy', $recipe->id);
-
-                $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
-                $buttons .= '<form action="' . $deleteUrl . '" method="POST" class="d-inline">
-                    ' . csrf_field() . '
-                    ' . method_field('DELETE') . '
-                    <button type="submit" class="btn btn-sm btn-danger"
-                        onclick="return confirm(\'Are you sure you want to delete this recipe?\')">Delete</button>
-                </form>';
-
-                return $buttons;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-            return view('Admin.recipes.index');
+    
+   
+       if(Auth::check() && Auth::user()->role_as === 1){
+        if ($request->ajax()) {
+            $recipes = Recipe::with('user')->latest()->get();
+    
+            // Apply the path to the image
+            $recipes->transform(function ($recipe) {
+                $recipe->image = asset('storage/' . $recipe->image);
+                return $recipe;
+            });
+    
+            return DataTables::of($recipes)
+                ->addColumn('category', function ($recipe) {
+                    return $recipe->categories->pluck('name')->implode(', ');
+                })
+                ->addColumn('ingredients', function ($recipe) {
+                    return $recipe->ingredients->pluck('name')->implode(', ');
+                })
+                ->addColumn('action', function ($recipe) {
+                    $editUrl = route('recipes.edit', $recipe->id);
+                    $deleteUrl = route('recipes.destroy', $recipe->id);
+    
+                    $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
+                    $buttons .= '<form action="' . $deleteUrl . '" method="POST" class="d-inline">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm(\'Are you sure you want to delete this recipe?\')">Delete</button>
+                    </form>';
+    
+                    return $buttons;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+                
+        }
+        return view('Admin.recipes.index');
     }
     else{
         $recipes = Recipe::all();
-        return view('Users.recipes.index', compact('recipes'));
+        $categories = Category::all();
+        $ingredients = Ingredient::all();
+        return view('Users.recipes.index', compact('recipes','categories', 'ingredients'));
     }
-
+    
     
 }
     public function create()
@@ -77,7 +85,6 @@ class RecipeController extends Controller
   
     
         if($request->file()) {
-        
             $fileName = time().'_'.$request->file('image')->getClientOriginalName();
            
             // $filePath = $request->file('img_path')->storeAs('uploads', $fileName,'public');
@@ -86,8 +93,6 @@ class RecipeController extends Controller
             $path = Storage::putFileAs(
                 'public/images/dp', $request->file('image'), $fileName
             );
-            
-           
         }
     
     // $imagePath = $request->file('image')->store('recipes', 'public');
@@ -134,10 +139,16 @@ class RecipeController extends Controller
         $recipe->category_id = $validatedData['category_id'];
         $recipe->tags = $validatedData['tags'];
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $request->file('image')->store('recipes', 'public');
-            $recipe->image = $imagePath;
+            $fileName = time().'_'.$request->file('image')->getClientOriginalName();
+           
+            // $filePath = $request->file('img_path')->storeAs('uploads', $fileName,'public');
+            // dd($fileName,$filePath);
+           
+            $path = Storage::putFileAs(
+                'public/images/dp', $request->file('image'), $fileName
+            );
+            
+            $recipe->image = '/images/dp/' . $fileName;
         }
     
         $recipe->save();
