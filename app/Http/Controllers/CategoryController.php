@@ -49,7 +49,7 @@ class CategoryController extends Controller
     // Debug and inspect the data
     //dd($category);
 
-    return view('Admin.categories.index');
+    return redirect()->route('Admin.categories.index');
 
 }
 
