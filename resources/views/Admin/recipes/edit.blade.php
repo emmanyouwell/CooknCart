@@ -50,10 +50,12 @@
             <div class="mb-3">
                 <label for="tags" class="form-label">Select Ingredients:</label>
                 <select class="form-control" id="tags" name="tags[]" multiple="multiple">
+                    @if($recipe->tags)
                     @foreach ($ingredients as $tag => $ingredient)
                         <option value="{{ $tag }}"
                             {{ in_array($tag, json_decode($recipe->tags)) ? 'selected' : '' }}>{{ $ingredient }}</option>
                     @endforeach
+                    @endif
                 </select>
                 @error('tags')
                     <label for="tags" class="text-danger">{{ $message }}</label>
