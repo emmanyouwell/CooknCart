@@ -1,41 +1,59 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container">
-        <h2>Create Ingredient</h2>
-        <form action="{{ route('ingredients.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label for="name" class="form-label">Ingredient Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Image</label>
-                <input type="file" class="form-control" id="image" name="image" required>
-            </div>
-            <div class="mb-3">
-                <label for="quantity" class="form-label">Quantity</label>
-                <input type="number" class="form-control" id="quantity" name="quantity" required>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="number" class="form-control" id="price" name="price" required>
-            </div>
-            <div class="mb-3">
-                <label for="ingredient_category_id" class="form-label">Category</label>
-                <select class="form-control" id="ingredient_category_id" name="ingredient_category_id" required>
-                    <option value="">Select Category</option>
-                    @foreach ($categories as $id => $name)
-                        <option value="{{ $id }}">{{ $name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-    </div>
+<div class="container">
+    <h2>Create Ingredient</h2>
+    <form action="{{ route('ingredients.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="mb-3">
+            <label for="name" class="form-label">Ingredient Name</label>
+            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
+            @error('name')
+                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('description') }}</textarea>
+            @error('description')
+                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
+            @error('image')
+                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" name="quantity" value="{{ old('quantity') }}">
+            @error('quantity')
+                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price') }}">
+            @error('price')
+                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="ingredient_category_id" class="form-label">Category</label>
+            <select class="form-control @error('ingredient_category_id') is-invalid @enderror" id="ingredient_category_id" name="ingredient_category_id">
+                <option value="">Select Category</option>
+                @foreach ($categories as $id => $name)
+                    <option value="{{ $id }}" {{ old('ingredient_category_id') == $id ? 'selected' : '' }}>{{ $name }}</option>
+                @endforeach
+            </select>
+            @error('ingredient_category_id')
+                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+            @enderror
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
 @endsection
 
 @section('scriptFoot')
