@@ -121,10 +121,10 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user-recipe.index') }}">Home</a>
+                                <a class="nav-link" href="/home">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user-recipe.index') }}">About</a>
+                                <a class="nav-link" href="#">About</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user-recipe.index') }}">Recipes</a>
@@ -133,7 +133,7 @@
                                 <a class="nav-link" href="{{ route('ingredients.index') }}">Products</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user-recipe.index') }}">Contact</a>
+                                <a class="nav-link" href="#">Contact</a>
                             </li>
                             
                         </ul>
