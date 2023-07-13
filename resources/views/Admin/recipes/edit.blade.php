@@ -17,20 +17,24 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <form action="{{ route('recipes.update', $recipe->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <div class="form-group">
-            <label for="name">Name</label>
+    
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" id="name" name="name" value="{{ $recipe->name }}" required>
         </div>
-        <div class="form-group">
-            <label for="description">Description</label>
+    
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
             <textarea class="form-control" id="description" name="description" required>{{ $recipe->description }}</textarea>
         </div>
-        <div class="form-group">
-            <label for="instruction">Instruction</label>
+    
+        <div class="mb-3">
+            <label for="instruction" class="form-label">Instruction</label>
             <textarea class="form-control" id="instruction" name="instruction" required>{{ $recipe->instruction }}</textarea>
         </div>
-        <div class="form-group">
-            <label for="category_id">Category</label>
+    
+        <div class="mb-3">
+            <label for="category_id" class="form-label">Category</label>
             <select class="form-control" id="category_id" name="category_id" required>
                 <option value="">Select Category</option>
                 @foreach ($categories as $id => $name)
@@ -38,29 +42,26 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
-           
-            <label for="ingredients">Select Ingredients:</label><br>
-            
-            <select class="tags form-control" id="tags" name="tags[]" multiple="multiple">
-              @if($recipe->tags) 
-                @foreach(json_decode($recipe->tags) as $tag)
-                <option selected value="{{$tag}}">{{$ingredients[$tag]}}</option>
+    
+        <div class="mb-3">
+            <label for="tags" class="form-label">Select Ingredients:</label>
+            <select class="form-control" id="tags" name="tags[]" multiple="multiple">
+                @foreach ($ingredients as $tag => $ingredient)
+                    <option value="{{ $tag }}" {{ in_array($tag, json_decode($recipe->tags)) ? 'selected' : '' }}>{{ $ingredient }}</option>
                 @endforeach
-              @endif
             </select>
-            
             @error('tags')
-                <label for="" class="text-danger">{{ $message }}</label>
+                <label for="tags" class="text-danger">{{ $message }}</label>
             @enderror
         </div>
-        <div class="form-group">
-            <label for="image">Image</label>
+    
+        <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
             <input type="file" class="form-control" id="image" name="image">
         </div>
+    
         <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+    </form>    
 @endsection
 
 @section('scripts')
