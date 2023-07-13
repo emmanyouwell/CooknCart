@@ -45,9 +45,14 @@ class RecipeController extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);
+            return view('Admin.recipes.index');
+    }
+    else{
+        $recipes = Recipe::all();
+        return view('Users.recipes.index', compact('recipes'));
     }
 
-    return view('Admin.recipes.index');
+    
 }
     public function create()
     {
@@ -151,5 +156,3 @@ class RecipeController extends Controller
     }
 
 }
-
-
