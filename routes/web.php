@@ -28,7 +28,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->prefix('user')->group(function () {
+    Route::get('/recipes',[RecipeController::class,'index'])->name('user-recipe.index');
     // Route::get('cart', [CartController::class, 'viewcart']);
     // Route::get('checkout', [CheckoutController::class, 'index']);
     // Route::post('place-order', [CheckoutController::class, 'placeorder']);
