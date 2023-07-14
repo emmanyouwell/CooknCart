@@ -28,7 +28,7 @@
                 <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
                 <img src="{{ asset('storage/' . $ingredient->image) }}" alt="Ingredient Image" width="100">
                 @error('image')
-                    <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
         
@@ -36,7 +36,7 @@
                 <label for="quantity" class="form-label">Quantity</label>
                 <input type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" name="quantity" value="{{ old('quantity', $ingredient->quantity) }}">
                 @error('quantity')
-                    <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
         
@@ -44,7 +44,7 @@
                 <label for="price" class="form-label">Price</label>
                 <input type="number" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price', $ingredient->price) }}">
                 @error('price')
-                    <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
         
@@ -59,7 +59,7 @@
                     @endforeach
                 </select>
                 @error('ingredient_category_id')
-                    <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
         

@@ -13,14 +13,14 @@
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                         name="name" value="{{ old('name', $ingredientscategories->name) }}">
                     @error('name')
-                        <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label>
                     <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('description', $ingredientscategories->description) }}</textarea>
                     @error('description')
-                        <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group" style="margin-top: 10px;">

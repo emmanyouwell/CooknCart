@@ -23,7 +23,7 @@
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $recipe->name) }}">
             @error('name')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -31,7 +31,7 @@
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" >{{ old('description', $recipe->description) }}</textarea>
             @error('description')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -39,7 +39,7 @@
             <label for="instruction" class="form-label">Instruction</label>
             <textarea class="form-control @error('instruction') is-invalid @enderror" id="instruction" name="instruction" >{{ old('instruction', $recipe->instruction) }}</textarea>
             @error('instruction')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -53,7 +53,7 @@
                 @endforeach
             </select>
             @error('category_id')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -66,7 +66,7 @@
                 @endforeach
             </select>
             @error('tags')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
@@ -74,7 +74,7 @@
             <label for="image" class="form-label">Image</label>
             <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
             @error('image')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 

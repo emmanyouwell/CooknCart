@@ -22,21 +22,21 @@
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
             @error('name')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('description') }}</textarea>
             @error('description')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
         <div class="mb-3">
             <label for="instruction" class="form-label">Instruction</label>
             <textarea class="form-control @error('instruction') is-invalid @enderror" id="instruction" name="instruction">{{ old('instruction') }}</textarea>
             @error('instruction')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
         <div class="mb-3">
@@ -48,7 +48,7 @@
                 @endforeach
             </select>
             @error('category_id')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
         <div class="mb-3">
@@ -59,14 +59,15 @@
                 @endforeach
             </select>
             @error('tags')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-        </div>        
+        </div>
+        
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
             <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
             @error('image')
-                <div class="invalid-feedback" style="color: red;">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
