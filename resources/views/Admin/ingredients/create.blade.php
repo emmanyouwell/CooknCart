@@ -20,10 +20,7 @@
         </div>
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
-            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
-            @error('image')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+            <input type="file" class="form-control" id="image" name="image[]" required multiple accept=".jpg, .jpeg, .png, .gif">
         </div>
         <div class="mb-3">
             <label for="quantity" class="form-label">Quantity</label>
