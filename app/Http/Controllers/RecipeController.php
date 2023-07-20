@@ -14,24 +14,24 @@ class RecipeController extends Controller
 {
     public function index(Request $request)
     {
-
-
+        
         if (Auth::check() && Auth::user()->role_as === 1) {
             if ($request->ajax()) {
                 $recipes = Recipe::with('user')->latest()->get();
 
                 // Apply the path to the image
-                $recipes->transform(function ($recipe) {
-                    $recipe->image = asset('storage/' . $recipe->image);
-                    return $recipe;
-                });
+                // $recipes->transform(function ($recipe) {
+                //     $recipe->image = asset('storage/' . $recipe->image);
+                //     return $recipe;
+                // });
 
                 return DataTables::of($recipes)
                     ->addColumn('category', function ($recipe) {
                         return $recipe->categories->pluck('name')->implode(', ');
                     })
                     ->addColumn('ingredients', function ($recipe) {
-                        return $recipe->ingredients->pluck('name')->implode(', ');
+                        
+                        return json_decode($recipe->tags);
                     })
                     ->addColumn('action', function ($recipe) {
                         $editUrl = route('recipes.edit', $recipe->id);
@@ -55,6 +55,7 @@ class RecipeController extends Controller
             $recipes = Recipe::all();
             $categories = Category::all();
             $ingredients = Ingredient::all();
+            
             return view('Users.recipes.index', compact('recipes', 'categories', 'ingredients'));
         }
     }
@@ -104,10 +105,10 @@ class RecipeController extends Controller
             // dd($fileName,$filePath);
            
             $path = Storage::putFileAs(
-                'public/images/dp', $request->file('image'), $fileName
+                'public/images', $request->file('image'), $fileName
             );
         }
-    
+    // dd($path);
     // $imagePath = $request->file('image')->store('recipes', 'public');
     
     $recipe = Recipe::create([
@@ -116,7 +117,7 @@ class RecipeController extends Controller
         'description' => $request->description,
         'instruction' => $request->instruction,
         'category_id' => $request->category_id,
-        'image' => '/images/dp/' . $fileName,
+        'image' => '/storage/images/' . $fileName,
         'tags' => json_encode($request->tags)
     ]);
 
@@ -158,12 +159,12 @@ class RecipeController extends Controller
             // dd($fileName,$filePath);
 
             $path = Storage::putFileAs(
-                'public/images/dp',
+                'public/images',
                 $request->file('image'),
                 $fileName
             );
 
-            $recipe->image = '/images/dp/' . $fileName;
+            $recipe->image = '/storage/images/' . $fileName;
         }
 
         $recipe->save();
@@ -175,7 +176,7 @@ class RecipeController extends Controller
 
     public function destroy(Recipe $recipe)
     {
-        $recipe->ingredients()->detach();
+        // $recipe->ingredients()->detach();
         $recipe->delete();
 
         return redirect()->route('recipes.index')->with('success', 'Recipe deleted successfully.');

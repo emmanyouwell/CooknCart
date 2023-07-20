@@ -14,6 +14,7 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Instruction</th>
+                    {{-- <th>Ingredients</th> --}}
                     <th>Image</th>
                     <th>Action</th>
                 </tr>
@@ -52,6 +53,10 @@
                         data: 'instruction',
                         name: 'instruction'
                     },
+                    // {
+                    //     data: 'ingredients',
+                    //     name: 'ingredients'
+                    // },
                     {
                         data: 'image',
                         name: 'image',

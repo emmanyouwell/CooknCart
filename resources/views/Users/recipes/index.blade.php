@@ -58,11 +58,21 @@
                         @if ($recipe->category_id == $categories[0]->id)
                             <div class="col">
                                 <div class="card h-100">
-                                    <img src="/storage{{ $recipe->image }}" class="card-img-top" alt="..."
+                                    <img src="{{ asset($recipe->image) }}" class="card-img-top" alt="..."
                                         height="300px" style="object-fit:cover">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $recipe->name }}</h5>
                                         <p class="card-text">{{ $recipe->description }}</p>
+                                        <p class="card-title">Ingredients</p>
+
+                                        <ol class="list-group list-group-flush">
+                                            @foreach($ingredients as $ing)
+                                                @if(in_array($ing->id,json_decode($recipe->tags,true)))
+                                                    <li class="list-group-item">• {{$ing->name}}</li>
+                                                @endif
+                                                
+                                            @endforeach
+                                        </ol>
                                     </div>
                                 </div>
                             </div>
