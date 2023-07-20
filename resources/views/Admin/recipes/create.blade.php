@@ -62,6 +62,11 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+        {{-- <div class="mb-3">
+            <label for="images">Images:</label>
+            <input type="file" name="images[]" id="images" multiple>
+        </div> --}}
+        
         
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>

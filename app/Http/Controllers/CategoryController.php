@@ -11,7 +11,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $categories = Category::select(['id', 'name','description']);
+            $categories = Category::select(['id', 'name', 'description']);
             return DataTables::of($categories)
                 ->addColumn('action', function ($category) {
                     $editUrl = route('categories.edit', $category->id);
@@ -37,21 +37,20 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Validate the request data
-    $validatedData = $request->validate([
-        'name' => 'required',
-        'description' => 'required',
-    ]);
-    // Create the category
-    $category = Category::create($validatedData);
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+        // Create the category
+        $category = Category::create($validatedData);
 
-    // Debug and inspect the data
-    //dd($category);
+        // Debug and inspect the data
+        //dd($category);
 
-    return redirect()->route('Admin.categories.index');
-
-}
+        return redirect()->route('Admin.categories.index');
+    }
 
 
 

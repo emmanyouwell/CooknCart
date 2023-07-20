@@ -40,13 +40,13 @@ class IngredientController extends Controller
         return view('Admin.ingredients.index');
     }
 
-    public function getIngredient(Request $request){
-        $tags=[];
-        if ($search=$request->name){
-            $tags=Ingredient::where('name','LIKE',"%$search%")->get();
+    public function getIngredient(Request $request)
+    {
+        $tags = [];
+        if ($search = $request->name) {
+            $tags = Ingredient::where('name', 'LIKE', "%$search%")->get();
         }
         return response()->json($tags);
-
     }
 
     public function create()
@@ -55,46 +55,52 @@ class IngredientController extends Controller
         return view('Admin.ingredients.create', compact('categories'));
     }
 
-      // $file = $request->file('image');
-        // $extension = $file->getClientOriginalExtension();
-        // $filename = 'ingredient_' . time() . '.' . $extension;
+    // $file = $request->file('image');
+    // $extension = $file->getClientOriginalExtension();
+    // $filename = 'ingredient_' . time() . '.' . $extension;
 
-        // $file->storeAs('public/ingredients', $filename); 
-        public function store(Request $request)
-        {
-            $request->validate([
-                'name' => 'required',
-                'description' => 'required',
-                'image.*' => 'required|image|mimes:jpeg,jpg,png,gif', // Use the "image.*" syntax for multiple images
-                'quantity' => 'required|numeric',
-                'price' => 'required|numeric',
-                'ingredient_category_id' => 'required|exists:ingredients_categories,id',
-            ]);
-        
-            $images = [];
-            if ($files = $request->file('image')) {
-                foreach ($files as $file) {
-                    $image_name = md5(rand(1000, 1000));
-                    $ext = strtolower($file->getClientOriginalExtension());
-                    $image_full_name = $image_name . '.' . $ext;
-                    $upload_path = 'public/ingredients/';
-                    $image_url = $upload_path . $image_full_name;
-                    $file->move($upload_path, $image_full_name);
-                    $images[] = $image_url;
-                }
-            }
-        
-            Ingredient::create([
-                'name' => $request->name,
-                'description' => $request->description,
-                'image' => implode('|', $images),
-                'quantity' => $request->quantity,
-                'price' => $request->price,
-                'ingredient_category_id' => $request->ingredient_category_id,
-            ]);
-        
-            return redirect()->route('ingredients.index')->with('success', 'Ingredient created successfully.');
-        }
+    // $file->storeAs('public/ingredients', $filename); 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|mimes:jpeg,jpg,png,gif', // Use the "image.*" syntax for multiple images
+            'quantity' => 'required|numeric',
+            'price' => 'required|numeric',
+            'ingredient_category_id' => 'required|exists:ingredients_categories,id',
+        ]);
+
+        // $images = [];
+        // if ($files = $request->file('image')) {
+        //     foreach ($files as $file) {
+        //         $image_name = md5(rand(1000, 1000));
+        //         $ext = strtolower($file->getClientOriginalExtension());
+        //         $image_full_name = $image_name . '.' . $ext;
+        //         $upload_path = 'public/ingredients/';
+        //         $image_url = $upload_path . $image_full_name;
+        //         $file->move($upload_path, $image_full_name);
+        //         $images[] = $image_url;
+        //     }
+        // }
+
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $filename = 'ingredient_' . time() . '.' . $extension;
+        $file->storeAs('public/ingredients', $filename);
+
+        Ingredient::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            // 'image' => implode('|', $images),
+            'image' => 'ingredients/' . $filename,
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+            'ingredient_category_id' => $request->ingredient_category_id,
+        ]);
+
+        return redirect()->route('ingredients.index')->with('success', 'Ingredient created successfully.');
+    }
 
 
     public function edit(Ingredient $ingredient)

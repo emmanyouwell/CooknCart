@@ -13,55 +13,51 @@ use Auth;
 class RecipeController extends Controller
 {
     public function index(Request $request)
-{
-    
-   
-       if(Auth::check() && Auth::user()->role_as === 1){
-        if ($request->ajax()) {
-            $recipes = Recipe::with('user')->latest()->get();
-    
-            // Apply the path to the image
-            $recipes->transform(function ($recipe) {
-                $recipe->image = asset('storage/' . $recipe->image);
-                return $recipe;
-            });
-    
-            return DataTables::of($recipes)
-                ->addColumn('category', function ($recipe) {
-                    return $recipe->categories->pluck('name')->implode(', ');
-                })
-                ->addColumn('ingredients', function ($recipe) {
-                    return $recipe->ingredients->pluck('name')->implode(', ');
-                })
-                ->addColumn('action', function ($recipe) {
-                    $editUrl = route('recipes.edit', $recipe->id);
-                    $deleteUrl = route('recipes.destroy', $recipe->id);
-    
-                    $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
-                    $buttons .= '<form action="' . $deleteUrl . '" method="POST" class="d-inline">
+    {
+
+
+        if (Auth::check() && Auth::user()->role_as === 1) {
+            if ($request->ajax()) {
+                $recipes = Recipe::with('user')->latest()->get();
+
+                // Apply the path to the image
+                $recipes->transform(function ($recipe) {
+                    $recipe->image = asset('storage/' . $recipe->image);
+                    return $recipe;
+                });
+
+                return DataTables::of($recipes)
+                    ->addColumn('category', function ($recipe) {
+                        return $recipe->categories->pluck('name')->implode(', ');
+                    })
+                    ->addColumn('ingredients', function ($recipe) {
+                        return $recipe->ingredients->pluck('name')->implode(', ');
+                    })
+                    ->addColumn('action', function ($recipe) {
+                        $editUrl = route('recipes.edit', $recipe->id);
+                        $deleteUrl = route('recipes.destroy', $recipe->id);
+
+                        $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
+                        $buttons .= '<form action="' . $deleteUrl . '" method="POST" class="d-inline">
                         ' . csrf_field() . '
                         ' . method_field('DELETE') . '
                         <button type="submit" class="btn btn-sm btn-danger"
                             onclick="return confirm(\'Are you sure you want to delete this recipe?\')">Delete</button>
                     </form>';
-    
-                    return $buttons;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-                
+
+                        return $buttons;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+            return view('Admin.recipes.index');
+        } else {
+            $recipes = Recipe::all();
+            $categories = Category::all();
+            $ingredients = Ingredient::all();
+            return view('Users.recipes.index', compact('recipes', 'categories', 'ingredients'));
         }
-        return view('Admin.recipes.index');
     }
-    else{
-        $recipes = Recipe::all();
-        $categories = Category::all();
-        $ingredients = Ingredient::all();
-        return view('Users.recipes.index', compact('recipes','categories', 'ingredients'));
-    }
-    
-    
-}
     public function create()
     {
         $categories = Category::pluck('name', 'id');
@@ -70,6 +66,23 @@ class RecipeController extends Controller
 
         return view('Admin.recipes.create', compact('categories', 'ingredients'));
     }
+
+    //     $images = [];
+    // if ($files = $request->file('image')) {
+    //     foreach ($files as $file) {
+    //         $ext = strtolower($file->getClientOriginalExtension());
+    //         $image_name = time() . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+    //         $image_full_name = $image_name . '.' . $ext;
+    //         $upload_path = '/images/dp/';
+    //         $image_url = $upload_path . $image_full_name;
+    //         $file->move($upload_path, $image_full_name);
+    //         $images[] = $image_url;
+    //     }
+    // }
+
+    //baba ng tags 
+    // 'ingredients.*' => 'exists:ingredients,id',
+
 
     public function store(Request $request)
 {
@@ -116,8 +129,8 @@ class RecipeController extends Controller
     {
         $categories = Category::pluck('name', 'id');
         $ingredients = Ingredient::pluck('name', 'id');
-       
-        
+
+
         return view('Admin.recipes.edit', compact('recipe', 'categories', 'ingredients'));
     }
 
@@ -139,22 +152,24 @@ class RecipeController extends Controller
         $recipe->category_id = $validatedData['category_id'];
         $recipe->tags = $validatedData['tags'];
         if ($request->hasFile('image')) {
-            $fileName = time().'_'.$request->file('image')->getClientOriginalName();
-           
+            $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
+
             // $filePath = $request->file('img_path')->storeAs('uploads', $fileName,'public');
             // dd($fileName,$filePath);
-           
+
             $path = Storage::putFileAs(
-                'public/images/dp', $request->file('image'), $fileName
+                'public/images/dp',
+                $request->file('image'),
+                $fileName
             );
-            
+
             $recipe->image = '/images/dp/' . $fileName;
         }
-    
+
         $recipe->save();
-    
-       
-    
+
+
+
         return redirect()->route('recipes.index')->with('success', 'Recipe updated successfully.');
     }
 
@@ -165,5 +180,4 @@ class RecipeController extends Controller
 
         return redirect()->route('recipes.index')->with('success', 'Recipe deleted successfully.');
     }
-
 }
