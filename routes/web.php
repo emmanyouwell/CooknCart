@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientCategoryController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -19,14 +20,12 @@ use Illuminate\Routing\RouteGroup;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/recipes',[RecipeController::class,'index'])->name('user-recipe.index');
