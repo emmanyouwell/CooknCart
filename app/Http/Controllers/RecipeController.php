@@ -50,7 +50,7 @@ class RecipeController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
             }
-            return view('Admin.recipes.index');
+            return view('Admin.recipes.index');//
         } else {
             $recipes = Recipe::all();
             $categories = Category::all();
@@ -59,6 +59,7 @@ class RecipeController extends Controller
             return view('Users.recipes.index', compact('recipes', 'categories', 'ingredients'));
         }
     }
+    
     public function create()
     {
         $categories = Category::pluck('name', 'id');

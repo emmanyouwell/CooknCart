@@ -29,7 +29,8 @@ Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/recipes',[RecipeController::class,'index'])->name('user-recipe.index');
-    Route::get('/ingredients',[IngredientController::class,'index'])->name('user-ingredient.index');
+    Route::get('/ingredients', [IngredientController::class, 'index'])->name('user-ingredient.index');
+
 
     // Route::get('cart', [CartController::class, 'viewcart']);
     // Route::get('checkout', [CheckoutController::class, 'index']);
@@ -42,12 +43,10 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     // Route::get('wishlist',[WishlistController::class,'index' ]);
     // Route::post('proceed-to-pay', [CheckoutController::class, 'placeorder']);
 });
-
-
  Route::middleware(['auth','isAdmin'])->group(function(){
     Route::get('/dashboard', [AdminController::class, 'index']);
     //CRUD
-    //Categories
+    //Recipes
     Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
     Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
     Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');

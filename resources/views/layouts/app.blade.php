@@ -129,7 +129,7 @@
                                 <a class="nav-link" href="{{ route('user-recipe.index') }}">Recipes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('ingredients.index') }}">Products</a>
+                                <a class="nav-link" href="{{ route('user-ingredient.index') }}">Products</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Contact</a>
