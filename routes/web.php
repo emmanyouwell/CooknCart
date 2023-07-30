@@ -29,6 +29,8 @@ Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/recipes',[RecipeController::class,'index'])->name('user-recipe.index');
+    Route::get('/ingredients',[IngredientController::class,'index'])->name('user-ingredient.index');
+
     // Route::get('cart', [CartController::class, 'viewcart']);
     // Route::get('checkout', [CheckoutController::class, 'index']);
     // Route::post('place-order', [CheckoutController::class, 'placeorder']);

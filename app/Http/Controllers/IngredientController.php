@@ -6,39 +6,77 @@ use App\Models\Ingredient;
 use App\Models\IngredientsCategory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Auth;
 
 class IngredientController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = Ingredient::with('category')->latest()->get();
+        
+        if (Auth::check() && Auth::user()->role_as === 1) {
+            if ($request->ajax()) {
+                        $data = Ingredient::with('category')->latest()->get();
+                        // Apply the path to the image
+                        $data->transform(function ($item) {
+                            $item->image = asset('storage/' . $item->image);
+                            return $item;
+                        });
+            
+                        return DataTables::of($data)
+                            ->addColumn('action', function ($ingredient) {
+                                $editUrl = route('ingredients.edit', $ingredient->id);
+                                $deleteUrl = route('ingredients.destroy', $ingredient->id);
+            
+                                $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
+                                $buttons .= "<form action='{$deleteUrl}' method='POST' style='display:inline'>
+                                                " . method_field('DELETE') . csrf_field() . "
+                                                <button type='submit' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Delete</button>
+                                              </form>";
+            
+                                return $buttons;
+                            })
+                            ->rawColumns(['action'])
+                            ->make(true);
+                    }       
+                    return view('Admin.ingredients.index');
+        } else {
 
-            // Apply the path to the image
-            $data->transform(function ($item) {
-                $item->image = asset('storage/' . $item->image);
-                return $item;
-            });
-
-            return DataTables::of($data)
-                ->addColumn('action', function ($ingredient) {
-                    $editUrl = route('ingredients.edit', $ingredient->id);
-                    $deleteUrl = route('ingredients.destroy', $ingredient->id);
-
-                    $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
-                    $buttons .= "<form action='{$deleteUrl}' method='POST' style='display:inline'>
-                                    " . method_field('DELETE') . csrf_field() . "
-                                    <button type='submit' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Delete</button>
-                                  </form>";
-
-                    return $buttons;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            $categories = IngredientsCategory::all();
+            $ingredients = Ingredient::all();
+            
+            return view('Users.ingredients.index', compact('categories', 'ingredients'));
         }
-
-        return view('Admin.ingredients.index');
     }
+    // public function index(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $data = Ingredient::with('category')->latest()->get();
+
+    //         // Apply the path to the image
+    //         $data->transform(function ($item) {
+    //             $item->image = asset('storage/' . $item->image);
+    //             return $item;
+    //         });
+
+    //         return DataTables::of($data)
+    //             ->addColumn('action', function ($ingredient) {
+    //                 $editUrl = route('ingredients.edit', $ingredient->id);
+    //                 $deleteUrl = route('ingredients.destroy', $ingredient->id);
+
+    //                 $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
+    //                 $buttons .= "<form action='{$deleteUrl}' method='POST' style='display:inline'>
+    //                                 " . method_field('DELETE') . csrf_field() . "
+    //                                 <button type='submit' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Delete</button>
+    //                               </form>";
+
+    //                 return $buttons;
+    //             })
+    //             ->rawColumns(['action'])
+    //             ->make(true);
+    //     }
+
+    //     return view('Admin.ingredients.index');
+    // }
 
     public function getIngredient(Request $request)
     {

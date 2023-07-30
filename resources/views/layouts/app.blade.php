@@ -21,7 +21,6 @@
 
 <body>
     <div id="app">
-
         @if (Auth::check() && auth()->user()->role_as === 1)
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
