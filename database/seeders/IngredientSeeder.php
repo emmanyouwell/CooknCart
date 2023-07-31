@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Ingredient;
-use App\Models\IngredientsCategory;
 
 class IngredientSeeder extends Seeder
 {
@@ -13,40 +12,55 @@ class IngredientSeeder extends Seeder
      */
     public function run(): void
     {
-        $ingredientsData = [];
+        $ingredients = [
+            [
+                'name' => 'Apple',
+                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ipsum vitae elit tincidunt bibendum.',
+                'ingredient_category_id' => '2',
+                'image' => 'https://www.collinsdictionary.com/images/full/apple_158989157.jpg',
+                'price' => 100
+            ],
+            [
+                'name' => 'Pineapple',
+                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ipsum vitae elit tincidunt bibendum.',
+                'ingredient_category_id' => '2',
+                'image' => 'https://safeselect.ph/cdn/shop/products/Pineapplerevised_1600x.jpg?v=1641873638',
+                'price' => 120
+            ],
+            [
+                'name' => 'Melon',
+                'ingredient_category_id' => '2',
+                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ipsum vitae elit tincidunt bibendum.',
+                'image' => 'https://static.libertyprim.com/files/familles/melon-large.jpg?1574629891',
+                'price' => 90
+            ],
+            [
+                'name' => 'Watermelon',
+                'ingredient_category_id' => '2',
+                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ipsum vitae elit tincidunt bibendum.',
+                'image' => 'https://www.gardeningknowhow.com/wp-content/uploads/2021/05/whole-and-slices-watermelon.jpg',
+                'price' => 80
+            ],
+            [
+                'name' => 'Banana',
+                'ingredient_category_id' => '2',
+                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non ipsum vitae elit tincidunt bibendum.',
+                'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/800px-Banana-Single.jpg',
+                'price' => 110
+            ],
+        ];
 
-        $numberOfIngredients = 15; // You can change this to generate more or fewer ingredients
-
-        $availableCategories = IngredientsCategory::pluck('id')->toArray();
-
-        for ($i = 0; $i < $numberOfIngredients; $i++) {
+        foreach ($ingredients as $ingredient) {
             $ingredientData = [
-                'name' => 'Ingredient ' . ($i + 1),
-                'description' => 'Description for Ingredient ' . ($i + 1),
-                'image' => 'ingredient' . ($i + 1) . '.jpg',
+                'ingredient_category_id'=> $ingredient['ingredient_category_id'],
+                'name' => $ingredient['name'],
+                'description' => $ingredient['description'],
+                'image' => $ingredient['image'],
                 'quantity' => rand(1, 100),
-                'price' => rand(5, 50) / 10,
-                'ingredient_category_id' => $this->getRandomCategory($availableCategories),
+                'price' => $ingredient['price'],
             ];
 
-            $ingredientsData[] = $ingredientData;
+            Ingredient::create($ingredientData);
         }
-
-        Ingredient::insert($ingredientsData);
-    }
-
-    /**
-     * Get a random category ID from the available categories.
-     *
-     * @param array $availableCategories
-     * @return int|null
-     */
-    private function getRandomCategory(array $availableCategories): ?int
-    {
-        if (count($availableCategories) === 0) {
-            return null;
-        }
-
-        return $availableCategories[array_rand($availableCategories)];
     }
 }

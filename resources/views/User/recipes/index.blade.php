@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="">
+    {{-- <link rel="stylesheet" href="">
+    <style>
+        .card:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+    </style> --}}
 @endsection
 
 @section('scriptHead')
@@ -9,6 +15,7 @@
 @endsection
 
 @section('content')
+
     <div class="container">
         <div class="d-flex align-items-center flex-column m-3">
             <h4>Recipes</h4>
@@ -106,25 +113,19 @@
                 </div>
             @endfor
         </div>
-
-
-
-
-
-        {{-- <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+        {{-- <div class="row row-cols-1 row-cols-md-2 g-4">
             @foreach ($recipes as $recipe)
                 <div class="col">
-                    <div class="card h-100">
-                        <img src="/storage{{ $recipe->image }}" class="card-img-top" alt="..." height="300px"
-                            style="object-fit:cover">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $recipe->name }}</h5>
-                            <p class="card-text">{{ $recipe->description }}</p>
+                    <div class="card text-dark position-relative">
+                        <img src="{{ asset($recipe->image) }}" class="card-img-top" alt="Recipe Image" height="300px" style="object-fit: cover">
+                        <div class="card-img-overlay bg-dark bg-opacity-25 d-flex flex-column justify-content-end">
+                            <h5 class="card-title text-light">{{ $recipe->name }}</h5>
+                            <p class="card-text text-light">{{ $recipe->description }}</p>
                         </div>
                     </div>
                 </div>
             @endforeach
-        </div> --}}
+        </div>               --}}
     </div>
 @endsection
 

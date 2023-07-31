@@ -56,7 +56,7 @@ class RecipeController extends Controller
             $categories = Category::all();
             $ingredients = Ingredient::all();
             
-            return view('Users.recipes.index', compact('recipes', 'categories', 'ingredients'));
+            return view('User.recipes.index', compact('recipes', 'categories', 'ingredients'));
         }
     }
     

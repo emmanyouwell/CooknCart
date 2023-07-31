@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Ingredient;
 use App\Models\IngredientsCategory;
@@ -10,17 +11,23 @@ use Illuminate\Support\Facades\Auth;
 
 class IngredientController extends Controller
 {
-                // Apply the path to the image, if needed
-                // $ingredients->transform(function ($ingredient) {
-                //     $ingredient->image = asset('storage/' . $ingredient->image);
-                //     return $ingredient;
-                // });
+    // Apply the path to the image, if needed
+    // $ingredients->transform(function ($ingredient) {
+    //     $ingredient->image = asset('storage/' . $ingredient->image);
+    //     return $ingredient;
+    // });
 
-public function index(Request $request)
-{
-    if (Auth::check() && Auth::user()->role_as === 1) {
+    public function index(Request $request)
+    {
+        if (Auth::check() && Auth::user()->role_as === 1) {
             if ($request->ajax()) {
                 $ingredients = Ingredient::with('category')->latest()->get();
+
+                $ingredients->transform(function ($item) {
+                    $item->image = asset('storage/' . $item->image);
+                    return $item;
+                });
+
                 return DataTables::of($ingredients)
                     ->addColumn('action', function ($ingredient) {
                         $editUrl = route('ingredients.edit', $ingredient->id);
@@ -40,14 +47,13 @@ public function index(Request $request)
                     ->make(true);
             }
             return view('Admin.ingredients.index');
-        } 
-        else {
+        } else {
             $categories = IngredientsCategory::all();
             $ingredients = Ingredient::all();
 
-            return view('Users.ingredients.index', compact('categories', 'ingredients'));
+            return view('User.ingredients.index', compact('categories', 'ingredients'));
         }
-}
+    }
 
     // public function index(Request $request)
     // {
@@ -191,4 +197,80 @@ public function index(Request $request)
 
         return redirect()->route('ingredients.index')->with('success', 'Ingredient deleted successfully.');
     }
+
+    // public function productview($cate_slug, $prod_slug)
+    // {
+    //     if(Category::where('slug', $cate_slug)->exists())
+    //     {
+    //         if(Product::where('slug',$prod_slug)->exists())
+    //         {  
+    //             $products = Product::where('slug',$prod_slug)->first();
+    //             return view('frontend.products.view', compact('products'));
+
+    //         }
+    //         else{
+    //             return redirect('/')->with('status',"The link was broken");
+    //         }
+    //     }
+    //     else{
+    //         return redirect('/')->with('status',"No such category found");
+    //     }
+    // }
+
+    public function ingredientsview($ingredientId)
+    {
+        $ingredient = Ingredient::find($ingredientId);
+
+        if ($ingredient) {
+            return view('User.ingredients.view', compact('ingredient'));
+        } else {
+            return redirect('/')->with('message', "No such ingredient found");
+        }
+    }
+    // public function cart()
+    // {
+    //     return view('cart');
+    // }
+    // public function addToCart($id)
+    // {
+    //     $ingredient = Ingredient::findOrFail($id);
+
+    //     $cart = session()->get('cart', []);
+
+    //     if (isset($cart[$id])) {
+    //         $cart[$id]['quantity']++;
+    //     } else {
+    //         $cart[$id] = [
+    //             "name" => $ingredient->name,
+    //             "quantity" => 1,
+    //             "price" => $ingredient->price,
+    //             "description" => $ingredient->description,
+    //             "image" => $ingredient->image
+    //         ];
+    //     }
+
+    //     session()->put('cart', $cart);
+    //     return redirect()->back()->with('success', 'Product added to cart successfully!');
+    // }
+
+    // public function updatecart(Request $request)
+    // {
+    //     if ($request->id && $request->quantity) {
+    //         $cart = session()->get('cart');
+    //         $cart[$request->id]["quantity"] = $request->quantity;
+    //         session()->put('cart', $cart);
+    //         session()->flash('success', 'Cart updated successfully');
+    //     }
+    // }
+    // public function remove(Request $request)
+    // {
+    //     if ($request->id) {
+    //         $cart = session()->get('cart');
+    //         if (isset($cart[$request->id])) {
+    //             unset($cart[$request->id]);
+    //             session()->put('cart', $cart);
+    //         }
+    //         session()->flash('success', 'Product removed successfully');
+    //     }
+    // }
 }

@@ -30,6 +30,13 @@ Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/recipes',[RecipeController::class,'index'])->name('user-recipe.index');
     Route::get('/ingredients', [IngredientController::class, 'index'])->name('user-ingredient.index');
+    Route::get('/user/ingredients/{ingredient}', [IngredientController::class, 'ingredientsview'])->name('User.ingredients.view');
+
+    // Route::get('cart', [IngredientController::class, 'cart'])->name('cart');
+    // Route::get('add-to-cart/{id}', [IngredientController::class, 'addToCart'])->name('add.to.cart');
+    // Route::patch('update-cart', [IngredientController::class, 'update'])->name('update.cart');
+    // Route::delete('remove-from-cart', [IngredientController::class, 'remove'])->name('remove.from.cart');
+
     // Route::get('cart', [CartController::class, 'viewcart']);
     // Route::get('checkout', [CheckoutController::class, 'index']);
     // Route::post('place-order', [CheckoutController::class, 'placeorder']);
