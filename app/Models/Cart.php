@@ -16,6 +16,6 @@ class Cart extends Model
     ];
 
     public function ingredient(){
-        return $this->belongsTo(Ingredient::class,'ingredient_id','quantity');
+        return $this->belongsTo(Ingredient::class,'ingredient_id','id');
     }
 }

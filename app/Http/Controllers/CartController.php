@@ -45,9 +45,12 @@ class CartController extends Controller
         // $ingredients = Ingredient::all();
         // return view('cart', compact('cart','ingredients'));
         //resources/vws/cart.blade.php
-            $user_id = Auth::id();
-            $cart = Cart::with('ingredient')->where('user_id', $user_id)->get();
-            return view('cart', compact('cart'));
+        //=====================
+            // $user_id = Auth::id();
+            // $cart = Cart::with('ingredient')->where('user_id', $user_id)->get();
+            // return view('cart', compact('cart'));
+        $cartItems = Cart::where('user_id', Auth::id())->get();
+        return view ('cart', compact('cartItems'));
     }
 
     // public function updatecart(Request $request)

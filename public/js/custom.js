@@ -37,17 +37,12 @@ $('.addToCartBtn').click(function(e) {
             'ingredient_quantity': ingredient_quantity,
         },
         success: function(response) {
-            // Display a toast notification based on the response
-            // swal(response.status,"success");
-            // loadcart();
-
             swal({
                 title:"sucess",
                 text: response.status,
                 type: "success"
             });
             loadcart();
-
         }
     });
     
@@ -56,32 +51,32 @@ $('.addToCartBtn').click(function(e) {
 $('.increment-btn').click(function(e) {
     e.preventDefault();
 
-    var qty_input = $(this).closest('.card-body').find('.qty-input');
+    var qty_input = $(this).closest('.ingredient_data').find('.qty-input');
     var value = parseInt(qty_input.val(), 10);
     value = isNaN(value) ? 0 : value;
 
     if (value < 10) {
         value++;
-        qty_input.val(value);
+        $(this).closest('.ingredient_data').find('.qty-input').val(value);
     }
 });
 
 $('.decrement-btn').click(function(e) {
     e.preventDefault();
 
-    var qty_input = $(this).closest('.card-body').find('.qty-input');
+    var qty_input = $(this).closest('.ingredient_data').find('.qty-input');
     var value = parseInt(qty_input.val(), 10);
     value = isNaN(value) ? 0 : value;
 
     if (value > 1) {
         value--;
-        qty_input.val(value);
+        $(this).closest('.ingredient_data').find('.qty-input').val(value);
     }
 });
 
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+// $.ajaxSetup({
+//     headers: {
+//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//     }
+// });
 });
