@@ -145,18 +145,18 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"  alt="Cart" data-bs-toggle="tooltip" data-bs-placement="top" title="Cart">
+                                <a class="nav-link" href="#" alt="Cart" data-bs-toggle="tooltip" data-bs-placement="top" title="Cart">
                                     <i class="fa-solid fa-cart-shopping"></i>
                                 </a>
-                            </li> 
-                            {{-- ///////////////////////////////////////////////////////////      This sis for Add to cart                      --}}
+                            </li>
+                            {{-- ///////////////////////////////////////////////////////////      This is for Add to cart                      --}}
                             {{-- <div class="container">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12 col-12 main-section">
                                         <div class="dropdown">
-                                            <button type="button" class="btn btn-info" data-toggle="dropdown">
+                                            <span class="btn btn-info" data-toggle="dropdown">
                                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span>
-                                            </button>
+                                            </span>
                                             <div class="dropdown-menu">
                                                 <div class="row total-header-section">
                                                     <div class="col-lg-6 col-sm-6 col-6">
@@ -193,7 +193,7 @@
                                     </div>
                                 </div>
                             </div> --}}
-                            {{-- //////////////// --}}
+                            
                             @guest
                                 @if (Route::has('login'))
                                     <li class="nav-item">

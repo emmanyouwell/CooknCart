@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('css')
-    {{-- <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="">
     <style>
         .card:hover {
             transform: scale(1.05);
             transition: transform 0.3s ease;
         }
-    </style> --}}
+    </style>
 @endsection
 
 @section('scriptHead')
@@ -113,7 +113,7 @@
                 </div>
             @endfor
         </div>
-        {{-- <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
             @foreach ($recipes as $recipe)
                 <div class="col">
                     <div class="card text-dark position-relative">
@@ -125,7 +125,7 @@
                     </div>
                 </div>
             @endforeach
-        </div>               --}}
+        </div>              
     </div>
 @endsection
 

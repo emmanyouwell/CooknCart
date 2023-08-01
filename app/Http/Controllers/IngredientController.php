@@ -227,6 +227,10 @@ class IngredientController extends Controller
             return redirect('/')->with('message', "No such ingredient found");
         }
     }
+
+
+
+    //=======================================================================================================================
     // public function cart()
     // {
     //     return view('cart');

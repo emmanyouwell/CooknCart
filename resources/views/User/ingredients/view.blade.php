@@ -43,9 +43,8 @@
 
                                         <div class="mb-3">
                                             {{-- <a href="{{ route('add.to.cart', $ingredient->id) }}" --}}
-                                            <a href="#"
-
-                                                class="btn btn-primary">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+                                            <button type="button" class="btn btn-primary addToCartBtn">Add to Cart <i
+                                                    class="fa fa-shopping-cart"></i></button>
                                         </div>
                                     </div>
                                 @else
@@ -101,5 +100,50 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        //=========================================================== add to cart
+        $('.addToCartBtn').click(function(e) {
+        e.preventDefault();
+
+        var ingredient_id = $(this).closest('.ingredient_data').find('.ingredient_id').val();
+        var ingredient_quantity = $(this).closest('.ingredient_data').find('.ingredient-quantity').val();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            method: "POST",
+            url: "/add-to-cart",
+            data: {
+                'ingredient_id': ingredient_id,
+                'ingredient_quantity': ingredient_quantity,
+            },
+            success: function(response) {
+                swal(response.status);
+                loadcart();
+            }
+        });
+    });
+
+    //==================================================================add to wishlist
+    $('.addToWishlist').click(function (e) { 
+        e.preventDefault();
+        var product_id = $(this).closest('.product_data').find('.prod_id').val();
+
+        $.ajax({
+            method: "POST",
+            url: "/add-to-wishlist",
+            data: {
+                'product_id': product_id,
+            },
+            success: function(response) {
+                swal(response.status);
+                loadwishlist();
+            }
+        });
+    });
     </script>
 @endsection
