@@ -10,19 +10,21 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center ">
             <div class="col-md-6">
-                <div class="card">
+                <div class="card ingredient_data">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="{{ asset('storage/' . $ingredient->image) }}" class="card-img-top img-fluid"
                                 alt="Ingredient Image">
                         </div>
                         <div class="col-md-8">
-                            <div class="card-body">
+                            <div class="card-body ">
                                 <h1 class="card-title">{{ $ingredient->name }}</h1>
                                 <p class="card-text">₱{{ $ingredient->price }}</p>
                                 <p class="card-text">{{ $ingredient->description }}</p>
+                                <input type="hidden" value="{{ $ingredient->id }}" class="ingredient_id">
+
                                 <h9 class="card-title">
                                     <i class="fa-solid fa-star" style="color: #ffc800;"></i>
                                     <i class="fa-solid fa-star" style="color: #ffc800;"></i>
@@ -62,88 +64,5 @@
         </div>
     </div>
 @endsection
-
-</script>
 @section('scriptFoot')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        // Increment and decrement quantity buttons
-        $('.increment-btn').click(function(e) {
-            e.preventDefault();
-
-            var qty_input = $(this).closest('.card-body').find('.qty-input');
-            var value = parseInt(qty_input.val(), 10);
-            value = isNaN(value) ? 0 : value;
-
-            if (value < 10) {
-                value++;
-                qty_input.val(value);
-            }
-        });
-
-        $('.decrement-btn').click(function(e) {
-            e.preventDefault();
-
-            var qty_input = $(this).closest('.card-body').find('.qty-input');
-            var value = parseInt(qty_input.val(), 10);
-            value = isNaN(value) ? 0 : value;
-
-            if (value > 1) {
-                value--;
-                qty_input.val(value);
-            }
-        });
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        //=========================================================== add to cart
-        $('.addToCartBtn').click(function(e) {
-        e.preventDefault();
-
-        var ingredient_id = $(this).closest('.ingredient_data').find('.ingredient_id').val();
-        var ingredient_quantity = $(this).closest('.ingredient_data').find('.ingredient-quantity').val();
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            method: "POST",
-            url: "/add-to-cart",
-            data: {
-                'ingredient_id': ingredient_id,
-                'ingredient_quantity': ingredient_quantity,
-            },
-            success: function(response) {
-                swal(response.status);
-                loadcart();
-            }
-        });
-    });
-
-    //==================================================================add to wishlist
-    $('.addToWishlist').click(function (e) { 
-        e.preventDefault();
-        var product_id = $(this).closest('.product_data').find('.prod_id').val();
-
-        $.ajax({
-            method: "POST",
-            url: "/add-to-wishlist",
-            data: {
-                'product_id': product_id,
-            },
-            success: function(response) {
-                swal(response.status);
-                loadwishlist();
-            }
-        });
-    });
-    </script>
 @endsection

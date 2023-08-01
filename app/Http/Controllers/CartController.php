@@ -39,13 +39,16 @@ class CartController extends Controller
             return response()->json(['status' => "Login to continue"]);
         }
     }
-
-    // public function viewcart()
-    // {
-    //     $cartitems = Cart::where('user_id', Auth::id())->get();
-
-    //     return view('frontend.cart', compact('cartitems'));
-    // }
+    public function viewcart()
+    {
+        // $cart = Cart::where('user_id', Auth::id())->get();
+        // $ingredients = Ingredient::all();
+        // return view('cart', compact('cart','ingredients'));
+        //resources/vws/cart.blade.php
+            $user_id = Auth::id();
+            $cart = Cart::with('ingredient')->where('user_id', $user_id)->get();
+            return view('cart', compact('cart'));
+    }
 
     // public function updatecart(Request $request)
     // {

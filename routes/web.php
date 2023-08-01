@@ -29,16 +29,25 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 
+Route::middleware(['auth'])->group(function () {
+});
+
+
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/recipes', [RecipeController::class, 'index'])->name('user-recipe.index');
     Route::get('/ingredients', [IngredientController::class, 'index'])->name('user-ingredient.index');
-    Route::get('/user/ingredients/{ingredient}', [IngredientController::class, 'ingredientsview'])->name('User.ingredients.view');
+    Route::get('/ingredients/{ingredient}', [IngredientController::class, 'ingredientsview'])->name('User.ingredients.view');
+    Route::post('/add-to-cart', [CartController::class, 'addIngredient'])->name('add-to-cart');
+    Route::get('/load-cart-data',[CartController::class, 'cartcount']);
+    Route::get('/cart',[CartController::class, 'viewcart']);
 
-    Route::post('add-to-cart', [CartController::class, 'addIngredient'])->name('add-to-cart');
-    Route::post('delete-cart-item', [CartController::class, 'deleteingredient']);
-    Route::post('update-cart', [CartController::class, 'updatecart']);
-    Route::post('add-to-wishlist', [WishlistController::class, 'add']);
-    Route::post('delete-wishlist-item', [WishlistController::class, 'deleteitem']);
+
+
+
+    // Route::post('delete-cart-item', [CartController::class, 'deleteingredient']);
+    // Route::post('update-cart', [CartController::class, 'updatecart']);
+    // Route::post('add-to-wishlist', [WishlistController::class, 'add']);
+    // Route::post('delete-wishlist-item', [WishlistController::class, 'deleteitem']);
 
     // Route::get('cart', [IngredientController::class, 'cart'])->name('cart');
     // Route::get('add-to-cart/{id}', [IngredientController::class, 'addToCart'])->name('add.to.cart');

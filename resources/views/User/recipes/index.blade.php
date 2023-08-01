@@ -113,6 +113,7 @@
                 </div>
             @endfor
         </div>
+        
         <div class="row row-cols-1 row-cols-md-2 g-4">
             @foreach ($recipes as $recipe)
                 <div class="col">
