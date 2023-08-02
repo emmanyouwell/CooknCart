@@ -106,4 +106,33 @@ $('.delete-cart-item').click(function(e){
         }
     });
 });
+//======================================================================= Update cart
+
+$('.changeQuantity').click(function (e) { 
+    e.preventDefault();   
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var ingredient_id = $(this).closest('.ingredient_data').find('.ingredient_id').val();
+    var ingredient_quantity = $(this).closest('.ingredient_data').find('.qty-input').val();
+    data = {
+        'ingredient_id' : ingredient_id,
+        'ingredient_quantity' : ingredient_quantity,
+    }
+    $.ajax({
+        type: "POST",
+        url: "/user/update-cart",
+        data: data,
+        
+        success: function (response) {
+             window.location.reload(); 
+        swal("Success", response.status, "success");
+              
+        }
+    });
+});
 });

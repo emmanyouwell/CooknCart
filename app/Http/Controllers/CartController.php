@@ -42,23 +42,23 @@ class CartController extends Controller
     public function viewcart()
     {
         $cartItems = Cart::where('user_id', Auth::id())->get();
-        return view ('cart', compact('cartItems'));
+        return view('cart', compact('cartItems'));
     }
 
-    // public function updatecart(Request $request)
-    // {
-    //     $ingredient_id = $request->input('ingredient_id');
-    //     $ingredient_quantity = $request->input('ingredient_quantity');
+    public function updatecart(Request $request)
+    {
+        $ingredient_id = $request->input('ingredient_id');
+        $ingredient_quantity = $request->input('ingredient_quantity');
 
-    //     if (Auth::check()) {
-    //         if (Cart::where('ingredient_id', $ingredient_id)->where('user_id', Auth::id())->exists()) {
-    //             $cart = Cart::where('ingredient_id', $ingredient_id)->where('user_id', Auth::id())->first();
-    //             $cart->ingredient_quantity = $ingredient_quantity;
-    //             $cart->update();
-    //             return response()->json(['status'=> "Quantity Updated"]);
-    //         }
-    //     }
-    // }
+        if (Auth::check()) {
+            if (Cart::where('ingredient_id', $ingredient_id)->where('user_id', Auth::id())->exists()) {
+                $cartItem = Cart::where('ingredient_id', $ingredient_id)->where('user_id', Auth::id())->first();
+                $cartItem->ingredient_quantity = $ingredient_quantity;
+                $cartItem->update();
+                return response()->json(['status' => "Quantity Updated"]);
+            }
+        }
+    }
 
     public function deleteingredient(Request $request)
     {
@@ -78,6 +78,6 @@ class CartController extends Controller
     public function cartcount()
     {
         $cartcount = Cart::where('user_id', Auth::id())->count();
-        return response()->json(['count'=>$cartcount]);
+        return response()->json(['count' => $cartcount]);
     }
 }
