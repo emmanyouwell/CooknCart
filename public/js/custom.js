@@ -79,4 +79,31 @@ $('.decrement-btn').click(function(e) {
 //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 //     }
 // });
+
+//============================================== Remove product from cart
+$('.delete-cart-item').click(function(e){
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var ingredient_id = $(this).closest('.ingredient_data').find('.ingredient_id').val();
+    $.ajax({
+        method: "POST",
+        url: "/user/delete-cart-item",
+        data:
+        {
+            'ingredient_id':ingredient_id,
+        },
+        success: function(response){
+        window.location.reload();
+        swal("Success", response.status, "success");
+        //alert(ingredient_id);
+
+        }
+    });
+});
 });

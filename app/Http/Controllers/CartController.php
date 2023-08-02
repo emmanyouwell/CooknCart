@@ -41,14 +41,6 @@ class CartController extends Controller
     }
     public function viewcart()
     {
-        // $cart = Cart::where('user_id', Auth::id())->get();
-        // $ingredients = Ingredient::all();
-        // return view('cart', compact('cart','ingredients'));
-        //resources/vws/cart.blade.php
-        //=====================
-            // $user_id = Auth::id();
-            // $cart = Cart::with('ingredient')->where('user_id', $user_id)->get();
-            // return view('cart', compact('cart'));
         $cartItems = Cart::where('user_id', Auth::id())->get();
         return view ('cart', compact('cartItems'));
     }
@@ -67,20 +59,21 @@ class CartController extends Controller
     //         }
     //     }
     // }
-    // public function deleteingredient(Request $request)
-    // {
-    //     if (Auth::check()) {
-    //         $ingredient_id = $request->input('ingredient_id');
-    //         if (Cart::where('prod_id', $ingredient_id)->where('user_id', Auth::id())->exists()) {
-    //             $cartItem = Cart::where('ingredient_id', $ingredient_id)->where('user_id', Auth::id())->first();
-    //             $cartItem->delete();
-    //             return response()->json(['status' => "Product deleted successfully"]);
-    //         }
-    //         return response()->json(['status' => "Product not found"]);
-    //     } else {
-    //         return response()->json(['status' => "Login to continue"]);
-    //     }
-    // }
+
+    public function deleteingredient(Request $request)
+    {
+        if (Auth::check()) {
+            $ingredient_id = $request->input('ingredient_id');
+            if (Cart::where('ingredient_id', $ingredient_id)->where('user_id', Auth::id())->exists()) {
+                $cartItems = Cart::where('ingredient_id', $ingredient_id)->where('user_id', Auth::id())->first();
+                $cartItems->delete();
+                return response()->json(['status' => "Product deleted successfully"]);
+            }
+            return response()->json(['status' => "Product not found"]);
+        } else {
+            return response()->json(['status' => "Login to continue"]);
+        }
+    }
 
     public function cartcount()
     {

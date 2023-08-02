@@ -40,11 +40,8 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::post('/add-to-cart', [CartController::class, 'addIngredient'])->name('add-to-cart');
     Route::get('/load-cart-data',[CartController::class, 'cartcount']);
     Route::get('/cart',[CartController::class, 'viewcart']);
+    Route::post('/delete-cart-item', [CartController::class, 'deleteingredient']);
 
-
-
-
-    // Route::post('delete-cart-item', [CartController::class, 'deleteingredient']);
     // Route::post('update-cart', [CartController::class, 'updatecart']);
     // Route::post('add-to-wishlist', [WishlistController::class, 'add']);
     // Route::post('delete-wishlist-item', [WishlistController::class, 'deleteitem']);
