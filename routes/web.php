@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -38,16 +39,23 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/recipes', [RecipeController::class, 'index'])->name('user-recipe.index');
     Route::get('/ingredients', [IngredientController::class, 'index'])->name('user-ingredient.index');
     Route::get('/ingredients/{ingredient}', [IngredientController::class, 'ingredientsview'])->name('User.ingredients.view');
+    
+    // cart
     Route::post('/add-to-cart', [CartController::class, 'addIngredient'])->name('add-to-cart');
     Route::get('/load-cart-data',[CartController::class, 'cartcount']);
     Route::get('/cart',[CartController::class, 'viewcart']);
     Route::post('/delete-cart-item', [CartController::class, 'deleteingredient']);
     Route::post('update-cart', [CartController::class, 'updatecart']);
+    //checkout
     Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout');;
     Route::post('place-order', [CheckoutController::class, 'placeorder']);
-    
-    // Route::post('add-to-wishlist', [WishlistController::class, 'add']);
-    // Route::post('delete-wishlist-item', [WishlistController::class, 'deleteitem']);
+    //wishlist
+    Route::post('/add-to-wishlist', [WishlistController::class, 'add'])->name('add-to-cart');
+    Route::get('/load-wishlist-data',[WishlistController::class, 'wishlistcount']);
+    Route::get('/wishlist',[WishlistController::class,'index']);
+    Route::post('/delete-wishlist-item', [WishlistController::class, 'deleteitem']);
+
+
 
     // Route::get('cart', [IngredientController::class, 'cart'])->name('cart');
     // Route::get('add-to-cart/{id}', [IngredientController::class, 'addToCart'])->name('add.to.cart');
@@ -58,7 +66,6 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     // Route::get('my-orders', [UserController::class,'index']);
     // Route::get('cancel-order/{id}', [UserController::class, 'cancelOrder'])->name('cancel-order');
     // Route::get('view-order/{id}', [UserController::class,'view']);
-    // Route::get('wishlist',[WishlistController::class,'index' ]);
     // Route::post('proceed-to-pay', [CheckoutController::class, 'placeorder']);
 });
 Route::middleware(['auth', 'isAdmin'])->group(function () {

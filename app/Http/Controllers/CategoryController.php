@@ -36,21 +36,34 @@ class CategoryController extends Controller
         return view('Admin.categories.create');
     }
 
+    // public function store(Request $request)
+    // {
+    //     // Validate the request data
+    //     $validatedData = $request->validate([
+    //         'name' => 'required',
+    //         'description' => 'required',
+    //     ]);
+    //     // Create the category
+    //     $category = Category::create($validatedData);
+
+    //     // Debug and inspect the data
+    //     //dd($category);
+    //     // return response()->json(['status' => 'Category created successfully']);
+    //     return redirect()->route('categories.index');
+    // }
     public function store(Request $request)
     {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-        ]);
-        // Create the category
-        $category = Category::create($validatedData);
+        $name = $request->input('name');
+        $description = $request->input('description');
 
-        // Debug and inspect the data
-        //dd($category);
+        $category = Category::create([
+            'name' => $name,
+            'description' => $description,
+        ]);
 
         return redirect()->route('categories.index');
     }
+
 
 
 

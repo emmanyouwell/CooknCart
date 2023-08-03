@@ -47,7 +47,7 @@
                                 <label for=""> Address </label>
                                 <input type="text" class="form-control address" value="{{ Auth::user()->address }}"
                                     name="address" placeholder="Enter Address">
-                                <span id="address1_error" class="text-danger"></span>
+                                <span id="address_error" class="text-danger"></span>
                             </div>
                            
                             <div class="col-md-6 mt-3">
@@ -108,7 +108,7 @@
                             </table>
                             <hr>
                             {{-- <h5>Choose your payment method</h5> --}}
-                            <button type="submit" class="btn btn-success w-100" name="MOP" value="1"><i class="fa-solid fa-truck-fast"></i> Cash on Delivery</button>
+                            <button type="submit" class="btn btn-primary w-100" name="MOP" value="1"><i class="fa-solid fa-truck-fast"></i> Cash on Delivery</button>
                             <button type="submit" class="btn btn-primary w-100 mt-3" name="MOP" value="2"><i class="fa-solid fa-g"></i>cash</button>
                             <button type="submit" class="btn btn-primary w-100 mt-3" name="MOP" value="3"><i class="fa-solid fa-p"></i>aypal</button>
                         @else

@@ -22,7 +22,6 @@ class CartController extends Controller
             }
 
             $cartItem = Cart::where('ingredient_id', $ingredient_id)->where('user_id', Auth::id())->first();
-
             if ($cartItem) {
                 $cartItem->ingredient_quantity += $ingredient_quantity;
                 $cartItem->save();

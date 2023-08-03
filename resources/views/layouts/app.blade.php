@@ -24,6 +24,9 @@
     <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
     <script src="{{ asset('js\custom.js') }}"></script>
+    <script src="{{ asset('js\checkout.js') }}"></script>
+    {{-- <script src="{{ asset('js\Adminvalidation.js') }}"></script> --}}
+
 
     @yield('scriptHead')
 </head>
@@ -147,9 +150,10 @@
                         <ul class="navbar-nav ms-auto">
                             <!-- Authentication Links -->
                             <li class="nav-item">
-                                <a class="nav-link" href="#" alt="Wishlist" data-bs-toggle="tooltip"
+                                <a class="nav-link" href="{{ url('user/wishlist') }}" alt="Wishlist" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Wishlist">
-                                    <i class="fa-solid fa-bag-shopping"></i>
+                                    <i class="fa-solid fa-bag-shopping"><span
+                                        class="badge rounded-pill bg-danger wishlist-count"> 0</span></i>
                                 </a>
                             </li>
                             <li class="nav-item">
