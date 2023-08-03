@@ -9,6 +9,7 @@ use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -42,6 +43,8 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/cart',[CartController::class, 'viewcart']);
     Route::post('/delete-cart-item', [CartController::class, 'deleteingredient']);
     Route::post('update-cart', [CartController::class, 'updatecart']);
+    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout');;
+    Route::post('place-order', [CheckoutController::class, 'placeorder']);
     
     // Route::post('add-to-wishlist', [WishlistController::class, 'add']);
     // Route::post('delete-wishlist-item', [WishlistController::class, 'deleteitem']);
@@ -52,8 +55,6 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     // Route::delete('remove-from-cart', [IngredientController::class, 'remove'])->name('remove.from.cart');
 
     // Route::get('cart', [CartController::class, 'viewcart']);
-    // Route::get('checkout', [CheckoutController::class, 'index']);
-    // Route::post('place-order', [CheckoutController::class, 'placeorder']);
     // Route::get('my-orders', [UserController::class,'index']);
     // Route::get('cancel-order/{id}', [UserController::class, 'cancelOrder'])->name('cancel-order');
     // Route::get('view-order/{id}', [UserController::class,'view']);

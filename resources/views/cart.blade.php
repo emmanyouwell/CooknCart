@@ -40,7 +40,7 @@
                                 @endif
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-danger delete-cart-item"><i class="fa fa-trash"></i> Remove</button>
+                                <button class="btn btn-danger delete-cart-item"><i class="fa fa-trash"></i></button>
                             </div>
                         </div>
                         @php $total += $item->ingredient->price * $item->quantity; @endphp
@@ -48,13 +48,13 @@
                 </div>
                 <div class="card-footer">
                     <h6>Total Price: ₱ {{ $total }}</h6>
-                    <a href="{{ url('checkout') }}" class="btn btn-outline-success float-end">Proceed to Checkout</a>
+                    <a href="{{ url('user/checkout') }}" class="btn btn-outline-primary float-end">Checkout</a>
                 </div>
             </div>
         @else
             <div class="card-body text-center">
                 <h2>Your <i class="fa fa-shopping-cart"></i> Cart is Empty</h2>
-                <a href="{{ url('category') }}" class="btn btn-outline-primary float-end"> Continue Shopping</a>
+                <a href="{{ url('/user/ingredients') }}" class="btn btn-outline-primary float-end"> Continue Shopping</a>
             </div>
         @endif
     </div>

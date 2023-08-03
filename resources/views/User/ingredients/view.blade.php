@@ -44,7 +44,6 @@
                                         <label class="text">In Stock</label>
 
                                         <div class="mb-3">
-                                            {{-- <a href="{{ route('add.to.cart', $ingredient->id) }}" --}}
                                             <button type="button" class="btn btn-primary addToCartBtn">Add to Cart <i
                                                     class="fa fa-shopping-cart"></i></button>
                                         </div>
