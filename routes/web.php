@@ -39,7 +39,7 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/recipes', [RecipeController::class, 'index'])->name('user-recipe.index');
     Route::get('/ingredients', [IngredientController::class, 'index'])->name('user-ingredient.index');
     Route::get('/ingredients/{ingredient}', [IngredientController::class, 'ingredientsview'])->name('User.ingredients.view');
-    
+    Route::get('/recipes/{recipe}', [RecipeController::class, 'recipesview'])->name('User.recipes.view');
     // cart
     Route::post('/add-to-cart', [CartController::class, 'addIngredient'])->name('add-to-cart');
     Route::get('/load-cart-data',[CartController::class, 'cartcount']);

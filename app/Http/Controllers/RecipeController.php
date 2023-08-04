@@ -182,4 +182,14 @@ class RecipeController extends Controller
 
         return redirect()->route('recipes.index')->with('success', 'Recipe deleted successfully.');
     }
+    public function recipesview($recipeId)
+    {
+        $recipe = Recipe::find($recipeId);
+        $ingredients = Ingredient::pluck('name', 'id');
+        if ($recipe) {
+            return view('User.recipes.view', compact('recipe'));
+        } else {
+            return redirect('/')->with('message', "No such ingredient found");
+        }
+    }
 }
