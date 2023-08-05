@@ -18,12 +18,12 @@
             </tbody>
         </table>
     </div> --}}
-    <!-- Button to trigger the modal for creating a new category -->
+    <!-- Button creatine a new category -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
         Create Category
     </button>
 
-    <!-- The Modal for creating a new category -->
+    <!--  Modal for create a new category -->
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -34,7 +34,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Add a form here to capture 'name' and 'description' -->
+                    <!-- Create  form 'name' and 'description' -->
                     <form id="createCategoryForm">
                         @csrf
                         <div class="form-group">
@@ -70,7 +70,7 @@
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->description }}</td>
                     <td>
-                        <!-- Button to trigger the modal for editing a category -->
+                        <!-- Button to edit a category -->
                         <button type="button" class="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" data-id="{{ $category->id }}" data-name="{{ $category->name }}" data-description="{{ $category->description }}">
                             Edit
                         </button>
@@ -86,7 +86,7 @@
         </tbody>
     </table>
 
-    <!-- The Modal for editing a category -->
+    <!--  Modal edit category -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -97,7 +97,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Add a form here to update 'name' and 'description' -->
+                    <!-- update 'name' and 'description' -->
                     <form id="editCategoryForm">
                         @csrf
                         @method('PUT')
@@ -127,10 +127,10 @@
 
     <script>
         $(document).ready(function () {
-            // Initialize DataTables
+            // datatables
             $('#categoriesTable').DataTable();
 
-            // Handle the form submission when clicking the "Save Category" button in create modal
+            // create in Modal
             $("#createCategoryBtn").on("click", function () {
                 const form = $("#createCategoryForm");
                 $.ajax({
@@ -148,7 +148,7 @@
                 });
             });
 
-            // Handle editing category data when clicking the "Update Category" button in edit modal
+            // Edit in Modal
             $("#updateCategoryBtn").on("click", function () {
                 const form = $("#editCategoryForm");
                 const categoryId = $("#editModal").data('id');
@@ -169,7 +169,7 @@
                 });
             });
 
-            // Populate data in the edit modal when it is shown
+            // Populate data 
             $(".edit-btn").on("click", function () {
                 const categoryId = $(this).data('id');
                 const categoryName = $(this).data('name');
