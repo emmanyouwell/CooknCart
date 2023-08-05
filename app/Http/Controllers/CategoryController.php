@@ -8,26 +8,31 @@ use Yajra\DataTables\DataTables;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request)
-    {
-        if ($request->ajax()) {
-            $categories = Category::select(['id', 'name', 'description']);
-            return DataTables::of($categories)
-                ->addColumn('action', function ($category) {
-                    $editUrl = route('categories.edit', $category->id);
-                    $deleteUrl = route('categories.destroy', $category->id);
-                    $btns = "<a href='{$editUrl}' class='btn btn-primary btn-sm'>Edit</a>";
-                    $btns .= "<form action='{$deleteUrl}' method='POST' style='display:inline'>
-                                " . method_field('DELETE') . csrf_field() . "
-                                <button type='submit' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Delete</button>
-                              </form>";
-                    return $btns;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
+    // public function index(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $categories = Category::select(['id', 'name', 'description']);
+    //         return DataTables::of($categories)
+    //             ->addColumn('action', function ($category) {
+    //                 $editUrl = route('categories.edit', $category->id);
+    //                 $deleteUrl = route('categories.destroy', $category->id);
+    //                 $btns = "<a href='{$editUrl}' class='btn btn-primary btn-sm'>Edit</a>";
+    //                 $btns .= "<form action='{$deleteUrl}' method='POST' style='display:inline'>
+    //                             " . method_field('DELETE') . csrf_field() . "
+    //                             <button type='submit' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Delete</button>
+    //                           </form>";
+    //                 return $btns;
+    //             })
+    //             ->rawColumns(['action'])
+    //             ->make(true);
+    //     }
 
-        return view('Admin.categories.index');
+    //     return view('Admin.categories.index');
+    // }
+    public function index()
+    {
+        $categories = Category::all();
+        return view('Admin.categories.index', compact('categories'));
     }
 
     public function create()
@@ -35,22 +40,6 @@ class CategoryController extends Controller
         // Show the create form
         return view('Admin.categories.create');
     }
-
-    // public function store(Request $request)
-    // {
-    //     // Validate the request data
-    //     $validatedData = $request->validate([
-    //         'name' => 'required',
-    //         'description' => 'required',
-    //     ]);
-    //     // Create the category
-    //     $category = Category::create($validatedData);
-
-    //     // Debug and inspect the data
-    //     //dd($category);
-    //     // return response()->json(['status' => 'Category created successfully']);
-    //     return redirect()->route('categories.index');
-    // }
     public function store(Request $request)
     {
         $name = $request->input('name');
@@ -95,3 +84,20 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 }
+
+
+    // public function store(Request $request)
+    // {
+    //     // Validate the request data
+    //     $validatedData = $request->validate([
+    //         'name' => 'required',
+    //         'description' => 'required',
+    //     ]);
+    //     // Create the category
+    //     $category = Category::create($validatedData);
+
+    //     // Debug and inspect the data
+    //     //dd($category);
+    //     // return response()->json(['status' => 'Category created successfully']);
+    //     return redirect()->route('categories.index');
+    // }
