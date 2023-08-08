@@ -24,7 +24,7 @@ class IngredientController extends Controller
                 $ingredients = Ingredient::with('category')->latest()->get();
 
                 $ingredients->transform(function ($item) {
-                    $item->image = asset('storage/' . $item->image);
+                    $item->image = asset('public/Ingredient/ingredients/' . $item->image);
                     return $item;
                 });
 
