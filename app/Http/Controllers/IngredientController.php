@@ -55,36 +55,6 @@ class IngredientController extends Controller
         }
     }
 
-    // public function index(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         $data = Ingredient::with('category')->latest()->get();
-
-    //         // Apply the path to the image
-    //         $data->transform(function ($item) {
-    //             $item->image = asset('storage/' . $item->image);
-    //             return $item;
-    //         });
-
-    //         return DataTables::of($data)
-    //             ->addColumn('action', function ($ingredient) {
-    //                 $editUrl = route('ingredients.edit', $ingredient->id);
-    //                 $deleteUrl = route('ingredients.destroy', $ingredient->id);
-
-    //                 $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
-    //                 $buttons .= "<form action='{$deleteUrl}' method='POST' style='display:inline'>
-    //                                 " . method_field('DELETE') . csrf_field() . "
-    //                                 <button type='submit' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this category?\")'>Delete</button>
-    //                               </form>";
-
-    //                 return $buttons;
-    //             })
-    //             ->rawColumns(['action'])
-    //             ->make(true);
-    //     }
-
-    //     return view('Admin.ingredients.index');
-    // }
 
     public function getIngredient(Request $request)
     {
@@ -101,11 +71,39 @@ class IngredientController extends Controller
         return view('Admin.ingredients.create', compact('categories'));
     }
 
-    // $file = $request->file('image');
-    // $extension = $file->getClientOriginalExtension();
-    // $filename = 'ingredient_' . time() . '.' . $extension;
 
-    // $file->storeAs('public/ingredients', $filename); 
+    //======================================================
+    //     public function insert(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'slug' => 'required|unique:categories',
+    //         'description' => 'required',
+    //         'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+    //     ]);
+
+    //     $category = new Category;
+    //     $category->name = $request->input('name');
+    //     $category->slug = $request->input('slug');
+    //     $category->description = $request->input('description');
+    //     $category->status = $request->has('status');
+    //     $category->popular = $request->has('popular');
+    //     $category->meta_title = $request->input('meta_title');
+    //     $category->meta_keywords = $request->input('meta_keywords');
+    //     $category->meta_descrip = $request->input('meta_descrip');
+
+    //     // Handle image upload
+    //     if ($request->hasFile('image')) {
+    //         $image = $request->file('image');
+    //         $filename = time() . '.' . $image->getClientOriginalExtension();
+    //         $image->move('public/assets/uploads/categories/', $filename);
+    //         $category->image = $filename;
+    //     }
+
+    //     $category->save();
+
+    //     return redirect('categories')->with('status', 'Category added successfully!');
+    // }
     public function store(Request $request)
     {
         $request->validate([
@@ -117,23 +115,14 @@ class IngredientController extends Controller
             'ingredient_category_id' => 'required|exists:ingredients_categories,id',
         ]);
 
-        // $images = [];
-        // if ($files = $request->file('image')) {
-        //     foreach ($files as $file) {
-        //         $image_name = md5(rand(1000, 1000));
-        //         $ext = strtolower($file->getClientOriginalExtension());
-        //         $image_full_name = $image_name . '.' . $ext;
-        //         $upload_path = 'public/ingredients/';
-        //         $image_url = $upload_path . $image_full_name;
-        //         $file->move($upload_path, $image_full_name);
-        //         $images[] = $image_url;
-        //     }
-        // }
+        $ingredient = new Ingredient();
 
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $filename = 'ingredient_' . time() . '.' . $extension;
-        $file->storeAs('public/ingredients', $filename);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('public/Ingredient/', $filename);
+            $ingredient->image = $filename;
+        }
 
         Ingredient::create([
             'name' => $request->name,

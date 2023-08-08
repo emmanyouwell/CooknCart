@@ -1,23 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    {{-- <div class="container">
-        <h2>Categories</h2>
-        <div class="mb-3">
-            <a href="{{ route('categories.create') }}" class="btn btn-primary">Add Category</a>
-        </div>
-        <table id="categories-table" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div> --}}
+{{-- ===========================================================================CREATE============================================================================================ --}}
     <!-- Button creatine a new category -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
         Create Category
@@ -54,7 +37,9 @@
             </div>
         </div>
     </div>
+{{-- ================================================================================================================================================================================== --}}
 
+{{-- ===============================================================================TABLE======================================================================================= --}}
     <!-- Table to display the categories list -->
     <table class="table" id="categoriesTable">
         <thead>
@@ -85,7 +70,9 @@
             @endforeach
         </tbody>
     </table>
+{{-- ================================================================================================================================================================================== --}}
 
+{{-- ==========================================================================EDIT=========================================================================================== --}}
     <!--  Modal edit category -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -118,18 +105,21 @@
             </div>
         </div>
     </div>
+{{-- ================================================================================================================================================================================== --}}
 
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Include DataTables JavaScript -->
-    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+   
 
     <script>
         $(document).ready(function () {
+
+
             // datatables
             $('#categoriesTable').DataTable();
 
+            
             // create in Modal
             $("#createCategoryBtn").on("click", function () {
                 const form = $("#createCategoryForm");
