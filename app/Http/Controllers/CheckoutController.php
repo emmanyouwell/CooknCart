@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Cart;
+use App\Events\OrderCreated;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -77,6 +78,8 @@ class CheckoutController extends Controller
             $user->update();
     }
     Cart::where('user_id', Auth::id())->delete();
+    
+    OrderCreated::dispatch($order, Auth::user()->email);
     return redirect('/')->with('status', "Order Placed Successfully");
 }
 }
