@@ -11,6 +11,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -54,19 +56,10 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/load-wishlist-data',[WishlistController::class, 'wishlistcount']);
     Route::get('/wishlist',[WishlistController::class,'index']);
     Route::post('/delete-wishlist-item', [WishlistController::class, 'deleteitem']);
-
-
-
-    // Route::get('cart', [IngredientController::class, 'cart'])->name('cart');
-    // Route::get('add-to-cart/{id}', [IngredientController::class, 'addToCart'])->name('add.to.cart');
-    // Route::patch('update-cart', [IngredientController::class, 'update'])->name('update.cart');
-    // Route::delete('remove-from-cart', [IngredientController::class, 'remove'])->name('remove.from.cart');
-
-    // Route::get('cart', [CartController::class, 'viewcart']);
-    // Route::get('my-orders', [UserController::class,'index']);
-    // Route::get('cancel-order/{id}', [UserController::class, 'cancelOrder'])->name('cancel-order');
-    // Route::get('view-order/{id}', [UserController::class,'view']);
-    // Route::post('proceed-to-pay', [CheckoutController::class, 'placeorder']);
+    //Orders
+    Route::get('/my-orders', [UserController::class,'index']);
+    Route::get('/cancel-order/{id}', [UserController::class, 'cancelOrder'])->name('cancel-order');
+    Route::get('/view-order/{id}', [UserController::class,'view']);
 });
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index']);
@@ -102,4 +95,9 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::put('/ingredients/{ingredient}', [IngredientController::class, 'update'])->name('ingredients.update');
     Route::delete('/ingredients/{ingredient}', [IngredientController::class, 'destroy'])->name('ingredients.destroy');
     Route::post('tags', [IngredientController::class, 'getIngredient'])->name('get-ingredient');
+    //orders
+    Route::get('orders',[OrderController::class,'index'])->name('orders.index');
+    Route::get('Admin/view-order/{id}',[OrderController::class,'view']);
+    Route::put('update-order/{id}',[OrderController::class, 'updateorder']);
+    Route::get('order-history',[OrderController::class, 'orderhistory']);
 });

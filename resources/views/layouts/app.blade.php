@@ -56,6 +56,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('ingredients.index') }}">Ingredients</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('orders.index') }}">Orders</a>
+                            </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -163,6 +166,14 @@
                                             class="badge rounded-pill bg-danger cart-count"> 0</span></i>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('user/my-orders') }}" alt="Orders"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Orders">
+                                    <i class="fa-solid fa-basket-shopping"><span
+                                            class="badge rounded-pill bg-danger"> 0</span></i>
+                                </a>
+                            </li>
+
                             @guest
                                 @if (Route::has('login'))
                                     <li class="nav-item">
