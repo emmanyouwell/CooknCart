@@ -19,7 +19,6 @@ class RatingController extends Controller
             $existingRating = Rating::where('recipe_id', $recipe_id)
                                     ->where('user_id', Auth::id())
                                     ->first();
-    
             if ($existingRating) {
                 // Rating already exists, update it
                 $existingRating->stars_rated = $stars_rated;
