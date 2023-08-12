@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $orders = Order::where('user_id', Auth::id())->get();
+        $orders = Order::where('user_id', Auth::id())->orderBy('status','asc')->get();
         return view('User.orders.index', compact('orders'));
     }
 
@@ -25,7 +25,7 @@ public function cancelOrder($id)
     if ($order) {
         if ($order->status == '0') {
         
-            $order->status = '2'; // 2 represents cancelled
+            $order->status = '3'; // 2 represents cancelled
             $order->save();
 
             return redirect()->back()->with('success', 'Order has been cancelled successfully.');
