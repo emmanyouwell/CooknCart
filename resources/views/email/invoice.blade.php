@@ -200,7 +200,7 @@
                                         SubTotal
                                     </div>
                                     <div class="col-5">
-                                        <span class="text-120 text-secondary-d1">${{$total}}</span>
+                                        <span class="text-120 text-secondary-d1">₱{{$total}}</span>
                                     </div>
                                 </div>
     
@@ -209,7 +209,7 @@
                                         Shipping
                                     </div>
                                     <div class="col-5">
-                                        <span class="text-110 text-secondary-d1">$0</span>
+                                        <span class="text-110 text-secondary-d1">₱0</span>
                                     </div>
                                 </div>
     
@@ -218,7 +218,7 @@
                                         Total Amount
                                     </div>
                                     <div class="col-5">
-                                        <span class="text-150 text-success-d3 opacity-2">${{$total}}</span>
+                                        <span class="text-150 text-success-d3 opacity-2">₱{{$total}}</span>
                                     </div>
                                 </div>
                             </div>
