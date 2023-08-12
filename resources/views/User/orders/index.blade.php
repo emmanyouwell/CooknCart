@@ -41,7 +41,7 @@
                                             @elseif ($item->status == '2')
                                                 <span class="text-success">Completed</span>
                                                 @elseif($item->status == '3')
-                                                <span class="text-danger">Completed</span>
+                                                <span class="text-danger">Cancelled</span>
                                             @endif
                                         </td>
                                         <td>
