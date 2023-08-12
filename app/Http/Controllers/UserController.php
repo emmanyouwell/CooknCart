@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Events\OrderCancelled;
 
 class UserController extends Controller
 {
@@ -25,9 +26,10 @@ public function cancelOrder($id)
     if ($order) {
         if ($order->status == '0') {
         
-            $order->status = '3'; // 2 represents cancelled
+            $order->status = '3'; // 3 represents cancelled
             $order->save();
 
+            OrderCancelled::dispatch($order, Auth::user()->email);
             return redirect()->back()->with('success', 'Order has been cancelled successfully.');
         } else {
             return redirect()->back()->with('error', 'Order can only be cancelled if it is pending.');
