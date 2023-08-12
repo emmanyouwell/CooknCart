@@ -56,9 +56,19 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('ingredients.index') }}">Ingredients</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('orders.index') }}">Orders</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Orders
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{ route('orders.index') }}">Pending Orders</a></li>
+
+                                    <li><a class="dropdown-item"
+                                            href="{{ 'order-history' }}">Completed Orders</a></li>
+                                </ul>
                             </li>
+                            
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
