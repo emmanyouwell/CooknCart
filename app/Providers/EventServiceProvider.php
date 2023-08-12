@@ -7,6 +7,10 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use App\Events\OrderCreated;
+use App\Events\OrderCancelled;
+use App\Events\OrderUpdated;
+use App\Listeners\SendCancelNotification;
+use App\Listeners\SendUpdateNotification;
 use App\Listeners\SendUserNotification;
 
 class EventServiceProvider extends ServiceProvider
@@ -23,6 +27,13 @@ class EventServiceProvider extends ServiceProvider
         OrderCreated::class =>[
             SendUserNotification::class,
         ],
+        OrderCancelled::class => [
+            SendCancelNotification::class,
+        ],
+        OrderUpdated::class => [
+            SendUpdateNotification::class,
+        ],
+
     ];
 
     /**
