@@ -30,7 +30,7 @@
                         Print
                     </a>
                     <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF">
-                        <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+                        <i class="mr-1 fa fa-file-pdf text-danger-m1 text-120 w-2"></i>
                         Export
                     </a>
                 </div>
