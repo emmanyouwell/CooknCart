@@ -43,7 +43,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="text-center text-150">
-                                <i class="fa fa-book fa-2x text-success-m2 mr-1"></i>
+                                <i class="fa-solid fa-utensils fa-2x text-success-m2 mr-1"></i>
                                 <span class="text-default-d3">CooknCart.com</span>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
     
                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date:</span> {{date('d-m-Y', strtotime($date))}}</div>
     
-                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25">Unpaid</span></div>
+                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> {{$status}} <span class="badge badge-warning badge-pill px-25">Unpaid</span></div>
                             </div>
                         </div>
                         <!-- /.col -->

@@ -8,9 +8,9 @@ Orders
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-primary">
+                    <div class="card-header bg-dark">
                         <h4 class="text-white">Order History
-                        <a href="{{ 'orders' }}" class="btn btn-warning float-right">New Orders</a>
+                        
                     </h4>
                     </div>
                     <div class="card-body">
@@ -30,7 +30,15 @@ Orders
                                         <td>{{ date('d-m-Y', strtotime($item->created_at)) }}</td>
                                         <td>{{ $item->tracking_no }}</td>
                                         <td>{{ $item->total_price }}</td>
-                                        <td>{{ $item->status == '0' ? 'pending' :'completed' }}</td>
+                                        <td>@if($item->status == '0')
+                                            Pending
+                                            @elseif($item->status == '1')
+                                            Processing
+                                            @elseif($item->status == '2')
+                                            Completed
+                                            @else
+                                            Cancelled
+                                            @endif</td>
                                         <td>
                                             <a href="{{ url('Admin/view-order/'.$item->id) }}" class="btn btn-primary">View</a>
                                         </td>

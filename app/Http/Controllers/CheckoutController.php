@@ -42,7 +42,12 @@ class CheckoutController extends Controller
     $order->city = $request->input('city');
     $order->MOP = $request->MOP;
     $order->pincode = $request->input('pincode');
-
+    if ($request->MOP == 1){
+        $order->status = 0;
+    }
+    else if ($request->MOP == 2 || $request->MOP == 3){
+        $order->status = 1;
+    }
     //Calculate total price
     $total = 0;
     $cartitems = Cart::where('user_id', Auth::id())->get();

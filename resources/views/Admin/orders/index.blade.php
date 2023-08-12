@@ -29,14 +29,24 @@ Orders
                                     <td>{{ date('d-m-Y', strtotime($item->created_at)) }}</td>
                                     <td>{{ $item->tracking_no }}</td>
                                     <td>{{ $item->total_price }}</td>
-                                    <td>{{ $item->status == '0'?'pending' : 'completed' }}</td>
+                                    <td>
+                                        @if($item->status == '0')
+                                        Pending
+                                        @elseif($item->status == '1')
+                                        Processing
+                                        @elseif($item->status == '2')
+                                        Completed
+                                        @else
+                                        Cancelled
+                                        @endif
+                                        
                                     <td>
                                         <a href="{{ url('Admin/view-order/'.$item->id) }}" class="btn btn-primary">View</a>
                                     </td>
                                 </tr>
                                 @endforeach
                         </table>
-                        <a href="{{ 'order-history' }}" class="btn btn-success float-right">Order History</a>
+                        
                     </div>
                 </div>
             </div>

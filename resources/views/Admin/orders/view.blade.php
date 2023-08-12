@@ -10,7 +10,11 @@
                 <div class="card">
                     <div class="card-header bg-primary">
                         <h4 class="text-white">Order View
+                            @if ($orders->status != '0')
+                            <a href="{{ url('order-history') }}" class="btn btn-warning text-white float-end">Back</a>
+                            @else
                             <a href="{{ url('orders') }}" class="btn btn-warning text-white float-end">Back</a>
+                            @endif
                         </h4>
                     </div>
                     <div class="card-body">
@@ -69,7 +73,9 @@
                                     <select class="form-select" name="order_status" aria-label="Default select example">
                                         <option {{ $orders->status == '0' ? 'selected' : '' }} value="0">Pending
                                         </option>
-                                        <option {{ $orders->status == '1' ? 'selected' : '' }} value="1">Completed
+                                        <option {{ $orders->status == '1' ? 'selected' : '' }} value="1">Processing
+                                        </option>
+                                        <option {{ $orders->status == '2' ? 'selected' : '' }} value="2">Completed
                                         </option>
                                     </select>
                                    
