@@ -65,6 +65,12 @@
                                     </tbody>
                                 </table>
                                 <h4>Grand Total: ₱ <span class="float-center">{{ $orders->total_price }}</span> </h4>
+                                @if ($orders->status == '3')
+                                <h3 class="text-danger">Cancelled</h3>
+                                
+                                @elseif($orders->status == '2')
+                                <h3 class="text-success">Completed</h3>
+                                @else
                                 <div class="mt-5 px-2">
                                     <label for="">Order Status</label>
                                     <form action="{{ url('update-order/'.$orders->id) }}" method="POST">
@@ -77,10 +83,14 @@
                                         </option>
                                         <option {{ $orders->status == '2' ? 'selected' : '' }} value="2">Completed
                                         </option>
+                                        <option {{ $orders->status == '3' ? 'selected' : '' }} value="3">Cancelled
+                                        </option>
+                                        
                                     </select>
                                    
                                     <button type="submit" class="btn btn-primary float-end  mt-3">Update</button>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
