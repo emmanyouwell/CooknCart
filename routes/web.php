@@ -14,6 +14,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -61,8 +62,10 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/my-orders', [UserController::class,'index']);
     Route::get('/cancel-order/{id}', [UserController::class, 'cancelOrder'])->name('cancel-order');
     Route::get('/view-order/{id}', [UserController::class,'view']);
-    //Ratings
+    //Ratings and Reviewa
     Route::post('/add-rating', [RatingController::class,'add'])->name('user.add-rating');
+    Route::post('/add-review', [ReviewController::class,'add'])->name('user.add-review');
+
 });
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index']);

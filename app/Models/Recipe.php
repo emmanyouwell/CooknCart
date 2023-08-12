@@ -25,16 +25,19 @@ class Recipe extends Model
 
     public function categories()
     {
-        return $this->belongsTo(Category::class,'category_id','id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function ingredients()
     {
-        return $this->hasMany(Ingredient::class,'id','tags');    
+        return $this->hasMany(Ingredient::class, 'id', 'tags');
     }
     public function ratings()
-{
-    return $this->hasMany(Rating::class, 'recipe_id');
-}
-
+    {
+        return $this->hasMany(Rating::class, 'recipe_id');
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Rating::class, 'recipe_id');
+    }
 }

@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rating extends Model
 {
-    use HasFactory;
-    protected $table ='ratings';
-    protected $fillable =[
+    protected $fillable = [
         'user_id',
         'recipe_id',
-        'stars_rated'
-
+        'stars_rated',
     ];
+
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class, 'recipe_id');
+    }
 
 }
