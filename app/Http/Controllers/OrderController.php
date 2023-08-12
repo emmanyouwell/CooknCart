@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = Order::where('status', '0')->get();
+        $orders = Order::where('status', '0')->orderBy('created_at','desc')->get();
         return view('Admin.orders.index', compact('orders'));
     }
     public function view($id)
