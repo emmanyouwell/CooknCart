@@ -37,9 +37,11 @@
                                             @if ($item->status == '0')
                                                 <span class="text-danger">Pending</span>
                                             @elseif ($item->status == '1')
-                                                <span class="text-success">Completed</span>
+                                                <span class="text-warning">Processing</span>
                                             @elseif ($item->status == '2')
-                                                <span class="text-danger">Cancelled</span>
+                                                <span class="text-success">Completed</span>
+                                                @elseif($item->status == '3')
+                                                <span class="text-danger">Completed</span>
                                             @endif
                                         </td>
                                         <td>
