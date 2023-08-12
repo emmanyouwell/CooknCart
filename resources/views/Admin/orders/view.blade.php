@@ -83,8 +83,7 @@
                                         </option>
                                         <option {{ $orders->status == '2' ? 'selected' : '' }} value="2">Completed
                                         </option>
-                                        <option {{ $orders->status == '3' ? 'selected' : '' }} value="3">Cancelled
-                                        </option>
+                                       
                                         
                                     </select>
                                    
