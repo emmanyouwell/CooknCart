@@ -5,6 +5,10 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Events\OrderUpdated;
+use App\Events\OrderCancelled;
+
+use Auth;
 class OrderController extends Controller
 {
     public function index(Request $request)
@@ -22,6 +26,9 @@ class OrderController extends Controller
         $orders = Order::find($id);
         $orders->status = $request->input('order_status');
         $orders->update();
+        OrderUpdated::dispatch($orders, $orders->email);
+        
+        
         return redirect('orders')->with('status', "Order Updated Sucessfully");
     }
     public function orderhistory()
