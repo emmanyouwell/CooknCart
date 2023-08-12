@@ -66,7 +66,7 @@
                                     <tbody>
                                         @foreach ($orders->orderitems as $item)
                                             <tr>
-                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->ingredient->name }}</td>
                                                 <td>{{ $item->quantity }}</td>
                                                 <td>{{ $item->price }}</td>
                                                 {{-- <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top img-fluid"
