@@ -65,7 +65,7 @@
                                     <li><a class="dropdown-item" href="{{ route('orders.index') }}">Pending Orders</a></li>
 
                                     <li><a class="dropdown-item"
-                                            href="{{ 'order-history' }}">Completed Orders</a></li>
+                                            href="{{ url('order-history') }}">Order Manager</a></li>
                                 </ul>
                             </li>
                             
@@ -161,6 +161,7 @@
                         </ul>
                         <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ms-auto">
+                            
                             <!-- Authentication Links -->
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('user/wishlist') }}" alt="Wishlist" data-bs-toggle="tooltip"
@@ -176,13 +177,13 @@
                                             class="badge rounded-pill bg-danger cart-count"> 0</span></i>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ url('user/my-orders') }}" alt="Orders"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Orders">
-                                    <i class="fa-solid fa-basket-shopping"><span
-                                            class="badge rounded-pill bg-danger"> 0</span></i>
+                                    
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
                                 </a>
-                            </li>
+                            </li> --}}
 
                             @guest
                                 @if (Route::has('login'))
@@ -210,6 +211,9 @@
                                                      document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }}
                                         </a>
+                                        <a class="dropdown-item" href="{{ url('user/my-orders') }}">
+                                            {{ __('My Orders') }}
+                                        </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                             class="d-none">
@@ -218,6 +222,7 @@
                                     </div>
                                 </li>
                             @endguest
+                            
                         </ul>
                     </div>
                 </div>
