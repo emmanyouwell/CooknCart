@@ -32,5 +32,9 @@ class Recipe extends Model
     {
         return $this->hasMany(Ingredient::class,'id','tags');    
     }
+    public function ratings()
+{
+    return $this->hasMany(Rating::class, 'recipe_id');
+}
 
 }
