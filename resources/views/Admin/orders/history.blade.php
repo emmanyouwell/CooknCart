@@ -31,13 +31,13 @@ Orders
                                         <td>{{ $item->tracking_no }}</td>
                                         <td>{{ $item->total_price }}</td>
                                         <td>@if($item->status == '0')
-                                            Pending
+                                            <span class="text-danger">Pending</span> 
                                             @elseif($item->status == '1')
-                                            Processing
+                                            <span class="text-warning">Processing</span> 
                                             @elseif($item->status == '2')
-                                            Completed
+                                            <span class="text-success">Completed</span> 
                                             @else
-                                            Cancelled
+                                            <span class="text-danger">Cancelled</span> 
                                             @endif</td>
                                         <td>
                                             <a href="{{ url('Admin/view-order/'.$item->id) }}" class="btn btn-primary">View</a>
