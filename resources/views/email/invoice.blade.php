@@ -81,7 +81,7 @@
     
                                 <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date:</span> {{date('d-m-Y', strtotime($date))}}</div>
     
-                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> {{$status}} <span class="badge badge-warning badge-pill px-25">Unpaid</span></div>
+                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> {{$status}} </div>
                             </div>
                         </div>
                         <!-- /.col -->
@@ -228,7 +228,7 @@
     
                         <div>
                             <span class="text-secondary-d1 text-105">Thank you for your business</span>
-                            <a href="#" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a>
+                            <a href="{{route('checkout')}}" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a>
                         </div>
                     </div>
                 </div>
