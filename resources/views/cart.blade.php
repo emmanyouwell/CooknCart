@@ -17,7 +17,7 @@
                     @foreach ($cartItems as $item)
                         <div class="row ingredient_data">
                             <div class="col-md-2">
-                                <img src="{{ asset('storage/' . $item->ingredient->image) }}" height="70px" alt="Image here">
+                                <img src="{{ asset($item->ingredient->image) }}" height="70px" alt="Image here">
                             </div>
                             <div class="col-md-2 my-auto">
                                 <h3>{{ $item->ingredient->name }}</h3>
