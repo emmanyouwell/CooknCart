@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Category;
 use App\Models\Ingredient;
+use App\Models\Review;
 use Yajra\DataTables\DataTables;
 use Storage;
 use Auth;
@@ -186,8 +187,10 @@ class RecipeController extends Controller
     {
         $recipe = Recipe::find($recipeId);
         $ingredients = Ingredient::pluck('name', 'id');
+        $reviews = Review::where('recipe_id',$recipe->id)->get();
+
         if ($recipe) {
-            return view('User.recipes.view', compact('recipe'));
+            return view('User.recipes.view', compact('recipe','reviews'));
         } else {
             return redirect('/')->with('message', "No such ingredient found");
         }

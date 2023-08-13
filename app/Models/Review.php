@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
+    use HasFactory;
+    protected $table = 'reviews';
     protected $fillable = [
         'user_id',
         'recipe_id',
@@ -14,13 +16,13 @@ class Review extends Model
         'stars_rated',
     ];
 
-    public function recipe()
-    {
-        return $this->belongsTo(Recipe::class, 'recipe_id');
-    }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
+    }
+    public function ratings()
+    {
+        return $this->belongsTo(Rating::class, 'user_id','user_id');
     }
 }
