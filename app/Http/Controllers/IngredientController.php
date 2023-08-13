@@ -165,13 +165,21 @@ class IngredientController extends Controller
             'ingredient_category_id' => $request->ingredient_category_id,
         ];
 
-        if ($request->hasFile('image')) {
-            // Delete old image
-            Storage::delete('public/' . $ingredient->image);
+        // if ($request->hasFile('image')) {
+        //     // Delete old image
+        //     Storage::delete('public/' . $ingredient->image);
 
-            // Upload new image
-            $imagePath = $request->file('image')->store('public/ingredients');
-            $data['image'] = str_replace('public/', '', $imagePath);
+        //     // Upload new image
+        //     $imagePath = $request->file('image')->store('public/ingredients');
+        //     $data['image'] = str_replace('public/', '', $imagePath);
+        // }
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $uploadPath='image/ingredients/';
+            $image->move($uploadPath, $filename);
+            $url = $uploadPath.$filename;
+            $data['image'] = $url;
         }
 
         $ingredient->update($data);

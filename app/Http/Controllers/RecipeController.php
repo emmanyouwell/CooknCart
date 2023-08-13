@@ -158,25 +158,30 @@ class RecipeController extends Controller
         $recipe->instruction = $validatedData['instruction'];
         $recipe->category_id = $validatedData['category_id'];
         $recipe->tags = $validatedData['tags'];
+        // if ($request->hasFile('image')) {
+        //     $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
+
+        //     // $filePath = $request->file('img_path')->storeAs('uploads', $fileName,'public');
+        //     // dd($fileName,$filePath);
+
+        //     $path = Storage::putFileAs(
+        //         'public/images',
+        //         $request->file('image'),
+        //         $fileName
+        //     );
+
+        //     $recipe->image = '/storage/images/' . $fileName;
+        // }
         if ($request->hasFile('image')) {
-            $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
-
-            // $filePath = $request->file('img_path')->storeAs('uploads', $fileName,'public');
-            // dd($fileName,$filePath);
-
-            $path = Storage::putFileAs(
-                'public/images',
-                $request->file('image'),
-                $fileName
-            );
-
-            $recipe->image = '/storage/images/' . $fileName;
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $uploadPath='image/ingredients/';
+            $image->move($uploadPath, $filename);
+            $url = $uploadPath.$filename;
+            $recipe->image = $url;
         }
 
         $recipe->save();
-
-
-
         return redirect()->route('recipes.index')->with('success', 'Recipe updated successfully.');
     }
 
