@@ -108,9 +108,10 @@
                             </table>
                             <hr>
                             {{-- <h5>Choose your payment method</h5> --}}
-                            <button type="submit" class="btn btn-primary w-100" name="MOP" value="1"><i class="fa-solid fa-truck-fast"></i> Cash on Delivery</button>
-                            <button type="submit" class="btn btn-primary w-100 mt-3" name="MOP" value="2"><i class="fa-solid fa-g"></i>cash</button>
-                            <button type="submit" class="btn btn-primary w-100 mt-3" name="MOP" value="3"><i class="fa-solid fa-p"></i>aypal</button>
+                            <button type="submit" class="btn btn-primary w-100 validate_btn" name="MOP" value="1"><i class="fa-solid fa-truck-fast"></i> Cash on Delivery</button>
+                            <button type="submit" class="btn btn-primary w-100 mt-3 validate_btn" name="MOP" value="2"><i class="fa-solid fa-g"></i>cash</button>
+                            <button type="submit" class="btn btn-primary w-100 mt-3 validate_btn" name="MOP" value="3"><i class="fa-solid fa-p"></i>aypal</button>
+                            <input type="hidden" name="MOP" id="paymentMethod" value="">
                         @else
                             <p>No products in the cart</p>
                         @endif
@@ -121,4 +122,104 @@
 </div>
 @endsection
 @section('scriptFoot')
+<script>
+    $(document).ready(function () {
+        $('.validate_btn').click(function (e) {
+            e.preventDefault();
+
+            var firstname = $('.firstname').val();
+            var lastname = $('.lastname').val();
+            var email = $('.email').val();
+            var phone = $('.phone').val();
+            var address = $('.address').val();
+            var city = $('.city').val();
+            var pincode = $('.pincode').val();
+
+            var fname_error = "";
+            var lname_error = "";
+            var email_error = "";
+            var phone_error = "";
+            var address_error = "";
+            var city_error = "";
+            var pincode_error = "";
+
+            // First Name validation
+            if (!firstname) {
+                fname_error = "First Name is required";
+            }
+
+            // Last Name validation
+            if (!lastname) {
+                lname_error = "Last Name is required";
+            }
+
+            // Email validation
+            if (!email) {
+                email_error = "Email is required";
+            } else if (!validateEmail(email)) {
+                email_error = "Invalid email address";
+            }
+
+            // Phone validation
+            if (!phone) {
+                phone_error = "Phone number is required";
+            } else if (!validatePhone(phone)) {
+                phone_error = "Invalid phone number";
+            }
+
+            // Address validation
+            if (!address) {
+                address_error = "Address is required";
+            }
+
+            // City validation
+            if (!city) {
+                city_error = "City is required";
+            }
+
+            // Pin Code validation
+            if (!pincode) {
+                pincode_error = "Pincode is required";
+            } else if (!validatePincode(pincode)) {
+                pincode_error = "Invalid pincode";
+            }
+
+            $('#fname_error').text(fname_error);
+            $('#lname_error').text(lname_error);
+            $('#email_error').text(email_error);
+            $('#phone_error').text(phone_error);
+            $('#address_error').text(address_error);
+            $('#city_error').text(city_error);
+            $('#pincode_error').text(pincode_error);
+
+            if (fname_error || lname_error || email_error || phone_error || address_error || city_error || pincode_error) {
+                return false;
+            } else {
+                // Set the payment method value before form submission
+                $('#paymentMethod').val($(this).val());
+
+                // Proceed with form submission
+                $(this).closest('form').submit();
+            }
+        });
+
+        // Email validation function
+        function validateEmail(email) {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
+        }
+
+        // Phone number validation function
+        function validatePhone(phone) {
+            var re = /^[0-9]{11}$/;
+            return re.test(phone);
+        }
+
+        // Pincode validation function
+        function validatePincode(pincode) {
+            var re = /^[0-9]{4}$/;
+            return re.test(pincode);
+        }
+    });
+</script>
 @endsection
