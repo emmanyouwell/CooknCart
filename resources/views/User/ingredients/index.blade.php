@@ -47,7 +47,7 @@
                                     style="text-decoration: none;">
                                     <div class="card" style="width: 18rem;">
                                         <div class="square-image-container">
-                                            <img src="{{ asset('storage/' . $ingredient->image) }}"
+                                            <img src="{{ asset( $ingredient->image) }}"
                                                 class="card-img-top square-image" alt="Ingredient Image">
                                         </div>
                                         <div class="card-body ingredient_data">

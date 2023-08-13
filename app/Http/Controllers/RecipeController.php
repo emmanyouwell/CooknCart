@@ -10,7 +10,8 @@ use App\Models\Review;
 use Yajra\DataTables\DataTables;
 use Storage;
 use Auth;
-
+use Intervention\Image\Facades\Image;
+use Carbon\Carbon;
 class RecipeController extends Controller
 {
     public function index(Request $request)
@@ -101,14 +102,17 @@ class RecipeController extends Controller
   
     
         if($request->file()) {
+            $image = $request->file('image');
             $fileName = time().'_'.$request->file('image')->getClientOriginalName();
            
             // $filePath = $request->file('img_path')->storeAs('uploads', $fileName,'public');
             // dd($fileName,$filePath);
-           
-            $path = Storage::putFileAs(
-                'public/images', $request->file('image'), $fileName
-            );
+            $uploadPath = 'image/recipes/';
+            $url = $uploadPath.$fileName;
+            $image->move($uploadPath,$fileName);
+            // $path = Storage::putFileAs(
+            //     'public/images', $request->file('image'), $fileName
+            // );
         }
     // dd($path);
     // $imagePath = $request->file('image')->store('recipes', 'public');
@@ -119,7 +123,7 @@ class RecipeController extends Controller
         'description' => $request->description,
         'instruction' => $request->instruction,
         'category_id' => $request->category_id,
-        'image' => '/storage/images/' . $fileName,
+        'image' => $url,
         'tags' => json_encode($request->tags)
     ]);
 

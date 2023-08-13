@@ -24,7 +24,7 @@ class IngredientController extends Controller
                 $ingredients = Ingredient::with('category')->latest()->get();
 
                 $ingredients->transform(function ($item) {
-                    $item->image = asset('public/Ingredient/ingredients/' . $item->image);
+                    $item->image = asset($item->image);
                     return $item;
                 });
 
@@ -120,7 +120,9 @@ class IngredientController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('public/Ingredient/', $filename);
+            $uploadPath='image/ingredients/';
+            $image->move($uploadPath, $filename);
+            $url = $uploadPath.$filename;
             $ingredient->image = $filename;
         }
 
@@ -128,7 +130,7 @@ class IngredientController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             // 'image' => implode('|', $images),
-            'image' => 'ingredients/' . $filename,
+            'image' => $url,
             'quantity' => $request->quantity,
             'price' => $request->price,
             'ingredient_category_id' => $request->ingredient_category_id,
