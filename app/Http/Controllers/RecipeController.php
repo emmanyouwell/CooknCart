@@ -150,7 +150,7 @@ class RecipeController extends Controller
             'category_id' => 'required',
             'tags' => 'required',
             // 'ingredients.*' => 'exists:ingredients,id',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            //'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validatedData['tags'] = json_encode($request->tags);
         $recipe->name = $validatedData['name'];
