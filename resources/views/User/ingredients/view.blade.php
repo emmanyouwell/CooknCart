@@ -15,7 +15,7 @@
                 <div class="card ingredient_data">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="{{ asset('storage/' . $ingredient->image) }}" class="card-img-top img-fluid"
+                            <img src="{{ asset($ingredient->image) }}" class="card-img-top img-fluid"
                                 alt="Ingredient Image">
                         </div>
                         <div class="col-md-8">
