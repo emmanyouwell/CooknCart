@@ -35,9 +35,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 
-Route::middleware(['auth'])->group(function () {
-});
-
 
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/recipes', [RecipeController::class, 'index'])->name('user-recipe.index');
@@ -69,6 +66,8 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
 });
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index']);
+    //Ratings Charts
+   
     //CRUD
     //Recipes
     Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');

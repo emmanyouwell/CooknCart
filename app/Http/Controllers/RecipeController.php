@@ -104,15 +104,9 @@ class RecipeController extends Controller
         if($request->file()) {
             $image = $request->file('image');
             $fileName = time().'_'.$request->file('image')->getClientOriginalName();
-           
-            // $filePath = $request->file('img_path')->storeAs('uploads', $fileName,'public');
-            // dd($fileName,$filePath);
             $uploadPath = 'image/recipes/';
             $url = $uploadPath.$fileName;
             $image->move($uploadPath,$fileName);
-            // $path = Storage::putFileAs(
-            //     'public/images', $request->file('image'), $fileName
-            // );
         }
     // dd($path);
     // $imagePath = $request->file('image')->store('recipes', 'public');
