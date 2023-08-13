@@ -40,45 +40,51 @@
                     <div class="d-flex align-items-center flex-column m-3">
                         <h2>{{ $category->name }}</h2>
                     </div>
-                    <div class="row row-cols-1 row-cols-md-4">
-                        @foreach ($category->ingredients as $ingredient)
-                            <div class="col-md-3 mb-4">
-                                <a href="{{ route('User.ingredients.view', ['ingredient' => $ingredient->id]) }}"
-                                    style="text-decoration: none;">
-                                    <div class="card" style="width: 18rem;">
-                                        <div class="square-image-container">
-                                            <img src="{{ asset( $ingredient->image) }}"
-                                                class="card-img-top square-image" alt="Ingredient Image">
-                                        </div>
-                                        <div class="card-body ingredient_data">
-                                            <input type="hidden" value="{{ $ingredient->id }}" class="ingredient_id">
-                                            <h5 class="card-title">{{ $ingredient->name }} <span
-                                                class="card-title top-0 start-100 translate-rigth badge rounded-pill bg-primary">
-                                                <i class="fas fa-star"></i> 0.5
-                                            </span></h5>
-                                            <h6 class="card-title">₱{{ $ingredient->price }}</h6>
-                                            <p class="card-text">{{ $ingredient->description }}</p>
-                                            {{-- <h9 class="card-title"><i class="fa-solid fa-star"
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        {{-- <div class="card-group"> --}}
+                            @foreach ($category->ingredients as $ingredient)
+                                <div class="col-md-3 mb-4">
+                                    <a href="{{ route('User.ingredients.view', ['ingredient' => $ingredient->id]) }}"
+                                        style="text-decoration: none;">
+                                        <div class="card h-100" style="width: 18rem;">
+                                            <div class="square-image-container">
+                                                <img src="{{ asset($ingredient->image) }}"
+                                                    class="card-img-top square-image" alt="Ingredient Image" style="object-fit: cover;height: 200px; width:100%;">
+                                            </div>
+                                            <div class="card-body ingredient_data">
+                                                <input type="hidden" value="{{ $ingredient->id }}" class="ingredient_id">
+                                                <h5 class="card-title">{{ $ingredient->name }} <span
+                                                        class="card-title top-0 start-100 translate-rigth badge rounded-pill bg-primary">
+                                                        <i class="fas fa-star"></i> 0.5
+                                                    </span></h5>
+                                                <h6 class="card-title">₱{{ $ingredient->price }}</h6>
+                                                <p class="card-text">{{ $ingredient->description }}</p>
+                                                {{-- <h9 class="card-title"><i class="fa-solid fa-star"
                                                     style="color: #ffc800;"></i><i class="fa-solid fa-star"
                                                     style="color: #ffc800;"></i><i class="fa-solid fa-star"
                                                     style="color: #ffc800;"></i><i class="fa-solid fa-star"
                                                     style="color: #ffc800;"></i><i class="fa-solid fa-star"
                                                     style="color: #ffc800;"></i> 5.0</h9> --}}
-                                            <div class="input-group text-center mb-3" style="width:130px;">
-                                                <button class="input-group-text decrement-btn">-</button>
-                                                <input type="text" name="quantity"
-                                                    class="form-control qty-input text-center" value="1">
-                                                <button class="input-group-text increment-btn">+</button>
+                                                
                                             </div>
-                                            <div class="mb-3">
-                                                <button type="button" class="btn btn-primary addToCartBtn">Add to Cart <i
-                                                        class="fa fa-shopping-cart"></i></button>
+                                            <div class="card-footer d-flex justify-content-between p-3 ingredient_data">
+                                                <input type="hidden" value="{{ $ingredient->id }}" class="ingredient_id">
+                                                <div class="input-group text-center " style="width:100px;">
+                                                    <button class="input-group-text decrement-btn">-</button>
+                                                    <input type="text" name="quantity"
+                                                        class="form-control qty-input text-center" value="1">
+                                                    <button class="input-group-text increment-btn">+</button>
+                                                </div>
+                                                <div>
+                                                    <button type="button" class="btn btn-primary addToCartBtn">Add to Cart
+                                                        <i class="fa fa-shopping-cart"></i></button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                        @endforeach
+                                    </a>
+                                </div>
+                            @endforeach
+                        {{-- </div> --}}
                     </div>
                 </div>
             @endforeach
