@@ -1,10 +1,6 @@
 @extends('layouts.app')
 @section('content')
-{{-- ===========================================================================CREATE============================================================================================ --}}
-    <!-- Button creatine a new category -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
-        Create Category
-    </button>
+    {{-- ===========================================================================CREATE============================================================================================ --}}
 
     <!--  Modal for create a new category -->
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -37,44 +33,58 @@
             </div>
         </div>
     </div>
-{{-- ================================================================================================================================================================================== --}}
+    {{-- ================================================================================================================================================================================== --}}
 
-{{-- ===============================================================================TABLE======================================================================================= --}}
+    {{-- ===============================================================================TABLE======================================================================================= --}}
     <!-- Table to display the categories list -->
-    <table class="table" id="categoriesTable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($categories as $category)
-                <tr>
-                    <td>{{ $category->name }}</td>
-                    <td>{{ $category->description }}</td>
-                    <td>
-                        <!-- Button to edit a category -->
-                        <button type="button" class="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" data-id="{{ $category->id }}" data-name="{{ $category->name }}" data-description="{{ $category->description }}">
-                            Edit
-                        </button>
-                        <!-- Form to delete a category -->
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger delete-btn" onclick="return confirm('Are you sure you want to delete this category?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-{{-- ================================================================================================================================================================================== --}}
+    <div class="container">
+        <!-- Button creatine a new category -->
+        <h2>Recipe Categories</h2>
+        <div class="mb-3">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+                Create Category
+            </button>
+        </div>
+            <table class="table-bordered" id="categoriesTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($categories as $category)
+                        <tr>
+                            <td>{{ $category->name }}</td>
+                            <td>{{ $category->description }}</td>
+                            <td>
+                                <!-- Button to edit a category -->
+                                <button type="button" class="btn btn-primary edit-btn" data-toggle="modal"
+                                    data-target="#editModal" data-id="{{ $category->id }}" data-name="{{ $category->name }}"
+                                    data-description="{{ $category->description }}">
+                                    Edit
+                                </button>
+                                <!-- Form to delete a category -->
+                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger delete-btn"
+                                        onclick="return confirm('Are you sure you want to delete this category?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+    </div>
+    {{-- ================================================================================================================================================================================== --}}
 
-{{-- ==========================================================================EDIT=========================================================================================== --}}
+    {{-- ==========================================================================EDIT=========================================================================================== --}}
     <!--  Modal edit category -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -105,41 +115,34 @@
             </div>
         </div>
     </div>
-{{-- ================================================================================================================================================================================== --}}
+    {{-- ================================================================================================================================================================================== --}}
+@endsection
 
-    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-   
-
+@section('scriptFoot')
     <script>
-        $(document).ready(function () {
-
-
+        $(document).ready(function() {
             // datatables
             $('#categoriesTable').DataTable();
-
-            
             // create in Modal
-            $("#createCategoryBtn").on("click", function () {
+            $("#createCategoryBtn").on("click", function() {
                 const form = $("#createCategoryForm");
                 $.ajax({
                     type: "POST",
                     url: "{{ route('categories.store') }}",
                     data: form.serialize(),
-                    success: function (response) {
+                    success: function(response) {
                         console.log("Category created successfully!");
                         $("#createModal").modal("hide");
                         location.reload();
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.error("Error creating category:", error);
                     },
                 });
             });
 
             // Edit in Modal
-            $("#updateCategoryBtn").on("click", function () {
+            $("#updateCategoryBtn").on("click", function() {
                 const form = $("#editCategoryForm");
                 const categoryId = $("#editModal").data('id');
                 const url = `{{ route('categories.update', ':id') }}`.replace(':id', categoryId);
@@ -148,19 +151,19 @@
                     type: "POST",
                     url: url,
                     data: form.serialize(),
-                    success: function (response) {
+                    success: function(response) {
                         console.log("Category updated successfully!");
                         $("#editModal").modal("hide");
                         location.reload();
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.error("Error updating category:", error);
                     },
                 });
             });
 
             // Populate data 
-            $(".edit-btn").on("click", function () {
+            $(".edit-btn").on("click", function() {
                 const categoryId = $(this).data('id');
                 const categoryName = $(this).data('name');
                 const categoryDescription = $(this).data('description');
@@ -171,40 +174,4 @@
             });
         });
     </script>
-  
-@endsection
-
-@section('scriptFoot')
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(function() {
-            $('#categories-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('categories.index') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'description',
-                        name: 'description'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-            });
-        });
-    </script> --}}
 @endsection

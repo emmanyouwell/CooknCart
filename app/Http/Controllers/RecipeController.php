@@ -21,12 +21,6 @@ class RecipeController extends Controller
             if ($request->ajax()) {
                 $recipes = Recipe::with('user')->latest()->get();
 
-                // Apply the path to the image
-                // $recipes->transform(function ($recipe) {
-                //     $recipe->image = asset('storage/' . $recipe->image);
-                //     return $recipe;
-                // });
-
                 return DataTables::of($recipes)
                     ->addColumn('category', function ($recipe) {
                         return $recipe->categories->pluck('name')->implode(', ');
