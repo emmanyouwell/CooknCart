@@ -186,13 +186,18 @@
                     </div>
                     <hr>
                     <div class="comments">
-                        @foreach ($recipe->reviews as $review)
+                        @foreach ($reviews as $review)
                             <div class="comment-content">
+                                <span class="user-name">
+                                    <img src="#" width="40" class="user-avatar rounded-circle">
+                                    {{ $review->user->name.' '.$review->user->lname }}
+                                </span>
                                 <p class="comment-text">{{ $review->user_review }}</p>
                                 <hr>
                             </div>
                         @endforeach
                     </div>
+                    
                     
                     
             
