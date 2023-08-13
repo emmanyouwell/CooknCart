@@ -65,9 +65,11 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
 
 });
 Route::middleware(['auth', 'isAdmin'])->group(function () {
+    //redirect to dashboard with charts
     Route::get('/dashboard', [AdminController::class, 'index']);
-    //Ratings Charts
-   
+    //import and export in excel
+    Route::get('/import-categories', [CategoryController::class, 'importCategories'])->name('categories.import');
+    Route::post('/upload-categories', [CategoryController::class, 'uploadCategories'])->name('categories.upload');
     //CRUD
     //Recipes
     Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');

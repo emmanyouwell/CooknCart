@@ -41,6 +41,10 @@
         <!-- Button creatine a new category -->
         <h2>Recipe Categories</h2>
         <div class="mb-3">
+            <a href="{{ route('categories.import') }}" class="btn btn-primary">Upload Categories</a>
+        </div>
+        
+        <div class="mb-3">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
                 Create Category
             </button>
