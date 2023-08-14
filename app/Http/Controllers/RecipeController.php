@@ -20,7 +20,11 @@ class RecipeController extends Controller
         if (Auth::check() && Auth::user()->role_as === 1) {
             if ($request->ajax()) {
                 $recipes = Recipe::with('user')->latest()->get();
-
+                // $recipes->transform(function($item){
+                //     $foo = json_decode($item->instruction, true);
+                //     $item->instruction = $foo;
+                //     return $item;
+                // });
                 return DataTables::of($recipes)
                     ->addColumn('category', function ($recipe) {
                         return $recipe->categories->pluck('name')->implode(', ');
@@ -142,14 +146,15 @@ class RecipeController extends Controller
             // 'ingredients.*' => 'exists:ingredients,id',
             //'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        $validatedData['tags'] = json_encode($request->tags);
-        $validatedData['instruction'] = json_encode($request->instruction);
-        $recipe->name = $validatedData['name'];
-        $recipe->description = $validatedData['description'];
-        $recipe->instruction = $validatedData['instruction'];
-        $recipe->category_id = $validatedData['category_id'];
-        $recipe->tags = $validatedData['tags'];
-        $recipe->instruction = $validatedData['instruction'];
+        
+        // $validatedData['tags'] = json_encode($request->tags);
+        // $validatedData['instruction'] = json_encode($request->instruction);
+        // $recipe->name = $validatedData['name'];
+        // $recipe->description = $validatedData['description'];
+        // $recipe->instruction = $validatedData['instruction'];
+        // $recipe->category_id = $validatedData['category_id'];
+        // $recipe->tags = $validatedData['tags'];
+       
         // if ($request->hasFile('image')) {
         //     $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
 
@@ -172,7 +177,14 @@ class RecipeController extends Controller
             $url = $uploadPath.$filename;
             $recipe->image = $url;
         }
-
+        Recipe::where('id', $recipe->id)->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'instruction' => json_encode($request->instruction),
+            'category_id' => $request->category_id,
+            'tags' => json_encode($request->tags),
+            // 'image' =>$url,
+        ]);
         $recipe->save();
         return redirect()->route('recipes.index')->with('success', 'Recipe updated successfully.');
     }
