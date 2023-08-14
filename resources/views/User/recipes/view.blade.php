@@ -154,10 +154,10 @@
                         <p>{{ $recipe->description }}</p>
                         <h6><b>Instruction:</b></h6>
                         @php
-                            $ins = json_decode($recipe->instruction);
+                            $ins = json_decode($recipe->instruction, true);
                         @endphp
                         @foreach($ins as $instruction)
-                        <p>{{ $instruction }}</p>
+                        <p>{{ $instruction['step'] }}</p>
                         @endforeach
                         <h6><b>Rating:</b></h6>
                         @if ($recipe->ratings->count() > 0)
