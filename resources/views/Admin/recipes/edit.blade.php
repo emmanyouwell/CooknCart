@@ -46,6 +46,7 @@
                     $i=0;
                 @endphp
                 <tbody id="instructions">
+                @if ($ins!=null)
                 @foreach($ins as $instruction)
                 <tr>
                     
@@ -61,6 +62,20 @@
                 </tr>
                 
                 @endforeach
+                @else
+                <tr>
+                    
+                    <td><input type="text" placeholder="Enter instruction"
+                            class="form-control @error('instruction') is-invalid @enderror" id="instruction"
+                            name="instruction[{{$i}}][step]" value=""></input>
+                    </td>
+                    <td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td>
+                    
+                    @php
+                    $i++;
+                    @endphp
+                </tr>
+                @endif
             </tbody>
                 <tr>
                     <td colspan=2><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add

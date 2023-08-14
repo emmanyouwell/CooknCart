@@ -39,16 +39,27 @@
                          <th>Instructions</th>
                          <th>Action</th>
                      </tr>
+                     @php
+                         $i=0;
+                     @endphp
                      <tbody id="instructions">
-                     <tr class="here">
-                         <td><input type="text" placeholder="Enter instructions"
-                                 class="form-control @error('instruction') is-invalid @enderror" id="instruction"
-                                 name="instruction[0][step]">{{ old('instruction') }}</input>
-                         </td>
-                         <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add
-                                 steps</button></td>
-                     </tr>
+                        <tr>
+                    
+                            <td><input type="text" placeholder="Enter instruction"
+                                    class="form-control @error('instruction') is-invalid @enderror" id="instruction"
+                                    name="instruction[{{$i}}][step]" value=""></input>
+                            </td>
+                            <td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td>
+                            
+                            @php
+                            $i++;
+                            @endphp
+                        </tr>
                     </tbody>
+                    <tr>
+                        <td colspan=2><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add
+                            steps</button></td>
+                    </tr>
                  </table>
 
                  @error('instruction')
@@ -112,12 +123,12 @@
      <script type="text/javascript">
          var i = 0;
          $("#dynamic-ar").click(function() {
-            var value = $('input[name="instruction[0][step]"]').val() 
-            ++i;
-             
-             $(".here").before('<tr><td><input type="text" name="instruction[' + i + '][step]" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>');
-            $('input[name="instruction['+i+'][step]"]').val(value);
-         });
+                    ++i;
+                    $("#instructions").append('<tr><td><input type="text" name="instruction[' + i +
+                        '][step]" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+                    );
+                    
+                });
         
          $(document).on('click', '.remove-input-field', function() {
              $(this).parents('tr').remove();
