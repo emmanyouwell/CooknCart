@@ -109,7 +109,7 @@ class RecipeController extends Controller
         'user_id' => auth()->user()->id,
         'name' => $request->name,
         'description' => $request->description,
-        'instruction' => $request->instruction,
+        'instruction' => json_encode($request->instruction),
         'category_id' => $request->category_id,
         'image' => $url,
         'tags' => json_encode($request->tags)
