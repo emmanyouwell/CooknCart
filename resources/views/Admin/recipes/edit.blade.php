@@ -36,34 +36,39 @@
         </div>
 
         <div class="mb-3">
-            <table class="table table-bordered" id="instructions">
+            <table class="table table-bordered" >
                 <tr>
                     <th>Instructions</th>
                     <th>Action</th>
                 </tr>
                 @php
-                    $ins = json_decode($recipe->instruction,true);
+                    $ins = json_decode($recipe->instruction, true);
                     $i=0;
                 @endphp
+                <tbody id="instructions">
                 @foreach($ins as $instruction)
                 <tr>
-
+                    
                     <td><input type="text" placeholder="Enter instruction"
                             class="form-control @error('instruction') is-invalid @enderror" id="instruction"
-                            name="instruction[]" value="{{ $instruction }}"></input>
+                            name="instruction[{{$i}}][step]" value="{{ $instruction['step']}}"></input>
                     </td>
-                    @if ($i > 0)
                     <td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td>
-                    @else
-                    <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add
-                            steps</button></td>
-                    @endif
+                    
                     @php
                     $i++;
                     @endphp
                 </tr>
+                
                 @endforeach
+            </tbody>
+                <tr>
+                    <td colspan=2><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add
+                        steps</button></td>
+                </tr>
+                <input type="hidden" name="count" value={{ $i-1 }} class="instruction-count">
             </table>
+            
             
             @error('instruction')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -119,12 +124,13 @@
             integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             <script type="text/javascript">
-                var i = 0;
+                var i = parseInt($('input[name="count"]').val(),10);
                 $("#dynamic-ar").click(function() {
                     ++i;
                     $("#instructions").append('<tr><td><input type="text" name="instruction[' + i +
-                        ']" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+                        '][step]" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
                     );
+                    
                 });
                 $(document).on('click', '.remove-input-field', function() {
                     $(this).parents('tr').remove();

@@ -34,19 +34,21 @@
                  @enderror
              </div>
              <div class="mb-3">
-                 <table class="table table-bordered" id="instructions">
+                 <table class="table table-bordered" >
                      <tr>
                          <th>Instructions</th>
                          <th>Action</th>
                      </tr>
-                     <tr>
+                     <tbody id="instructions">
+                     <tr class="here">
                          <td><input type="text" placeholder="Enter instructions"
                                  class="form-control @error('instruction') is-invalid @enderror" id="instruction"
-                                 name="instruction[]">{{ old('instruction') }}</input>
+                                 name="instruction[0][step]">{{ old('instruction') }}</input>
                          </td>
                          <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add
                                  steps</button></td>
                      </tr>
+                    </tbody>
                  </table>
 
                  @error('instruction')
@@ -110,14 +112,17 @@
      <script type="text/javascript">
          var i = 0;
          $("#dynamic-ar").click(function() {
-             ++i;
-             $("#instructions").append('<tr><td><input type="text" name="instruction[' + i +
-                 ']" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
-             );
+            var value = $('input[name="instruction[0][step]"]').val() 
+            ++i;
+             
+             $(".here").before('<tr><td><input type="text" name="instruction[' + i + '][step]" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>');
+            $('input[name="instruction['+i+'][step]"]').val(value);
          });
+        
          $(document).on('click', '.remove-input-field', function() {
              $(this).parents('tr').remove();
          });
+
      </script>
      <script>
          $(document).ready(function() {
