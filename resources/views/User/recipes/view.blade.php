@@ -145,13 +145,20 @@
                         </div>
                     </div>
                     <div class="name"><b>Recipe:</b>{{ $recipe->name }}</div>
-                    <img src="{{ asset($recipe->image) }}" class="img-fluid post-image">
+                    <div class="square-image-container" style="height: 500px; overflow: hidden;">
+                        <img src="{{ asset($recipe->image) }}" style="object-fit: cover; width: 100%; height: 100%;" class=" post-image">
+                    </div>
+                    
                     <div class="post-content">
                         <h6><b>Description:</b></h6>
                         <p>{{ $recipe->description }}</p>
                         <h6><b>Instruction:</b></h6>
-                        <p>{{ $recipe->instruction }}</p>
-
+                        @php
+                            $ins = json_decode($recipe->instruction);
+                        @endphp
+                        @foreach($ins as $instruction)
+                        <p>{{ $instruction }}</p>
+                        @endforeach
                         <h6><b>Rating:</b></h6>
                         @if ($recipe->ratings->count() > 0)
                             <?php
@@ -275,53 +282,55 @@
                 <h3 class="">Ingredients:</h3>
                 @php
                     $ingredientIds = json_decode($recipe->tags);
+                    
                 @endphp
                 <div class="row row-cols-1 row-cols-md-2 g-4">
-                    @foreach ($ingredientIds as $ingredientId)
-                        @php
-                            $ingredient = \App\Models\Ingredient::find($ingredientId);
-                            
-                        @endphp
+                @foreach ($ingredientIds as $ingredientId)
+                    @php
+                        $ingredient = \App\Models\Ingredient::find($ingredientId);
+                        
+                    @endphp
+                   
+                    @if ($ingredient)
+                        <div class="col">
+                            <a href="{{ route('User.ingredients.view', ['ingredient' => $ingredient->id]) }}"
+                                style="text-decoration: none;">
+                                <div class="card h-100" style="width: 18rem;">
+                                    <div class="square-image-container" style="height: 200px; overflow: hidden;">
+                                        <img src="{{ asset($ingredient->image) }}" class="card-img-top square-image"
+                                            alt="Ingredient Image" style="object-fit: cover; width: 100%; height: 100%;">
+                                    </div>
 
-                        @if ($ingredient)
-                            <div class="col">
-                                <a href="{{ route('User.ingredients.view', ['ingredient' => $ingredient->id]) }}"
-                                    style="text-decoration: none;">
-                                    <div class="card" style="width: 18rem;">
-                                        <div class="square-image-container" style="height: 200px; overflow: hidden;">
-                                            <img src="{{ asset($ingredient->image) }}" class="card-img-top square-image"
-                                                alt="Ingredient Image"
-                                                style="object-fit: cover; width: 100%; height: 100%;">
+                                    <div class="card-body ingredient_data">
+                                        <input type="hidden" value="{{ $ingredient->id }}" class="ingredient_id">
+                                        <h5 class="card-title">{{ $ingredient->name }} <span
+                                                class="card-title top-0 start-100 translate-rigth badge rounded-pill bg-primary">
+                                                <i class="fas fa-star"></i> 0.5
+                                            </span>
+                                        </h5>
+                                        <h6 class="card-title">₱{{ $ingredient->price }}</h6>
+                                        <p class="card-text">
+                                            {{ \Illuminate\Support\Str::limit($ingredient->description, 100, $end = '...') }}
+                                        </p>
+                                        <div class="input-group text-center mb-3" style="width:130px;">
+                                            <button class="input-group-text decrement-btn">-</button>
+                                            <input type="text" name="quantity"
+                                                class="form-control qty-input text-center" value="1">
+                                            <button class="input-group-text increment-btn">+</button>
                                         </div>
-
-                                        <div class="card-body ingredient_data">
-                                            <input type="hidden" value="{{ $ingredient->id }}" class="ingredient_id">
-                                            <h5 class="card-title">{{ $ingredient->name }} <span
-                                                    class="card-title top-0 start-100 translate-rigth badge rounded-pill bg-primary">
-                                                    <i class="fas fa-star"></i> 0.5
-                                                </span>
-                                            </h5>
-                                            <h6 class="card-title">₱{{ $ingredient->price }}</h6>
-                                            <p class="card-text">
-                                                {{ \Illuminate\Support\Str::limit($ingredient->description, 100, $end = '...') }}
-                                            </p>
-                                            <div class="input-group text-center mb-3" style="width:130px;">
-                                                <button class="input-group-text decrement-btn">-</button>
-                                                <input type="text" name="quantity"
-                                                    class="form-control qty-input text-center" value="1">
-                                                <button class="input-group-text increment-btn">+</button>
-                                            </div>
-                                            <div class="mb-3">
-                                                <button type="button" class="btn btn-primary addToCartBtn">Add to Cart <i
-                                                        class="fa fa-shopping-cart"></i></button>
-                                            </div>
+                                        <div class="mb-3">
+                                            <button type="button" class="btn btn-primary addToCartBtn">Add to Cart <i
+                                                    class="fa fa-shopping-cart"></i></button>
                                         </div>
                                     </div>
-                                </a>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
+                                </div>
+                            </a>
+                        </div>
+                    
+                    
+                    @endif
+                @endforeach
+            </div>
             </div>
         </div>
     </div>
