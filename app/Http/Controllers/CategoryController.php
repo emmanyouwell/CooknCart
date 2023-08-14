@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Imports\CategoriesImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class CategoryController extends Controller

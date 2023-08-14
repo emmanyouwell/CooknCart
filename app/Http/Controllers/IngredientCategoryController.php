@@ -1,10 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Imports\ingredientCategoriesImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\IngredientsCategory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+
+
+// use App\Imports\CategoriesImport;
+// use Maatwebsite\Excel\Facades\Excel;
+// use App\Models\Category;
+// use Illuminate\Http\Request;
+// use Yajra\DataTables\DataTables;
+
 
 class IngredientCategoryController extends Controller
 {
@@ -79,5 +88,14 @@ class IngredientCategoryController extends Controller
         $ingredientscategories->delete();
 
         return redirect()->route('categories_ingredients.index')->with('success', 'Category deleted successfully.');
+    }
+
+    public function importingredientCategory(){
+        return view('Admin.categories_ingredients.import');
+    }
+    public function uploadingredientCategories(Request $request){
+
+    Excel::import(new ingredientCategoriesImport, $request->file);
+        return redirect()->route('categories_ingredients.index')->with('sucess','User Imported Sucessfully');
     }
 }

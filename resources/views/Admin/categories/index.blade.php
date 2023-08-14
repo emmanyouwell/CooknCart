@@ -40,9 +40,12 @@
     <div class="container">
         <!-- Button creatine a new category -->
         <h2>Recipe Categories</h2>
-        <div class="mb-3">
-            <a href="{{ route('categories.import') }}" class="btn btn-primary">Upload Categories</a>
+        
+        <div class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+            <a href="{{ route('categories.import') }}" class="btn btn-outline-primary">Upload</a>
+            <a href="#" class="btn btn-outline-primary">Export</a>
         </div>
+        
         
         <div class="mb-3">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">

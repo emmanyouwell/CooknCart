@@ -29,4 +29,31 @@ class ReviewController extends Controller
         return redirect()->back()->with('error', 'Recipe not found');
     }
     
+    public function edit(Request $request, $id) {
+        $user_review = $request->input('user_review');
+    
+        $review = Review::find($id);
+    
+        if (!$review) {
+            return redirect()->back()->with('error', 'Review not found');
+        }
+    
+        $review->user_review = $user_review;
+        $review->save();
+    
+        return redirect()->back()->with('success', 'Review updated successfully');
+    }
+    
+    public function delete($id) {
+        $review = Review::find($id);
+    
+        if (!$review) {
+            return redirect()->back()->with('error', 'Review not found');
+        }
+    
+        $review->delete();
+    
+        return redirect()->back()->with('success', 'Review deleted successfully');
+    }
+    
 }

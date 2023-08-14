@@ -15,6 +15,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReviewController;
+use App\Models\IngredientsCategory;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -62,6 +63,10 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     //Ratings and Reviewa
     Route::post('/add-rating', [RatingController::class,'add'])->name('user.add-rating');
     Route::post('/add-review', [ReviewController::class,'add'])->name('user.add-review');
+    
+    //comments edit and delete
+    Route::post('edit/{id}', [ReviewController::class, 'edit'])->name('reviews.edit');
+    Route::post('delete/{id}', [ReviewController::class, 'delete'])->name('reviews.delete');
 
 });
 Route::middleware(['auth', 'isAdmin'])->group(function () {
@@ -70,6 +75,9 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     //import and export in excel
     Route::get('/import-categories', [CategoryController::class, 'importCategories'])->name('categories.import');
     Route::post('/upload-categories', [CategoryController::class, 'uploadCategories'])->name('categories.upload');
+
+    Route::get('/import-ingredientCategories', [IngredientCategoryController::class, 'importingredientCategory'])->name('categories_ingredients.import');
+    Route::post('/upload-ingredientCategories', [IngredientCategoryController::class, 'uploadingredientCategories'])->name('categories_ingredients.upload');
     //CRUD
     //Recipes
     Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
