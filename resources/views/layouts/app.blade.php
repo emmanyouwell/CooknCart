@@ -36,7 +36,7 @@
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
                     <a class="navbar-brand" href="#">
-                        <img src="{{ asset('storage/cookncartlogo .png') }}" alt="Logo"
+                        <img src="{{ asset('image/logo.png') }}" alt="Logo"
                             style="width: 80px; height: auto;">
                         {{-- {{ config('app.name', 'Laravel') }} --}}
                     </a>
@@ -128,7 +128,7 @@
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="{{ asset('storage/cookncartlogo .png') }}" alt="Logo"
+                        <img src="{{ asset('image/logo.png') }}" alt="Logo"
                             style="width: 80px; height: auto;">
                         {{-- {{ config('app.name', 'Cook n Cart') }} --}}
                     </a>
@@ -142,7 +142,7 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="/home">Home</a>
+                                <a class="nav-link" href="{{url('/home')}}">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">About</a>
