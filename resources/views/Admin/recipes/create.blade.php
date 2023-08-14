@@ -33,19 +33,22 @@
                      <div class="invalid-feedback">{{ $message }}</div>
                  @enderror
              </div>
-             <div class="mb-3" >
-                <table class="table table-bordered" id="instructions">
-                    <tr>
-                        <th>Instructions</th>
-                        <th>Action</th>
-                    </tr>
-                    <tr>
-                        <td><input type="text" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" id="instruction" name="instruction[]">{{ old('instruction') }}</input>
-                        </td>
-                        <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add steps</button></td>
-                    </tr>
-                </table>
-                 
+             <div class="mb-3">
+                 <table class="table table-bordered" id="instructions">
+                     <tr>
+                         <th>Instructions</th>
+                         <th>Action</th>
+                     </tr>
+                     <tr>
+                         <td><input type="text" placeholder="Enter instructions"
+                                 class="form-control @error('instruction') is-invalid @enderror" id="instruction"
+                                 name="instruction[]">{{ old('instruction') }}</input>
+                         </td>
+                         <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add
+                                 steps</button></td>
+                     </tr>
+                 </table>
+
                  @error('instruction')
                      <div class="invalid-feedback">{{ $message }}</div>
                  @enderror
@@ -109,7 +112,7 @@
          $("#dynamic-ar").click(function() {
              ++i;
              $("#instructions").append('<tr><td><input type="text" name="instruction[' + i +
-            ']" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+                 ']" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
              );
          });
          $(document).on('click', '.remove-input-field', function() {

@@ -124,7 +124,9 @@ class RecipeController extends Controller
     {
         $categories = Category::pluck('name', 'id');
         $ingredients = Ingredient::pluck('name', 'id');
-
+        
+        
+        
 
         return view('Admin.recipes.edit', compact('recipe', 'categories', 'ingredients'));
     }
@@ -141,11 +143,13 @@ class RecipeController extends Controller
             //'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $validatedData['tags'] = json_encode($request->tags);
+        $validatedData['instruction'] = json_encode($request->instruction);
         $recipe->name = $validatedData['name'];
         $recipe->description = $validatedData['description'];
         $recipe->instruction = $validatedData['instruction'];
         $recipe->category_id = $validatedData['category_id'];
         $recipe->tags = $validatedData['tags'];
+        $recipe->instruction = $validatedData['instruction'];
         // if ($request->hasFile('image')) {
         //     $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
 

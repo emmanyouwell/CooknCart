@@ -36,8 +36,35 @@
         </div>
 
         <div class="mb-3">
-            <label for="instruction" class="form-label">Instruction</label>
-            <textarea class="form-control @error('instruction') is-invalid @enderror" id="instruction" name="instruction" >{{ old('instruction', $recipe->instruction) }}</textarea>
+            <table class="table table-bordered" id="instructions">
+                <tr>
+                    <th>Instructions</th>
+                    <th>Action</th>
+                </tr>
+                @php
+                    $ins = json_decode($recipe->instruction,true);
+                    $i=0;
+                @endphp
+                @foreach($ins as $instruction)
+                <tr>
+
+                    <td><input type="text" placeholder="Enter instruction"
+                            class="form-control @error('instruction') is-invalid @enderror" id="instruction"
+                            name="instruction[]" value="{{ $instruction }}"></input>
+                    </td>
+                    @if ($i > 0)
+                    <td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td>
+                    @else
+                    <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add
+                            steps</button></td>
+                    @endif
+                    @php
+                    $i++;
+                    @endphp
+                </tr>
+                @endforeach
+            </table>
+            
             @error('instruction')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -91,6 +118,18 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
             integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script type="text/javascript">
+                var i = 0;
+                $("#dynamic-ar").click(function() {
+                    ++i;
+                    $("#instructions").append('<tr><td><input type="text" name="instruction[' + i +
+                        ']" placeholder="Enter instructions" class="form-control @error('instruction') is-invalid @enderror" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+                    );
+                });
+                $(document).on('click', '.remove-input-field', function() {
+                    $(this).parents('tr').remove();
+                });
+            </script>
         <script>
             $(document).ready(function() {
                 $('.tags').select2({
