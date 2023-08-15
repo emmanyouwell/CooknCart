@@ -12,25 +12,36 @@ use Storage;
 use Auth;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
+
 class RecipeController extends Controller
 {
     public function index(Request $request)
     {
-        
+        $search_param = $request->query('q');
+
+        if ($search_param) {
+            // Handle the search and return the search view
+            $categories = Category::all();
+            $recipes_query = Recipe::query();
+            $recipes_query = Recipe::search($search_param);
+            $recipes = $recipes_query->get();
+
+            $categories = Category::all();
+            $ingredients = Ingredient::all();
+
+            return view('User.recipes.search', compact('recipes', 'categories', 'ingredients', 'search_param'));
+        }
+
         if (Auth::check() && Auth::user()->role_as === 1) {
             if ($request->ajax()) {
-                $recipes = Recipe::with('user')->latest()->get();
-                // $recipes->transform(function($item){
-                //     $foo = json_decode($item->instruction, true);
-                //     $item->instruction = $foo;
-                //     return $item;
-                // });
+                $recipes_query = Recipe::with('user')->latest();
+                $recipes = $recipes_query->get();
+
                 return DataTables::of($recipes)
                     ->addColumn('category', function ($recipe) {
                         return $recipe->categories->pluck('name')->implode(', ');
                     })
                     ->addColumn('ingredients', function ($recipe) {
-                        
                         return json_decode($recipe->tags);
                     })
                     ->addColumn('action', function ($recipe) {
@@ -39,10 +50,10 @@ class RecipeController extends Controller
 
                         $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
                         $buttons .= '<form action="' . $deleteUrl . '" method="POST" class="d-inline">
-                        ' . csrf_field() . '
-                        ' . method_field('DELETE') . '
-                        <button type="submit" class="btn btn-sm btn-danger"
-                            onclick="return confirm(\'Are you sure you want to delete this recipe?\')">Delete</button>
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm(\'Are you sure you want to delete this recipe?\')">Delete</button>
                     </form>';
 
                         return $buttons;
@@ -50,16 +61,18 @@ class RecipeController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
             }
-            return view('Admin.recipes.index');//
+            return view('Admin.recipes.index');
         } else {
             $recipes = Recipe::all();
             $categories = Category::all();
             $ingredients = Ingredient::all();
-            
-            return view('User.recipes.index', compact('recipes', 'categories', 'ingredients'));
+
+            return view('User.recipes.index', compact('recipes', 'categories', 'ingredients', 'search_param'));
         }
     }
-    
+
+
+
     public function create()
     {
         $categories = Category::pluck('name', 'id');
@@ -87,60 +100,60 @@ class RecipeController extends Controller
 
 
     public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required',
-        'description' => 'required',
+    {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
 
-        'preptime' => 'required',
-        'cooktime' => 'required',
-        'servings' => 'required',
+            'preptime' => 'required',
+            'cooktime' => 'required',
+            'servings' => 'required',
 
-        'instruction' => 'required',
-        'category_id' => 'required|exists:categories,id',
-        'image' => 'required|image|max:2048',
-        'tags' => 'required',
-        // 'ingredients.*' => 'exists:ingredients,id',
-    ]);
-  
-    
-        if($request->file()) {
+            'instruction' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'required|image|max:2048',
+            'tags' => 'required',
+            // 'ingredients.*' => 'exists:ingredients,id',
+        ]);
+
+
+        if ($request->file()) {
             $image = $request->file('image');
-            $fileName = time().'_'.$request->file('image')->getClientOriginalName();
+            $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
             $uploadPath = 'image/recipes/';
-            $url = $uploadPath.$fileName;
-            $image->move($uploadPath,$fileName);
+            $url = $uploadPath . $fileName;
+            $image->move($uploadPath, $fileName);
         }
-    // dd($path);
-    // $imagePath = $request->file('image')->store('recipes', 'public');
-    
-    $recipe = Recipe::create([
-        'user_id' => auth()->user()->id,
-        'name' => $request->name,
-        'description' => $request->description,
+        // dd($path);
+        // $imagePath = $request->file('image')->store('recipes', 'public');
 
-        'preptime' => $request->preptime,
-        'cooktime' => $request->cooktime,
-        'servings' => $request->servings,
+        $recipe = Recipe::create([
+            'user_id' => auth()->user()->id,
+            'name' => $request->name,
+            'description' => $request->description,
 
-        'instruction' => json_encode($request->instruction),
-        'category_id' => $request->category_id,
-        'image' => $url,
-        'tags' => json_encode($request->tags)
-    ]);
+            'preptime' => $request->preptime,
+            'cooktime' => $request->cooktime,
+            'servings' => $request->servings,
 
-    // $recipe->ingredients()->attach($request->ingredients);
+            'instruction' => json_encode($request->instruction),
+            'category_id' => $request->category_id,
+            'image' => $url,
+            'tags' => json_encode($request->tags)
+        ]);
 
-    return redirect()->route('recipes.index')->with('success', 'Recipe created successfully.');
-}
+        // $recipe->ingredients()->attach($request->ingredients);
+
+        return redirect()->route('recipes.index')->with('success', 'Recipe created successfully.');
+    }
 
     public function edit(Recipe $recipe)
     {
         $categories = Category::pluck('name', 'id');
         $ingredients = Ingredient::pluck('name', 'id');
-        
-        
-        
+
+
+
 
         return view('Admin.recipes.edit', compact('recipe', 'categories', 'ingredients'));
     }
@@ -161,7 +174,7 @@ class RecipeController extends Controller
             // 'ingredients.*' => 'exists:ingredients,id',
             //'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
         // $validatedData['tags'] = json_encode($request->tags);
         // $validatedData['instruction'] = json_encode($request->instruction);
         // $recipe->name = $validatedData['name'];
@@ -169,7 +182,7 @@ class RecipeController extends Controller
         // $recipe->instruction = $validatedData['instruction'];
         // $recipe->category_id = $validatedData['category_id'];
         // $recipe->tags = $validatedData['tags'];
-       
+
         // if ($request->hasFile('image')) {
         //     $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
 
@@ -187,9 +200,9 @@ class RecipeController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $uploadPath='image/recipes/';
+            $uploadPath = 'image/recipes/';
             $image->move($uploadPath, $filename);
-            $url = $uploadPath.$filename;
+            $url = $uploadPath . $filename;
             $recipe->image = $url;
         }
         Recipe::where('id', $recipe->id)->update([
@@ -220,10 +233,10 @@ class RecipeController extends Controller
     {
         $recipe = Recipe::find($recipeId);
         $ingredients = Ingredient::pluck('name', 'id');
-        $reviews = Review::where('recipe_id',$recipe->id)->get();
+        $reviews = Review::where('recipe_id', $recipe->id)->get();
 
         if ($recipe) {
-            return view('User.recipes.view', compact('recipe','reviews'));
+            return view('User.recipes.view', compact('recipe', 'reviews'));
         } else {
             return redirect('/')->with('message', "No such ingredient found");
         }

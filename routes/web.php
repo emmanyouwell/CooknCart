@@ -15,7 +15,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReviewController;
-use App\Models\IngredientsCategory;
+use App\Http\Controllers\SearchController;
+use App\Models\Recipe;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -67,6 +68,14 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     //comments edit and delete
     Route::post('edit/{id}', [ReviewController::class, 'edit'])->name('reviews.edit');
     Route::post('delete/{id}', [ReviewController::class, 'delete'])->name('reviews.delete');
+
+    //search
+
+    Route::get('/index', [RecipeController::class, 'index'])->name('recipes.search');
+    Route::get('autocomplete/search', [RecipeController::class, 'autocompleteSearch'])->name('autocomplete.search');;
+
+
+    
 
 });
 Route::middleware(['auth', 'isAdmin'])->group(function () {

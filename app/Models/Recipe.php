@@ -3,21 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+// use Spatie\Searchable\Searchable;
+// use Spatie\Searchable\SearchResult;
+use Laravel\Scout\Searchable;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
 
 class Recipe extends Model
 {
-    protected $primaryKey = 'id';
-
+    use Searchable;
     protected $fillable = [
         'user_id',
         'category_id',
         'name',
         'description',
-
         'preptime',
         'cooktime',
         'servings',
-        
         'instruction',
         'image',
         'tags',
@@ -28,21 +29,30 @@ class Recipe extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function categories()
+    public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function ingredients()
     {
-        return $this->hasMany(Ingredient::class, 'id', 'tags');
+        return $this->belongsToMany(Ingredient::class);
     }
+
     public function ratings()
     {
         return $this->hasMany(Rating::class, 'recipe_id');
     }
+
     public function reviews()
     {
-        return $this->hasMany(Rating::class, 'recipe_id');
+        return $this->hasMany(Review::class, 'recipe_id');
+    }
+
+    public function toSearchablearray()
+    {
+        return[
+            'name'=> $this->name
+        ];
     }
 }
