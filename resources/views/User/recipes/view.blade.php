@@ -144,14 +144,25 @@
                             <!-- Add timestamp here -->
                         </div>
                     </div>
-                    <div class="name"><b>Recipe:</b>{{ $recipe->name }}</div>
+                    <div class="name"><b>Recipe: </b>{{ $recipe->name }}</div>
                     <div class="square-image-container" style="height: 500px; overflow: hidden;">
                         <img src="{{ asset($recipe->image) }}" style="object-fit: cover; width: 100%; height: 100%;" class=" post-image">
                     </div>
                     
                     <div class="post-content">
-                        <h6><b>Description:</b></h6>
+                        <h6><b>Description: </b></h6>
                         <p>{{ $recipe->description }}</p>
+
+                        <div>
+                            <h6><b>Preparation Time: </b>{{ $recipe->preptime }}</h6>
+                            <p></p>
+                            <h6><b>Cooking Time: </b>{{ $recipe->cooktime }}</h6>
+                            <p></p>
+                            <h6><b>Servings: </b>{{ $recipe->servings }}</h6>
+                            <p></p>
+                        
+                        </div>
+
                         <h6><b>Instruction:</b></h6>
                         @php
                             $ins = json_decode($recipe->instruction, true);
