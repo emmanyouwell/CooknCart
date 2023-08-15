@@ -45,22 +45,34 @@
     </form>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
-        @foreach ($recipes as $recipe)
+        @php
+            $groupedRecipes = $recipes->groupBy('category_id');
+        @endphp
+    
+        @foreach ($groupedRecipes as $categoryId => $recipesByCategory)
+            @php
+                $categoryName = $recipesByCategory->first()->category->name;
+            @endphp
+    
             <div class="col">
-                <h5>{{ $recipe->category->name }}</h5>
-                <a href="{{ route('User.recipes.view', ['recipe' => $recipe->id]) }}">
-                    <div class="card text-dark position-relative">
-                        <img src="{{ asset($recipe->image) }}" class="card-img-top" alt="Recipe Image" height="300px"
-                            style="object-fit: cover">
-                        <div class="card-img-overlay bg-dark bg-opacity-25 d-flex flex-column justify-content-end">
-                            <h5 class="card-title text-light">{{ $recipe->name }}</h5>
-                            <p class="card-text text-light">{{ $recipe->description }}</p>
+                <h5>{{ $categoryName }}</h5>
+    
+                @foreach ($recipesByCategory as $recipe)
+                    <a href="{{ route('User.recipes.view', ['recipe' => $recipe->id]) }}">
+                        <div class="card text-dark position-relative mb-3">
+                            <img src="{{ asset($recipe->image) }}" class="card-img-top" alt="Recipe Image" height="300px"
+                                style="object-fit: cover">
+                            <div class="card-img-overlay bg-dark bg-opacity-25 d-flex flex-column justify-content-end">
+                                <h5 class="card-title text-light">{{ $recipe->name }}</h5>
+                                <p class="card-text text-light">{{ $recipe->description }}</p>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                @endforeach
             </div>
         @endforeach
     </div>
+    
 @endsection
 
 @section('scripts')
