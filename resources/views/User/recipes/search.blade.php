@@ -34,15 +34,18 @@
         </div>
     </div> --}}
 
-    <form action="{{ route('recipes.search', request()->query()) }}">
-        <div class="input-group my-2 mb-3">
-            <input type="text" name="q" id="search-input" placeholder="Search"
-                class="form-control rounded-start py-1 px-2 text-sm" value="{{ $search_param }}" />
-            <button type="submit" class="btn btn-primary rounded-end py-1">
-                <i class="fa fa-search"></i> <!-- Font Awesome search icon -->
-            </button>
-        </div>
-    </form>
+    <div class="container">
+        <form action="{{ route('recipes.search') }}" method="get" class="mb-4">
+            <div class="input-group my-2">
+                <input type="text" name="q" id="search-input" placeholder="Search"
+                    class="form-control rounded-start py-1 px-2 text-sm" value="{{ request('q') }}" />
+                <button type="submit" class="btn btn-primary rounded-end py-1">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </form>
+        <div id="search-results" class="autocomplete-results"></div>
+    </div>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
         @php
@@ -75,32 +78,50 @@
     
 @endsection
 
-@section('scripts')
-    <script></script>
+@section('scriptFoot')
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#nav-tabContent .tab-pane').on('show.bs.tab', function(e) {
+                $('#nav-tabContent .tab-pane.show').removeClass('show active');
+                $(this).addClass('show active');
+            });
+
+            const searchInput = document.getElementById('search-input');
+
+            $(searchInput).autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: '{{ route('autocomplete.recipes') }}',
+                        dataType: 'json',
+                        data: {
+                            q: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.name,
+                                    value: item.name
+                                };
+                            }));
+                        },
+                        error: function() {
+                            response([]); 
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function(event, ui) {
+                  
+                },
+                messages: {
+                    noResults: '',
+                },
+            });
+
+
+        });
+    </script>
 @endsection
-
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> --}}
-
-{{-- //dito nagana
-$(function() {
-    // Initialize Bloodhound engine
-    var recipes = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: '{{ route('recipes.search') }}?q=%QUERY',
-            wildcard: '%QUERY'
-        }
-    });
-
-    // Initialize Typeahead
-    $('#search-input').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 2
-    }, {
-        name: 'recipes',
-        display: 'name', // Change this to the field you want to display
-        source: recipes
-    });
-}); --}}

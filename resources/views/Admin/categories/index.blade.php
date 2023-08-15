@@ -8,8 +8,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="createModalLabel">Create Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
@@ -19,10 +18,12 @@
                         <div class="form-group">
                             <label for="name">Category Name</label>
                             <input type="text" name="name" class="form-control" required>
+                            <span id="name_error" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea name="description" class="form-control" required></textarea>
+                            <textarea name="description" id="create_description" class="form-control mb-3" required></textarea>
+                            <span id="description_error" class="text-danger"></span>
                         </div>
                     </form>
                 </div>
@@ -41,16 +42,14 @@
         <!-- Button creatine a new category -->
         <h2>Recipe Categories</h2>
         
-        <div class="btn-group mb-3" role="group" aria-label="Basic outlined example">
-            <a href="{{ route('categories.import') }}" class="btn btn-outline-primary">Upload</a>
-            <a href="#" class="btn btn-outline-primary">Export</a>
-        </div>
-        
-        
         <div class="mb-3">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
                 Create Category
             </button>
+        </div>
+        <div class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+            <a href="{{ route('categories.import') }}" class="btn btn-outline-primary">Upload</a>
+            <a href="#" class="btn btn-outline-primary">Export</a>
         </div>
             <table class="table-bordered" id="categoriesTable">
                 <thead>
@@ -96,9 +95,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                     </button>
+                        {{-- <span aria-hidden="true">&times;</span> --}}
+
+                    {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                 </div>
                 <div class="modal-body">
                     <!-- update 'name' and 'description' -->
@@ -108,10 +109,12 @@
                         <div class="form-group">
                             <label for="edit_name">Category Name</label>
                             <input type="text" name="name" id="edit_name" class="form-control" required>
+                            <span id="edit_name_error" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label for="edit_description">Description</label>
                             <textarea name="description" id="edit_description" class="form-control" required></textarea>
+                            <span id="edit_description_error" class="text-danger"></span>
                         </div>
                     </form>
                 </div>
@@ -126,59 +129,98 @@
 @endsection
 
 @section('scriptFoot')
-    <script>
-        $(document).ready(function() {
-            // datatables
-            $('#categoriesTable').DataTable();
-            // create in Modal
-            $("#createCategoryBtn").on("click", function() {
-                const form = $("#createCategoryForm");
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('categories.store') }}",
-                    data: form.serialize(),
-                    success: function(response) {
-                        console.log("Category created successfully!");
-                        $("#createModal").modal("hide");
-                        location.reload();
-                    },
-                    error: function(error) {
-                        console.error("Error creating category:", error);
-                    },
-                });
-            });
+<script>
+    $(document).ready(function() {
+        // datatables
+        $('#categoriesTable').DataTable();
 
-            // Edit in Modal
-            $("#updateCategoryBtn").on("click", function() {
-                const form = $("#editCategoryForm");
-                const categoryId = $("#editModal").data('id');
-                const url = `{{ route('categories.update', ':id') }}`.replace(':id', categoryId);
+        // Create Category - Click event
+        $("#createCategoryBtn").on("click", function() {
+            const form = $("#createCategoryForm");
+            const categoryName = $("#create_name").val();
+            const categoryDescription = $("#create_description").val();
 
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: form.serialize(),
-                    success: function(response) {
-                        console.log("Category updated successfully!");
-                        $("#editModal").modal("hide");
-                        location.reload();
-                    },
-                    error: function(error) {
-                        console.error("Error updating category:", error);
-                    },
-                });
-            });
+            // Basic validation
+            if (!categoryName) {
+                $("#name_error").text("Category name is required.");
+                return;
+            } else {
+                $("#name_error").text("");
+            }
 
-            // Populate data 
-            $(".edit-btn").on("click", function() {
-                const categoryId = $(this).data('id');
-                const categoryName = $(this).data('name');
-                const categoryDescription = $(this).data('description');
+            if (!categoryDescription) {
+                $("#description_error").text("Description is required.");
+                return;
+            } else {
+                $("#description_error").text("");
+            }
 
-                $("#editModal").data('id', categoryId);
-                $("#edit_name").val(categoryName);
-                $("#edit_description").val(categoryDescription);
+            // Perform AJAX request if validation passes
+            $.ajax({
+                type: "POST",
+                url: "{{ route('categories.store') }}",
+                data: form.serialize(),
+                success: function(response) {
+                    console.log("Category created successfully!");
+                    $("#createModal").modal("hide");
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error("Error creating category:", error);
+                },
             });
         });
-    </script>
+
+        // Edit Category - Click event
+        $("#updateCategoryBtn").on("click", function() {
+            const form = $("#editCategoryForm");
+            const categoryId = $("#editModal").data('id');
+            const url = `{{ route('categories.update', ':id') }}`.replace(':id', categoryId);
+
+            // Basic validation
+            const editCategoryName = $("#edit_name").val();
+            const editCategoryDescription = $("#edit_description").val();
+
+            if (!editCategoryName) {
+                $("#edit_name_error").text("Category name is required.");
+                return;
+            } else {
+                $("#edit_name_error").text("");
+            }
+
+            if (!editCategoryDescription) {
+                $("#edit_description_error").text("Description is required.");
+                return;
+            } else {
+                $("#edit_description_error").text("");
+            }
+
+            // Perform AJAX request if validation passes
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(),
+                success: function(response) {
+                    console.log("Category updated successfully!");
+                    $("#editModal").modal("hide");
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error("Error updating category:", error);
+                },
+            });
+        });
+
+        // Populate data for edit modal
+        $(".edit-btn").on("click", function() {
+            const categoryId = $(this).data('id');
+            const categoryName = $(this).data('name');
+            const categoryDescription = $(this).data('description');
+
+            $("#editModal").data('id', categoryId);
+            $("#edit_name").val(categoryName);
+            $("#edit_description").val(categoryDescription);
+        });
+    });
+</script>
 @endsection

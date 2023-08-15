@@ -71,6 +71,14 @@ class RecipeController extends Controller
         }
     }
 
+    public function autocomplete(Request $request)
+{
+    $search = $request->input('q');
+    $recipes = Recipe::where('name', 'LIKE', "%$search%")->limit(10)->get();
+
+    return response()->json($recipes);
+}
+
 
 
     public function create()

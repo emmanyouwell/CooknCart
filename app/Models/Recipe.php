@@ -52,7 +52,8 @@ class Recipe extends Model
     public function toSearchablearray()
     {
         return[
-            'name'=> $this->name
+            'name'=> $this->name,
+            'description'=> $this->description
         ];
     }
 }

@@ -72,8 +72,9 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     //search
 
     Route::get('/index', [RecipeController::class, 'index'])->name('recipes.search');
-    Route::get('autocomplete/search', [RecipeController::class, 'autocompleteSearch'])->name('autocomplete.search');;
+    Route::get('/autocomplete/recipes', [RecipeController::class, 'autocomplete'])->name('autocomplete.recipes');
 
+    
 
     
 
