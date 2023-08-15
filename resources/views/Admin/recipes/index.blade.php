@@ -13,6 +13,11 @@
                     <th>User</th>
                     <th>Name</th>
                     <th>Description</th>
+
+                    <th>Preparation Time</th>
+                    <th>Cooking Time</th>
+                    <th>Servings</th>
+
                     <th>Instruction</th>
                     {{-- <th>Ingredients</th> --}}
                     <th>Image</th>
@@ -45,6 +50,20 @@
                         data: 'description',
                         name: 'description'
                     },
+
+                    {
+                        data: 'preptime',
+                        name: 'preptime'
+                    },
+                    {
+                        data: 'cooktime',
+                        name: 'cooktime'
+                    },
+                    {
+                        data: 'servings',
+                        name: 'servings'
+                    },
+
                     {
                         data: 'instruction',
                         name: 'instruction'
