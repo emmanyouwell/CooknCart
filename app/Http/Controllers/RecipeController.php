@@ -91,6 +91,11 @@ class RecipeController extends Controller
     $request->validate([
         'name' => 'required',
         'description' => 'required',
+
+        'preptime' => 'required',
+        'cooktime' => 'required',
+        'servings' => 'required',
+
         'instruction' => 'required',
         'category_id' => 'required|exists:categories,id',
         'image' => 'required|image|max:2048',
@@ -113,6 +118,11 @@ class RecipeController extends Controller
         'user_id' => auth()->user()->id,
         'name' => $request->name,
         'description' => $request->description,
+
+        'preptime' => $request->preptime,
+        'cooktime' => $request->cooktime,
+        'servings' => $request->servings,
+
         'instruction' => json_encode($request->instruction),
         'category_id' => $request->category_id,
         'image' => $url,
@@ -140,6 +150,11 @@ class RecipeController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'description' => 'required',
+
+            'preptime' => 'required',
+            'cooktime' => 'required',
+            'servings' => 'required',
+
             'instruction' => 'required',
             'category_id' => 'required',
             'tags' => 'required',
@@ -180,6 +195,11 @@ class RecipeController extends Controller
         Recipe::where('id', $recipe->id)->update([
             'name' => $request->name,
             'description' => $request->description,
+
+            'preptime' => $request->preptime,
+            'cooktime' => $request->cooktime,
+            'servings' => $request->servings,
+
             'instruction' => json_encode($request->instruction),
             'category_id' => $request->category_id,
             'tags' => json_encode($request->tags),

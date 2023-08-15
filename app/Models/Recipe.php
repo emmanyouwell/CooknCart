@@ -13,6 +13,11 @@ class Recipe extends Model
         'category_id',
         'name',
         'description',
+
+        'preptime',
+        'cooktime',
+        'servings',
+        
         'instruction',
         'image',
         'tags',
