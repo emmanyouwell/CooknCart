@@ -36,6 +36,26 @@
         </div>
 
         <div class="mb-3">
+            <label for="preptime" class="form-label">Preparation Time</label>
+            <input type="text" class="form-control @error('preptime') is-invalid @enderror" id="preptime" name="preptime" value="{{ old('preptime', $recipe->preptime) }}"></input>
+            @error('preptime')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>   <div class="mb-3">
+            <label for="cooktime" class="form-label">Cooking Time</label>
+            <input type="text" class="form-control @error('cooktime') is-invalid @enderror" id="cooktime" name="cooktime" value="{{ old('cooktime', $recipe->cooktime) }}" ></input>
+            @error('cooktime')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>   <div class="mb-3">
+            <label for="servings" class="form-label">Servings</label>
+            <input type="text" class="form-control @error('servings') is-invalid @enderror" id="servings" name="servings" value="{{ old('servings', $recipe->servings) }}"></input>
+            @error('servings')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
             <table class="table table-bordered" >
                 <tr>
                     <th>Instructions</th>
