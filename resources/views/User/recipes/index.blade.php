@@ -59,6 +59,11 @@
                                                 class="card-img-overlay bg-dark bg-opacity-25 d-flex flex-column justify-content-end">
                                                 <h5 class="card-title text-light">{{ $recipe->name }}</h5>
                                                 <p class="card-text text-light">{{ $recipe->description }}</p>
+
+                                                {{-- <p class="card-text text-light">{{ $recipe->preptime }}</p>
+                                                <p class="card-text text-light">{{ $recipe->cooktime }}</p>
+                                                <p class="card-text text-light">{{ $recipe->servings }}</p> --}}
+
                                             </div>
                                         </div>
                                     </a>
