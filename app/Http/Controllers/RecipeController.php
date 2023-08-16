@@ -241,6 +241,23 @@ class RecipeController extends Controller
             $url = $uploadPath . $filename;
             $recipe->image = $url;
         }
+        
+        $multipleImage=array();
+        if($files = $request->file('images')) {
+            foreach($files as $file){
+                $fileName = time().'_'.$file->getClientOriginalName();
+                $uploadPath = 'image/recipes/multiple/';
+                $url = $uploadPath.$fileName;
+                Image::make($file)->resize(770,520)->save($url);
+                // $file->move($uploadPath,$fileName);
+                $multipleImage[]=$url;
+            }
+            
+            
+        }
+        $f = MultiRecipe::where('recipe_id', $recipe->id)->first();
+        $f->image = implode('|', $multipleImage);
+        $f->save();
         Recipe::where('id', $recipe->id)->update([
             'name' => $request->name,
             'description' => $request->description,
