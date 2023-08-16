@@ -39,7 +39,7 @@ class RecipeController extends Controller
 
                 return DataTables::of($recipes)
                     ->addColumn('category', function ($recipe) {
-                        return $recipe->categories->pluck('name')->implode(', ');
+                        return $recipe->category->pluck('name')->implode(', ');
                     })
                     ->addColumn('ingredients', function ($recipe) {
                         return json_decode($recipe->tags);
