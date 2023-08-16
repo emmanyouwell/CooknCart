@@ -66,11 +66,13 @@
              </div>
              <div class="mb-3">
                  <table class="table table-bordered">
+                 <table class="table table-bordered">
                      <tr>
                          <th>Instructions</th>
                          <th>Action</th>
                      </tr>
                      @php
+                         $i = 0;
                          $i = 0;
                      @endphp
                      <tbody id="instructions">
@@ -95,9 +97,7 @@
                      </tr>
                  </table>
 
-                 @error('instruction')
-                     <div class="invalid-feedback">{{ $message }}</div>
-                 @enderror
+
              </div>
              <div class="row row-cols-1 row-cols-md-3 g-4">
                  <div class="col-md-6 mb-4">
@@ -146,8 +146,8 @@
                  @enderror
              </div>
              <div class="mb-3">
-                 <a href="#" id="moreImage" class="text-primary">Add more images?</a>
-                 <a href="#" id="back" class="text-primary">Nevermind.</a>
+                 <a href="#image-div" id="moreImage" class="text-primary">Add more images?</a>
+                 <a href="#image-div" id="back" class="text-primary">Nevermind.</a>
              </div>
              <button type="submit" class="btn btn-primary">Submit</button>
          </form>

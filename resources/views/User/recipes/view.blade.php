@@ -145,11 +145,38 @@
                         </div>
                     </div>
                     <div class="name"><b>Recipe: </b>{{ $recipe->name }}</div>
-                    <div class="square-image-container" style="height: 500px; overflow: hidden;">
-                        <img src="{{ asset($recipe->image) }}" style="object-fit: cover; width: 100%; height: 100%;" class=" post-image">
+                    <div class="square-image-container mb-3" style="height: 500px; overflow: hidden;">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @for ($i=0; $i<count($img); $i++)
+                                @if($i==0)
+                                    <div class="carousel-item active">
+                                        <img src="{{ asset($img[$i]) }}"
+                                            style="object-fit: cover; width: 100%; height: 100%;" class="  d-block w-100">
+                                    </div>
+                                    @else
+                                    <div class="carousel-item">
+                                        <img src="{{ asset($img[$i]) }}"
+                                            style="object-fit: cover; width: 100%; height: 100%;" class="  d-block w-100">
+                                    </div>
+                                    @endif
+                                @endfor
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+
                     </div>
-                    
-                    <div class="post-content">
+
+                    <div class="post-content ">
                         <h6><b>Description: </b></h6>
                         <p>{{ $recipe->description }}</p>
 
@@ -160,15 +187,15 @@
                             <p></p>
                             <h6><b>Servings: </b>{{ $recipe->servings }}</h6>
                             <p></p>
-                        
+
                         </div>
 
                         <h6><b>Instruction:</b></h6>
                         @php
                             $ins = json_decode($recipe->instruction, true);
                         @endphp
-                        @foreach($ins as $instruction)
-                        <p>{{ $instruction['step'] }}</p>
+                        @foreach ($ins as $instruction)
+                            <p>{{ $instruction['step'] }}</p>
                         @endforeach
                         <h6><b>Rating:</b></h6>
                         @if ($recipe->ratings->count() > 0)
@@ -209,7 +236,7 @@
                                 <span class="user-name">
                                     <img src="#" width="40" class="user-avatar rounded-circle">
                                     {{ $review->user->name . ' ' . $review->user->lname }}
-                                    
+
                                 </span>
                                 <small>
                                     @php
@@ -231,11 +258,13 @@
                                 {{-- <p>Logged-In User ID: {{ Auth::id() }}</p>
                                 <p>Comment User ID: {{ $review->user_id }}</p> --}}
                                 <p class="comment-text">{{ $review->user_review }}</p>
-                    
+
                                 @if ($review->user->id === Auth::id())
                                     <div class="comment-actions">
-                                        <a href="#" class="btn btn-sm btn-link" data-toggle="modal" data-target="#editModal{{ $review->id }}">Edit</a>
-                                        <a href="#" class="btn btn-sm btn-link" data-toggle="modal" data-target="#deleteModal{{ $review->id }}">Delete</a>
+                                        <a href="#" class="btn btn-sm btn-link" data-toggle="modal"
+                                            data-target="#editModal{{ $review->id }}">Edit</a>
+                                        <a href="#" class="btn btn-sm btn-link" data-toggle="modal"
+                                            data-target="#deleteModal{{ $review->id }}">Delete</a>
                                     </div>
                                 @elseif (Auth::check())
                                     <p>You can only edit and delete your own comments.</p>
@@ -243,17 +272,21 @@
 
                                 <hr>
                             </div>
-                            <div class="modal fade" id="editModal{{ $review->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ $review->id }}" aria-hidden="true">
+                            <div class="modal fade" id="editModal{{ $review->id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="editModalLabel{{ $review->id }}" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $review->id }}">Edit Comment</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <h5 class="modal-title" id="editModalLabel{{ $review->id }}">Edit Comment
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('reviews.edit', ['id' => $review->id]) }}" method="post">
+                                            <form action="{{ route('reviews.edit', ['id' => $review->id]) }}"
+                                                method="post">
                                                 @csrf
                                                 <textarea name="user_review" class="form-control">{{ $review->user_review }}</textarea>
                                                 <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
@@ -262,20 +295,24 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <!-- Delete Modal -->
-                            <div class="modal fade" id="deleteModal{{ $review->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ $review->id }}" aria-hidden="true">
+                            <div class="modal fade" id="deleteModal{{ $review->id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="deleteModalLabel{{ $review->id }}" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel{{ $review->id }}">Delete Comment</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <h5 class="modal-title" id="deleteModalLabel{{ $review->id }}">Delete
+                                                Comment</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
                                             <p>Are you sure you want to delete this comment?</p>
-                                            <form action="{{ route('reviews.delete', ['id' => $review->id]) }}" method="post">
+                                            <form action="{{ route('reviews.delete', ['id' => $review->id]) }}"
+                                                method="post">
                                                 @csrf
                                                 <button type="submit" class="btn btn-danger mt-3">Delete</button>
                                             </form>
@@ -296,52 +333,51 @@
                     
                 @endphp
                 <div class="row row-cols-1 row-cols-md-2 g-4">
-                @foreach ($ingredientIds as $ingredientId)
-                    @php
-                        $ingredient = \App\Models\Ingredient::find($ingredientId);
-                        
-                    @endphp
-                   
-                    @if ($ingredient)
-                        <div class="col">
-                            <a href="{{ route('User.ingredients.view', ['ingredient' => $ingredient->id]) }}"
-                                style="text-decoration: none;">
-                                <div class="card h-100" style="width: 18rem;">
-                                    <div class="square-image-container" style="height: 200px; overflow: hidden;">
-                                        <img src="{{ asset($ingredient->image) }}" class="card-img-top square-image"
-                                            alt="Ingredient Image" style="object-fit: cover; width: 100%; height: 100%;">
-                                    </div>
+                    @foreach ($ingredientIds as $ingredientId)
+                        @php
+                            $ingredient = \App\Models\Ingredient::find($ingredientId);
+                            
+                        @endphp
 
-                                    <div class="card-body ingredient_data">
-                                        <input type="hidden" value="{{ $ingredient->id }}" class="ingredient_id">
-                                        <h5 class="card-title">{{ $ingredient->name }} <span
-                                                class="card-title top-0 start-100 translate-rigth badge rounded-pill bg-primary">
-                                                <i class="fas fa-star"></i> 0.5
-                                            </span>
-                                        </h5>
-                                        <h6 class="card-title">₱{{ $ingredient->price }}</h6>
-                                        <p class="card-text">
-                                            {{ \Illuminate\Support\Str::limit($ingredient->description, 100, $end = '...') }}
-                                        </p>
-                                        <div class="input-group text-center mb-3" style="width:130px;">
-                                            <button class="input-group-text decrement-btn">-</button>
-                                            <input type="text" name="quantity"
-                                                class="form-control qty-input text-center" value="1">
-                                            <button class="input-group-text increment-btn">+</button>
+                        @if ($ingredient)
+                            <div class="col">
+                                <a href="{{ route('User.ingredients.view', ['ingredient' => $ingredient->id]) }}"
+                                    style="text-decoration: none;">
+                                    <div class="card h-100" style="width: 18rem;">
+                                        <div class="square-image-container" style="height: 200px; overflow: hidden;">
+                                            <img src="{{ asset($ingredient->image) }}" class="card-img-top square-image"
+                                                alt="Ingredient Image"
+                                                style="object-fit: cover; width: 100%; height: 100%;">
                                         </div>
-                                        <div class="mb-3">
-                                            <button type="button" class="btn btn-primary addToCartBtn">Add to Cart <i
-                                                    class="fa fa-shopping-cart"></i></button>
+
+                                        <div class="card-body ingredient_data">
+                                            <input type="hidden" value="{{ $ingredient->id }}" class="ingredient_id">
+                                            <h5 class="card-title">{{ $ingredient->name }} <span
+                                                    class="card-title top-0 start-100 translate-rigth badge rounded-pill bg-primary">
+                                                    <i class="fas fa-star"></i> 0.5
+                                                </span>
+                                            </h5>
+                                            <h6 class="card-title">₱{{ $ingredient->price }}</h6>
+                                            <p class="card-text">
+                                                {{ \Illuminate\Support\Str::limit($ingredient->description, 100, $end = '...') }}
+                                            </p>
+                                            <div class="input-group text-center mb-3" style="width:130px;">
+                                                <button class="input-group-text decrement-btn">-</button>
+                                                <input type="text" name="quantity"
+                                                    class="form-control qty-input text-center" value="1">
+                                                <button class="input-group-text increment-btn">+</button>
+                                            </div>
+                                            <div class="mb-3">
+                                                <button type="button" class="btn btn-primary addToCartBtn">Add to Cart <i
+                                                        class="fa fa-shopping-cart"></i></button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                    
-                    
-                    @endif
-                @endforeach
-            </div>
+                                </a>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
