@@ -12,7 +12,7 @@ use Storage;
 use Auth;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
-
+use App\Models\MultiRecipe;
 class RecipeController extends Controller
 {
     public function index(Request $request)
@@ -67,6 +67,7 @@ class RecipeController extends Controller
             $categories = Category::all();
             $ingredients = Ingredient::all();
 
+
             return view('User.recipes.index', compact('recipes', 'categories', 'ingredients', 'search_param'));
         }
     }
@@ -117,53 +118,80 @@ class RecipeController extends Controller
             'cooktime' => 'required',
             'servings' => 'required',
 
-            'instruction' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'required|image|max:2048',
-            'tags' => 'required',
-            // 'ingredients.*' => 'exists:ingredients,id',
-        ]);
-
-
-        if ($request->file()) {
-            $image = $request->file('image');
-            $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
-            $uploadPath = 'image/recipes/';
-            $url = $uploadPath . $fileName;
-            $image->move($uploadPath, $fileName);
+        'instruction.*.step' => 'required',
+        'category_id' => 'required|exists:categories,id',
+        // 'images' => 'required|image|max:2048',
+        'tags' => 'required',
+        // 'ingredients.*' => 'exists:ingredients,id',
+    ]);
+  
+        $multipleImage=array();
+        if($files = $request->file('images')) {
+            foreach($files as $file){
+                $fileName = time().'_'.$file->getClientOriginalName();
+                $uploadPath = 'image/recipes/multiple/';
+                $url = $uploadPath.$fileName;
+                Image::make($file)->resize(770,520)->save($url);
+                // $file->move($uploadPath,$fileName);
+                $multipleImage[]=$url;
+            }
+            
+            
         }
-        // dd($path);
-        // $imagePath = $request->file('image')->store('recipes', 'public');
+        if($request->file()) {
 
-        $recipe = Recipe::create([
-            'user_id' => auth()->user()->id,
-            'name' => $request->name,
-            'description' => $request->description,
+            $image = $request->file('image');
+            $fileName = time().'_'.$request->file('image')->getClientOriginalName();
+            $uploadPath = 'image/recipes/';
+            $url = $uploadPath.$fileName;
+            $image->move($uploadPath,$fileName);
+        }
+    // dd($path);
+    // $imagePath = $request->file('image')->store('recipes', 'public');
+    
+    $recipe = Recipe::create([
+        'user_id' => auth()->user()->id,
+        'name' => $request->name,
+        'description' => $request->description,
 
             'preptime' => $request->preptime,
             'cooktime' => $request->cooktime,
             'servings' => $request->servings,
 
-            'instruction' => json_encode($request->instruction),
-            'category_id' => $request->category_id,
-            'image' => $url,
-            'tags' => json_encode($request->tags)
-        ]);
+        'instruction' => json_encode($request->instruction),
+        'category_id' => $request->category_id,
+        'image' => $url,
+        'tags' => json_encode($request->tags)
+    ]);
+    MultiRecipe::insert([
+        'image' => implode("|", $multipleImage),
+        'recipe_id' => $recipe->id,
+        'created_at'=>now(),
+    ]);
 
         // $recipe->ingredients()->attach($request->ingredients);
 
         return redirect()->route('recipes.index')->with('success', 'Recipe created successfully.');
     }
 
+    public function display(){
+        $images = MultiRecipe::where('recipe_id',33)->first();
+        // dd($images->image);
+        $test = array();
+        $test = explode('|',$images->image);
+        // dd($test);
+        return view('Admin.recipes.test', compact('test'));
+    }
     public function edit(Recipe $recipe)
     {
         $categories = Category::pluck('name', 'id');
         $ingredients = Ingredient::pluck('name', 'id');
+        $multi = MultiRecipe::where('recipe_id', $recipe->id)->first();
+        $img = array();
+        $img = explode('|', $multi->image);
 
 
-
-
-        return view('Admin.recipes.edit', compact('recipe', 'categories', 'ingredients'));
+        return view('Admin.recipes.edit', compact('recipe', 'categories', 'ingredients','img'));
     }
 
     public function update(Request $request, Recipe $recipe)
@@ -242,9 +270,14 @@ class RecipeController extends Controller
         $recipe = Recipe::find($recipeId);
         $ingredients = Ingredient::pluck('name', 'id');
         $reviews = Review::where('recipe_id', $recipe->id)->get();
+        // dd($recipe->id);
+        $multiImage = MultiRecipe::where('recipe_id',$recipe->id)->first();
+        // dd($multiImage);
+        $img = array();
+        $img = explode('|', $multiImage->image);
 
         if ($recipe) {
-            return view('User.recipes.view', compact('recipe', 'reviews'));
+            return view('User.recipes.view', compact('recipe', 'reviews', 'img'));
         } else {
             return redirect('/')->with('message', "No such ingredient found");
         }
