@@ -33,7 +33,7 @@ use Illuminate\Routing\RouteGroup;
 
 
 Auth::routes();
-
+Route::get('/test',[RecipeController::class,'display'])->name('test');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 
