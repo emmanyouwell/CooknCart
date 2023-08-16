@@ -147,7 +147,7 @@
              </div>
              <div class="mb-3">
                  <a href="#" id="moreImage" class="text-primary">Add more images?</a>
-                 <a href="#" id="back" class="text-primary">Go back</a>
+                 <a href="#" id="back" class="text-primary">Nevermind.</a>
              </div>
              <button type="submit" class="btn btn-primary">Submit</button>
          </form>
