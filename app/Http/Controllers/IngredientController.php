@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ingredient;
 use App\Models\IngredientsCategory;
+use App\Models\MultiIngredients;
 use Yajra\DataTables\DataTables;
+use Intervention\Image\Facades\Image;
+
 use Storage;
+
 use Illuminate\Support\Facades\Auth;
 
 class IngredientController extends Controller
@@ -117,6 +121,19 @@ class IngredientController extends Controller
 
         $ingredient = new Ingredient();
 
+        $multipleImage=array();
+        if($files = $request->file('images')) {
+            foreach($files as $file){
+                $fileName = time().'_'.$file->getClientOriginalName();
+                $uploadPath = 'image/ingredients/multiple/';
+                $url = $uploadPath.$fileName;
+                Image::make($file)->resize(770,520)->save($url);
+                // $file->move($uploadPath,$fileName);
+                $multipleImage[]=$url;
+            }
+            
+            
+        }
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
@@ -126,7 +143,7 @@ class IngredientController extends Controller
             $ingredient->image = $filename;
         }
 
-        Ingredient::create([
+        $id = Ingredient::create([
             'name' => $request->name,
             'description' => $request->description,
             // 'image' => implode('|', $images),
@@ -134,6 +151,13 @@ class IngredientController extends Controller
             'quantity' => $request->quantity,
             'price' => $request->price,
             'ingredient_category_id' => $request->ingredient_category_id,
+        ]);
+
+        MultiIngredients::insert([
+            'ingredient_id' => $id->id,
+            'image' => implode('|', $multipleImage),
+            'created_at' => now(),
+
         ]);
 
         return redirect()->route('ingredients.index')->with('success', 'Ingredient created successfully.');
@@ -164,6 +188,11 @@ class IngredientController extends Controller
             'price' => $request->price,
             'ingredient_category_id' => $request->ingredient_category_id,
         ];
+        
+        
+        
+
+      
 
         // if ($request->hasFile('image')) {
         //     // Delete old image
@@ -181,7 +210,23 @@ class IngredientController extends Controller
             $url = $uploadPath.$filename;
             $data['image'] = $url;
         }
-
+        $multipleImage=array();
+        if($files = $request->file('images')) {
+            foreach($files as $file){
+                $fileName = time().'_'.$file->getClientOriginalName();
+                $uploadPath = 'image/ingredients/multiple/';
+                $url = $uploadPath.$fileName;
+                Image::make($file)->resize(770,520)->save($url);
+                // $file->move($uploadPath,$fileName);
+                $multipleImage[]=$url;
+            }
+            
+            
+        }
+        $f= MultiIngredients::where('ingredient_id',$ingredient->id)->first();
+        
+        $f->image = implode('|', $multipleImage);
+        $f->save();
         $ingredient->update($data);
 
         return redirect()->route('ingredients.index')->with('success', 'Ingredient updated successfully.');
