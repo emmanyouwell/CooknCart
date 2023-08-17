@@ -82,12 +82,12 @@
                     alt="Bootstrap Themes" width="700" height="500" loading="lazy">
             </div>
             <div class="col-lg-6">
-                <h1 class="display-5 fw-bold lh-1 mb-3">Responsive left-aligned hero with image</h1>
-                <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s
-                    most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system,
-                    extensive prebuilt components, and powerful JavaScript plugins.</p>
+                <h1 class="display-5 fw-bold lh-1 mb-3"> <i class="fa-solid fa-kitchen-set" style="color: #c42121;"></i> COOK N CART</h1> 
+                <p class="lead" style="text-align: justify">Cook N Cart is an online grocery store that makes it easy to find the ingredients you need to cook your favorite recipes. With Cook N Cart, you can browse recipes by cuisine, course, or ingredient. Once you find a recipe you want to make, you can add the ingredients to your cart and checkout with just a few clicks.</p>
+                <br>
+                <p class ="lead" style="text-align: justify"> Whether you're a beginner cook or a seasoned pro, Cook N Cart is the perfect way to get the ingredients you need to create delicious meals at home! </p>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                    <a href="{{ route('user-recipe.index') }}" class="btn btn-danger btn-lg px-4 me-md-2">Recipes</a>
+                    <a href="{{ route('user-recipe.index') }}" class="btn btn-outline-danger btn-lg px-4">Recipes</a>
                     <a href="{{ route('user-ingredient.index') }}" class="btn btn-outline-danger btn-lg px-4">Ingredients</a>
                 </div>
             </div>
@@ -99,7 +99,7 @@
         ================================================== -->
         <!-- Wrap the rest of the page in another container to center all the content. -->
       
-        <div class="container marketing">
+        {{-- <div class="container marketing">
       
             <div class="d-flex justify-content-center align-items-center">
                 <div class="row">
@@ -166,13 +166,13 @@
       
           <!-- /END THE FEATURETTES -->
       
-        </div><!-- /.container -->
+        </div><!-- /.container --> --}}
       
       
         <!-- FOOTER -->
         <footer class="container">
           <p class="float-end"><a href="#">Back to top</a></p>
-          <p>&copy; 2023 CooknCart, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+          <p>&copy; 2023 CooknCart</p>
         </footer>
       </main>
 @endsection
