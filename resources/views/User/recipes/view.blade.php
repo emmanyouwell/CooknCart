@@ -137,7 +137,7 @@
             <div class="col-md-6">
                 <div class="card post-card">
                     <div class="user-profile">
-                        <img src="https://scontent.fmnl33-1.fna.fbcdn.net/v/t39.30808-1/366181326_103255029539724_136952219169775613_n.jpg?stp=dst-jpg_p240x240&_nc_cat=101&cb=99be929b-3346023f&ccb=1-7&_nc_sid=2b6aad&_nc_eui2=AeG_eABj3_Gk9av8MNbk-bNn_Scoq1-II879JyirX4gjzlh2DiqgjUjDdNyMLgIsPUYQqdklcTA2som7q4-abeg7&_nc_ohc=2_xIkz5rsv0AX_hKv7C&_nc_pt=1&_nc_ht=scontent.fmnl33-1.fna&oh=00_AfB6f4Dqia6BadyUgOiU_HSqKirtoIhI_JoQO24etxD3JQ&oe=64DC1DA8"
+                        <img src="https://scontent.fmnl17-5.fna.fbcdn.net/v/t39.30808-6/316284382_3350259831960370_9203392140919984709_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=174925&_nc_eui2=AeHGtvV-NQftlt3xusD-Tuv8hIAueDZnbH6EgC54Nmdsfhrxtbgh4WCMCKFV_NM3Qux2gL17-hAMVisa4iUM8qwN&_nc_ohc=hREuVgqvsVIAX8Mgb6i&_nc_pt=1&_nc_ht=scontent.fmnl17-5.fna&oh=00_AfC_41x4akPkdXhx9DtYso4Z_yO8uGLrfUjXwVsjIQJWRQ&oe=64E350A1"
                             width="40" class="user-avatar rounded-circle">
                         <div>
                             <span class="user-name">{{ $recipe->user->name }}</span>
