@@ -12,6 +12,7 @@ use App\Events\OrderUpdated;
 use App\Listeners\SendCancelNotification;
 use App\Listeners\SendUpdateNotification;
 use App\Listeners\SendUserNotification;
+use App\Listeners\SendAdminNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderCreated::class =>[
             SendUserNotification::class,
+            SendAdminNotification::class
         ],
         OrderCancelled::class => [
             SendCancelNotification::class,
