@@ -38,6 +38,7 @@ Auth::routes();
 Route::get('/test',[RecipeController::class,'display'])->name('test');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->middleware('auth');
+Route::get('/about', [HomeController::class, 'about'])->name('User.Frontend.about');
 
 
 Route::middleware(['auth'])->prefix('user')->group(function () {
