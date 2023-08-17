@@ -25,4 +25,9 @@ class HomeController extends Controller
     {
         return view('User.Frontend.Landing');
     }
+
+    public function about()
+    {
+        return view('User.Frontend.about');
+    }
 }
