@@ -16,7 +16,7 @@
  @section('content')
      <div class="container card p-3 bg-light">
          <h2>Create Recipe</h2>
-         <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
+         <form action="{{(auth()->user()->role_as == 1) ? route('recipes.store') : route('user.recipes.store')}}" method="POST" enctype="multipart/form-data">
              @csrf
              <div class="row row-cols-1 row-cols-md-3 g-4">
                  <div class="col-md-6 mb-4">

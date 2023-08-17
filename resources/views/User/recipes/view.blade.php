@@ -141,16 +141,35 @@
             <div class="col-md-6" id="left">
                 <div class="card post-card position-sticky top-0">
                     <div class="user-profile">
-                        <img src="https://scontent.fmnl17-5.fna.fbcdn.net/v/t39.30808-6/316284382_3350259831960370_9203392140919984709_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=174925&_nc_eui2=AeHGtvV-NQftlt3xusD-Tuv8hIAueDZnbH6EgC54Nmdsfhrxtbgh4WCMCKFV_NM3Qux2gL17-hAMVisa4iUM8qwN&_nc_ohc=hREuVgqvsVIAX8Mgb6i&_nc_pt=1&_nc_ht=scontent.fmnl17-5.fna&oh=00_AfC_41x4akPkdXhx9DtYso4Z_yO8uGLrfUjXwVsjIQJWRQ&oe=64E350A1"
+                        @if($recipe->user->image)
+                        <img src="{{asset($recipe->user->image)}}"
                             width="40" class="user-avatar rounded-circle">
-                        <div>
-                            <span class="user-name">{{ $recipe->user->name }}</span>
+                        @else
+                        <img src="{{asset('image/gray.jpg')}}"
+                        width="40" class="user-avatar rounded-circle">
+                        @endif
+                        <div class="row w-100">
+                            <div class="col-md-6">
+                                <span class="user-name">{{ $recipe->user->name.' '.$recipe->user->lname }}</span>
+                            </div>
+                            @if($recipe->user_id == auth()->user()->id)
+                            <div class="col-md-6 d-flex justify-content-end">
+                                <a href="{{route('user.recipes.edit',$recipe->id)}}" class="btn btn-primary">Edit</a>
+                                <form action="{{route('user.recipes.destroy',$recipe->id)}}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger ms-3"
+                                        onclick="return confirm('Are you sure you want to delete this recipe?')">Delete</button>
+                                    </form>
+                            </div>
+                            @endif
                             <!-- Add timestamp here -->
                         </div>
+                        
                     </div>
                     <div class="name"><b>Recipe: </b>{{ $recipe->name }}</div>
                     <div class="square-image-container mb-3" style="height: 500px; overflow: hidden;">
-                        @if ($img)
+                        @if (count($img)!= null)
                             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     @for ($i = 0; $i < count($img); $i++)

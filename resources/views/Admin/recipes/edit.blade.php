@@ -15,7 +15,7 @@
 @section('content')
     <div class="container">
         <h2>Edit Recipe</h2>
-        <form action="{{ route('recipes.update', $recipe->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{(auth()->user()->role_as == 1) ? route('recipes.update',$recipe->id ) : route('user.recipes.update',$recipe->id)}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row row-cols-1 row-cols-md-3 g-4">

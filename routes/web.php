@@ -17,6 +17,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ProfileController;
+
 
 use App\Models\Recipe;
 use Illuminate\Routing\RouteGroup;
@@ -40,12 +42,23 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/', [HomeController::class, 'index'])->middleware('auth');
 Route::get('/about', [HomeController::class, 'about'])->name('User.Frontend.about');
 
-
+Route::post('tags', [IngredientController::class, 'getIngredient'])->name('get-ingredient')->middleware('auth');
 Route::middleware(['auth'])->prefix('user')->group(function () {
+    Route::get('/recipes/create', [RecipeController::class, 'create'])->name('users.recipes.create');
+    Route::post('/recipes', [RecipeController::class, 'store'])->name('user.recipes.store');
+    Route::get('/recipes/{recipe}', [RecipeController::class, 'show'])->name('user.recipes.show');
+    Route::get('/recipes/{recipe}/edit', [RecipeController::class, 'edit'])->name('user.recipes.edit');
+    Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('user.recipes.update');
+    Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy'])->name('user.recipes.destroy');
+    
+    Route::get('/profile',[ProfileController::class, 'profile'])->name('user.profile');
+    Route::post('/save-image',[ProfileController::class,'saveImage'])->name('user.saveImage');
     Route::get('/recipes', [RecipeController::class, 'index'])->name('user-recipe.index');
     Route::get('/ingredients', [IngredientController::class, 'index'])->name('user-ingredient.index');
     Route::get('/ingredients/{ingredient}', [IngredientController::class, 'ingredientsview'])->name('User.ingredients.view');
     Route::get('/recipes/{recipe}', [RecipeController::class, 'recipesview'])->name('User.recipes.view');
+    
+   
     // cart
     Route::post('/add-to-cart', [CartController::class, 'addIngredient'])->name('add-to-cart');
     Route::get('/load-cart-data',[CartController::class, 'cartcount']);
@@ -122,7 +135,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/ingredients/{ingredient}/edit', [IngredientController::class, 'edit'])->name('ingredients.edit');
     Route::put('/ingredients/{ingredient}', [IngredientController::class, 'update'])->name('ingredients.update');
     Route::delete('/ingredients/{ingredient}', [IngredientController::class, 'destroy'])->name('ingredients.destroy');
-    Route::post('tags', [IngredientController::class, 'getIngredient'])->name('get-ingredient');
+    
     //orders
     Route::get('orders',[OrderController::class,'index'])->name('orders.index');
     Route::get('Admin/view-order/{id}',[OrderController::class,'view']);
