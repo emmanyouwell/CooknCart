@@ -2,6 +2,10 @@
 
 @section('css')
     <style>
+       
+
+        
+
         .post-card {
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -134,8 +138,8 @@
     {{-- This the post card --}}
     <div class="container mt-5 mb-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card post-card">
+            <div class="col-md-6" id="left">
+                <div class="card post-card position-sticky top-0">
                     <div class="user-profile">
                         <img src="https://scontent.fmnl17-5.fna.fbcdn.net/v/t39.30808-6/316284382_3350259831960370_9203392140919984709_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=174925&_nc_eui2=AeHGtvV-NQftlt3xusD-Tuv8hIAueDZnbH6EgC54Nmdsfhrxtbgh4WCMCKFV_NM3Qux2gL17-hAMVisa4iUM8qwN&_nc_ohc=hREuVgqvsVIAX8Mgb6i&_nc_pt=1&_nc_ht=scontent.fmnl17-5.fna&oh=00_AfC_41x4akPkdXhx9DtYso4Z_yO8uGLrfUjXwVsjIQJWRQ&oe=64E350A1"
                             width="40" class="user-avatar rounded-circle">
@@ -146,35 +150,42 @@
                     </div>
                     <div class="name"><b>Recipe: </b>{{ $recipe->name }}</div>
                     <div class="square-image-container mb-3" style="height: 500px; overflow: hidden;">
-                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @for ($i=0; $i<count($img); $i++)
-                                @if($i==0)
-                                    <div class="carousel-item active">
-                                        <img src="{{ asset($img[$i]) }}"
-                                            style="object-fit: cover; width: 100%; height: 100%;" class="  d-block w-100">
-                                    </div>
-                                    @else
-                                    <div class="carousel-item">
-                                        <img src="{{ asset($img[$i]) }}"
-                                            style="object-fit: cover; width: 100%; height: 100%;" class="  d-block w-100">
-                                    </div>
-                                    @endif
-                                @endfor
+                        @if ($img)
+                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    @for ($i = 0; $i < count($img); $i++)
+                                        @if ($i == 0)
+                                            <div class="carousel-item active">
+                                                <img src="{{ asset($img[$i]) }}"
+                                                    style="object-fit: cover; width: 100%; height: 100%;"
+                                                    class="  d-block w-100">
+                                            </div>
+                                        @else
+                                            <div class="carousel-item">
+                                                <img src="{{ asset($img[$i]) }}"
+                                                    style="object-fit: cover; width: 100%; height: 100%;"
+                                                    class="  d-block w-100">
+                                            </div>
+                                        @endif
+                                    @endfor
+                                </div>
+                                <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                                data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                                data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-
+                        @else
+                            <img src="{{ asset($recipe->image) }}" style="object-fit: cover; width: 100%; height: 100%;"
+                                class="  d-block w-100">
+                        @endif
                     </div>
+
 
                     <div class="post-content ">
                         <h6><b>Description: </b></h6>
@@ -277,7 +288,8 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $review->id }}">Edit Comment
+                                            <h5 class="modal-title" id="editModalLabel{{ $review->id }}">Edit
+                                                Comment
                                             </h5>
                                             <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close">
@@ -289,7 +301,8 @@
                                                 method="post">
                                                 @csrf
                                                 <textarea name="user_review" class="form-control">{{ $review->user_review }}</textarea>
-                                                <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                                                <button type="submit" class="btn btn-primary mt-3">Save
+                                                    Changes</button>
                                             </form>
                                         </div>
                                     </div>
@@ -324,9 +337,10 @@
                     </div>
 
 
+
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 " id="right">
                 <h3 class="">Ingredients:</h3>
                 @php
                     $ingredientIds = json_decode($recipe->tags);

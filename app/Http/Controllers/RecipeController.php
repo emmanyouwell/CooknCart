@@ -291,7 +291,11 @@ class RecipeController extends Controller
         $multiImage = MultiRecipe::where('recipe_id',$recipe->id)->first();
         // dd($multiImage);
         $img = array();
-        $img = explode('|', $multiImage->image);
+        if ($multiImage != null){
+            
+            $img = explode('|', $multiImage->image);    
+        }
+        
 
         if ($recipe) {
             return view('User.recipes.view', compact('recipe', 'reviews', 'img'));

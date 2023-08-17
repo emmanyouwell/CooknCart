@@ -7,7 +7,7 @@
 
     <h1 class="text-center"><strong>Deliciously Fresh,</strong><span class="align-items-center"> Made with Love and
             Irresistible Recipes</span></h1>
-
+            <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/user/recipes') }}">Recipes</a></li>
@@ -34,7 +34,7 @@
         </div>
     </div> --}}
 
-    <div class="container">
+    
         <form action="{{ route('recipes.search') }}" method="get" class="mb-4">
             <div class="input-group my-2">
                 <input type="text" name="q" id="search-input" placeholder="Search"
@@ -45,7 +45,7 @@
             </div>
         </form>
         <div id="search-results" class="autocomplete-results"></div>
-    </div>
+    
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
         @php
@@ -75,7 +75,7 @@
             </div>
         @endforeach
     </div>
-    
+</div>
 @endsection
 
 @section('scriptFoot')

@@ -49,13 +49,13 @@
                 </button>
             </div>
         </form>
-        <div id="search-results" class="autocomplete-results"></div>
+        {{-- <div id="search-results" class="autocomplete-results"></div> --}}
 
 
         <nav>
             <div class="nav nav-tabs flex-column flex-sm-row" id="nav-tab" role="tablist">
                 @foreach ($categories as $category)
-                    <button class="flex-sm-fill text-sm-center nav-link" id="nav-{{ $category->id }}-tab"
+                    <button class="flex-sm-fill text-sm-center nav-link {{$loop->first ? 'active' : ''}}" id="nav-{{ $category->id }}-tab"
                         data-bs-toggle="tab" data-bs-target="#category-{{ $category->id }}" type="button" role="tab"
                         aria-controls="nav-{{ $category->id }}" aria-selected="false">{{ $category->name }}</button>
                 @endforeach
@@ -64,7 +64,8 @@
 
         <div class="tab-content" id="nav-tabContent">
             @foreach ($categories as $category)
-                <div class="tab-pane fade" id="category-{{ $category->id }}" role="tabpanel"
+            
+                <div class="tab-pane fade {{$loop->first ? 'show active' : ''}}" id="category-{{ $category->id }}" role="tabpanel"
                     aria-labelledby="nav-{{ $category->id }}-tab">
                     <div class="d-flex align-items-center flex-column m-3">
                         <h2>{{ $category->name }}</h2>
@@ -95,9 +96,12 @@
 @endsection
 
 @section('scriptFoot')
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+    integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function() {
             $('#nav-tabContent .tab-pane').on('show.bs.tab', function(e) {
