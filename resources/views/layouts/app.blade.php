@@ -37,7 +37,7 @@
                 <div class="container">
                     <a class="navbar-brand" href="#">
                         <img src="{{ asset('image/logo.png') }}" alt="Logo"
-                            style="width: 80px; height: auto;">
+                            style="width: 150px; height: auto;">
                         {{-- {{ config('app.name', 'Laravel') }} --}}
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -141,11 +141,11 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{url('/home')}}">Home</a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
+                                <a class="nav-link" href="{{ route('User.Frontend.about') }}">About</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user-recipe.index') }}">Recipes</a>
