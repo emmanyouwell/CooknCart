@@ -125,8 +125,9 @@ class RecipeController extends Controller
         // 'ingredients.*' => 'exists:ingredients,id',
     ]);
   
-        $multipleImage=array();
+    $multipleImage=array();
         if($files = $request->file('images')) {
+           
             foreach($files as $file){
                 $fileName = time().'_'.$file->getClientOriginalName();
                 $uploadPath = 'image/recipes/multiple/';
@@ -163,11 +164,15 @@ class RecipeController extends Controller
         'image' => $url,
         'tags' => json_encode($request->tags)
     ]);
-    MultiRecipe::insert([
-        'image' => implode("|", $multipleImage),
-        'recipe_id' => $recipe->id,
-        'created_at'=>now(),
-    ]);
+
+    if ($multipleImage){
+        MultiRecipe::insert([
+            'image' => implode("|", $multipleImage),
+            'recipe_id' => $recipe->id,
+            'created_at'=>now(),
+        ]);
+    }
+    
 
         // $recipe->ingredients()->attach($request->ingredients);
 
@@ -187,11 +192,10 @@ class RecipeController extends Controller
         $categories = Category::pluck('name', 'id');
         $ingredients = Ingredient::pluck('name', 'id');
         $multi = MultiRecipe::where('recipe_id', $recipe->id)->first();
-        $img = array();
-        $img = explode('|', $multi->image);
+        
 
 
-        return view('Admin.recipes.edit', compact('recipe', 'categories', 'ingredients','img'));
+        return view('Admin.recipes.edit', compact('recipe', 'categories', 'ingredients'));
     }
 
     public function update(Request $request, Recipe $recipe)
@@ -252,12 +256,22 @@ class RecipeController extends Controller
                 // $file->move($uploadPath,$fileName);
                 $multipleImage[]=$url;
             }
+            $f = MultiRecipe::where('recipe_id', $recipe->id)->first();
+            if($f == null){
+                MultiRecipe::insert([
+                    'recipe_id' => $recipe->id,
+                    'image' =>implode('|', $multipleImage),
+                    'created_at' =>now(),
+                ]);
+            }
+            else{
+                $f->image = implode('|', $multipleImage);
+                $f->save();
+            }
             
             
         }
-        $f = MultiRecipe::where('recipe_id', $recipe->id)->first();
-        $f->image = implode('|', $multipleImage);
-        $f->save();
+        
         Recipe::where('id', $recipe->id)->update([
             'name' => $request->name,
             'description' => $request->description,
