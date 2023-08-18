@@ -197,13 +197,22 @@ class IngredientController extends Controller
                 // $file->move($uploadPath,$fileName);
                 $multipleImage[]=$url;
             }
-            
+            $f= MultiIngredients::where('ingredient_id',$ingredient->id)->first();
+        if ($f==null){
+            MultiIngredients::insert([
+                'recipe_id'=>$recipe->id,
+                'image' => implode('|', $multipleImage),
+                'created_at' => now(),
+            ]);
+        }
+        else{
+            $f->image = implode('|', $multipleImage);
+            $f->save();
+        }
+        
             
         }
-        $f= MultiIngredients::where('ingredient_id',$ingredient->id)->first();
         
-        $f->image = implode('|', $multipleImage);
-        $f->save();
         $ingredient->update($data);
 
         return redirect()->route('ingredients.index')->with('success', 'Ingredient updated successfully.');

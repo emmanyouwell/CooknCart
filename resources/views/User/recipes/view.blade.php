@@ -94,7 +94,58 @@
 
 @section('content')
     {{-- This the Modal --}}
+    @foreach($reviews as $review)
+    <div class="modal fade" id="editModal{{ $review->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="editModalLabel{{ $review->id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel{{ $review->id }}">Edit
+                        Comment
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('reviews.edit', ['id' => $review->id]) }}"
+                        method="post">
+                        @csrf
+                        <textarea name="user_review" class="form-control">{{ $review->user_review }}</textarea>
+                        <button type="submit" class="btn btn-primary mt-3">Save
+                            Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal{{ $review->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="deleteModalLabel{{ $review->id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel{{ $review->id }}">Delete
+                        Comment</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this comment?</p>
+                    <form action="{{ route('reviews.delete', ['id' => $review->id]) }}"
+                        method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-danger mt-3">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -264,7 +315,7 @@
                         @foreach ($reviews as $review)
                             <div class="comment-content">
                                 <span class="user-name">
-                                    <img src="#" width="40" class="user-avatar rounded-circle">
+                                    <img src="{{asset($review->user->image)}}" width="40" class="user-avatar rounded-circle">
                                     {{ $review->user->name . ' ' . $review->user->lname }}
 
                                 </span>
@@ -302,56 +353,7 @@
 
                                 <hr>
                             </div>
-                            <div class="modal fade" id="editModal{{ $review->id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="editModalLabel{{ $review->id }}" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $review->id }}">Edit
-                                                Comment
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('reviews.edit', ['id' => $review->id]) }}"
-                                                method="post">
-                                                @csrf
-                                                <textarea name="user_review" class="form-control">{{ $review->user_review }}</textarea>
-                                                <button type="submit" class="btn btn-primary mt-3">Save
-                                                    Changes</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Delete Modal -->
-                            <div class="modal fade" id="deleteModal{{ $review->id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="deleteModalLabel{{ $review->id }}" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel{{ $review->id }}">Delete
-                                                Comment</h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to delete this comment?</p>
-                                            <form action="{{ route('reviews.delete', ['id' => $review->id]) }}"
-                                                method="post">
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger mt-3">Delete</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         @endforeach
                     </div>
 

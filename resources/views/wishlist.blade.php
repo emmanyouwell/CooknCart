@@ -32,7 +32,7 @@
                             @endphp
                             <tr class="ingredient_data">
                                 <td>
-                                    <img src="{{ asset('storage/' . $item->ingredient->image) }}" height="70px" alt="Image here">
+                                    <img src="{{ asset($item->ingredient->image) }}" height="70px" alt="Image here">
                                 </td>
                                 <td>
                                     <h3>{{ $item->ingredient->name }}</h3>

@@ -60,6 +60,7 @@
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                                <a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a>
                                 <a class="dropdown-item" href="{{ route('recipes.index') }}">Recipes</a>
 
                                 <a class="dropdown-item" href="{{ route('ingredients.index') }}">Ingredients</a>
