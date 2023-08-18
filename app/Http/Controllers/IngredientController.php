@@ -23,40 +23,12 @@ class IngredientController extends Controller
 
     public function index(Request $request)
     {
-        if (Auth::check() && Auth::user()->role_as === 1) {
-            if ($request->ajax()) {
-                $ingredients = Ingredient::with('category')->latest()->get();
-
-                $ingredients->transform(function ($item) {
-                    $item->image = asset($item->image);
-                    return $item;
-                });
-
-                return DataTables::of($ingredients)
-                    ->addColumn('action', function ($ingredient) {
-                        $editUrl = route('ingredients.edit', $ingredient->id);
-                        $deleteUrl = route('ingredients.destroy', $ingredient->id);
-
-                        $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
-                        $buttons .= '<form action="' . $deleteUrl . '" method="POST" class="d-inline">
-                                        ' . csrf_field() . '
-                                        ' . method_field('DELETE') . '
-                                        <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm(\'Are you sure you want to delete this ingredient?\')">Delete</button>
-                                    </form>';
-
-                        return $buttons;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-            }
-            return view('Admin.ingredients.index');
-        } else {
+        
             $categories = IngredientsCategory::all();
             $ingredients = Ingredient::all();
 
             return view('User.ingredients.index', compact('categories', 'ingredients'));
-        }
+        
     }
 
 

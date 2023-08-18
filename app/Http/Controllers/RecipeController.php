@@ -32,44 +32,14 @@ class RecipeController extends Controller
             return view('User.recipes.search', compact('recipes', 'categories', 'ingredients', 'search_param'));
         }
 
-        if (Auth::check() && Auth::user()->role_as === 1) {
-            if ($request->ajax()) {
-                $recipes_query = Recipe::with('user')->latest();
-                $recipes = $recipes_query->get();
-
-                return DataTables::of($recipes)
-                    ->addColumn('category', function ($recipe) {
-                        return $recipe->category->pluck('name')->implode(', ');
-                    })
-                    ->addColumn('ingredients', function ($recipe) {
-                        return json_decode($recipe->tags);
-                    })
-                    ->addColumn('action', function ($recipe) {
-                        $editUrl = route('recipes.edit', $recipe->id);
-                        $deleteUrl = route('recipes.destroy', $recipe->id);
-
-                        $buttons = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
-                        $buttons .= '<form action="' . $deleteUrl . '" method="POST" class="d-inline">
-                    ' . csrf_field() . '
-                    ' . method_field('DELETE') . '
-                    <button type="submit" class="btn btn-sm btn-danger"
-                        onclick="return confirm(\'Are you sure you want to delete this recipe?\')">Delete</button>
-                    </form>';
-
-                        return $buttons;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-            }
-            return view('Admin.recipes.index');
-        } else {
+        
             $recipes = Recipe::all();
             $categories = Category::all();
             $ingredients = Ingredient::all();
 
 
             return view('User.recipes.index', compact('recipes', 'categories', 'ingredients', 'search_param'));
-        }
+        
     }
 
     public function autocomplete(Request $request)

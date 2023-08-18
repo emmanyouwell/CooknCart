@@ -1,7 +1,7 @@
 @if (Auth::check() && auth()->user()->role_as === 1)
     <nav class="navbar navbar-expand-md shadow-sm bg-light navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{route('admin.dashboard')}}">
                 <img src="{{ asset('image/logo.png') }}" alt="Logo" style="width: 80px; height: auto;">
                 {{-- {{ config('app.name', 'Laravel') }} --}}
             </a>
@@ -15,36 +15,24 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('recipes.index') }}">Recipes</a>
+                        <a class="nav-link" href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ingredients.index') }}">Ingredients</a>
+                        <a class="nav-link" href="{{ route('User.Frontend.about') }}">About</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Orders
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ route('orders.index') }}">Pending Orders</a></li>
-
-                            <li><a class="dropdown-item" href="{{ url('order-history') }}">Order Manager</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('user-recipe.index') }}">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('user-ingredient.index') }}">Products</a>
                     </li>
 
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Categories
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ route('categories.index') }}">Recipes</a></li>
 
-                            <li><a class="dropdown-item"
-                                    href="{{ route('categories_ingredients.index') }}">Ingredients</a></li>
-                        </ul>
-                    </li>
+
+
+
+
 
                 </ul>
 
@@ -71,7 +59,25 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                                <a class="dropdown-item" href="{{ route('recipes.index') }}">Recipes</a>
+
+                                <a class="dropdown-item" href="{{ route('ingredients.index') }}">Ingredients</a>
+
+                                <a class="dropdown-item" href="{{ route('orders.index') }}">Pending Orders</a>
+
+                                <a class="dropdown-item" href="{{ url('order-history') }}">Order Manager</a>
+
+                                <a class="dropdown-item" href="{{ route('categories.index') }}">Recipe Category</a>
+
+                                <a class="dropdown-item" href="{{ route('categories_ingredients.index') }}">Ingredients Category</a>
+                                
+
+                                
+                            </div>
+                            
+                        </li>
+                        <a class="nav-link" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -80,8 +86,6 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
-                            </div>
-                        </li>
                     @endguest
                 </ul>
             </div>
@@ -103,9 +107,9 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
-                    {{-- <li class="nav-item">
-                                <a class="nav-link" href="{{url('/home')}}">Home</a>
-                            </li> --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/') }}">Home</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('User.Frontend.about') }}">About</a>
                     </li>
@@ -115,9 +119,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('user-ingredient.index') }}">Products</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
-                    </li>
+                    </li> --}}
 
                 </ul>
                 <!-- Right Side Of Navbar -->
@@ -172,7 +176,10 @@
                                 <a class="dropdown-item" href="{{ url('user/my-orders') }}">
                                     {{ __('My Orders') }}
                                 </a>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                
+                            </div>
+                        </li>
+                        <a class="nav-link" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -182,8 +189,6 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
-                            </div>
-                        </li>
                     @endguest
 
                 </ul>

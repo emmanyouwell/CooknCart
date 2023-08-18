@@ -97,7 +97,7 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
 });
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     //redirect to dashboard with charts
-    Route::get('/dashboard', [AdminController::class, 'index']);
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     //import and export in excel
     Route::get('/import-categories', [CategoryController::class, 'importCategories'])->name('categories.import');
     Route::post('/upload-categories', [CategoryController::class, 'uploadCategories'])->name('categories.upload');
@@ -106,7 +106,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('/upload-ingredientCategories', [IngredientCategoryController::class, 'uploadingredientCategories'])->name('categories_ingredients.upload');
     //CRUD
     //Recipes
-    Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
+    Route::get('/recipes', [AdminController::class, 'recipeIndex'])->name('recipes.index');
     Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
     Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
     Route::get('/recipes/{recipe}', [RecipeController::class, 'show'])->name('recipes.show');
@@ -129,7 +129,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::put('categories_ingredients/{ingredientscategories}', [IngredientCategoryController::class, 'update'])->name('categories_ingredients.update');
     Route::delete('categories_ingredients/{ingredientscategories}', [IngredientCategoryController::class, 'destroy'])->name('categories_ingredients.destroy');
     //ingredients
-    Route::get('/ingredients', [IngredientController::class, 'index'])->name('ingredients.index');
+    Route::get('/ingredients', [AdminController::class, 'ingIndex'])->name('ingredients.index');
     Route::get('/ingredients/create', [IngredientController::class, 'create'])->name('ingredients.create');
     Route::post('/ingredients', [IngredientController::class, 'store'])->name('ingredients.store');
     Route::get('/ingredients/{ingredient}/edit', [IngredientController::class, 'edit'])->name('ingredients.edit');
