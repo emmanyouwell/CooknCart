@@ -13,6 +13,8 @@ use App\Listeners\SendCancelNotification;
 use App\Listeners\SendUpdateNotification;
 use App\Listeners\SendUserNotification;
 use App\Listeners\SendAdminNotification;
+use App\Listeners\SendAdminCancelNotification;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -31,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderCancelled::class => [
             SendCancelNotification::class,
+            SendAdminCancelNotification::class,
         ],
         OrderUpdated::class => [
             SendUpdateNotification::class,

@@ -17,7 +17,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">Category Name</label>
-                            <input type="text" name="name" class="form-control" required>
+                            <input type="text" name="name" id="create_name" class="form-control" required>
                             <span id="name_error" class="text-danger"></span>
                         </div>
                         <div class="form-group">
