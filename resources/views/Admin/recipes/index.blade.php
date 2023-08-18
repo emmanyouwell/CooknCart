@@ -5,6 +5,10 @@
         <div class="mb-3">
             <a href="{{ route('recipes.create') }}" class="btn btn-primary">Add Recipe</a>
         </div>
+        <div class="btn-group mb-3" role="group" aria-label="Basic outlined example">
+            <a href="{{ route('recipes.import') }}" class="btn btn-outline-primary">Upload</a>
+            <a href="{{ route('recipes.export') }}" class="btn btn-outline-primary">Export</a>
+        </div>
         <br />
         <table class="table table-bordered" id="recipe_table">
             <thead>

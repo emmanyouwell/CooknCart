@@ -17,6 +17,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
+use App\Models\Ingredient;
+use App\Models\IngredientsCategory;
 use App\Http\Controllers\ProfileController;
 
 
@@ -99,11 +101,29 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     //redirect to dashboard with charts
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     //import and export in excel
+    //Recipe Categories
     Route::get('/import-categories', [CategoryController::class, 'importCategories'])->name('categories.import');
     Route::post('/upload-categories', [CategoryController::class, 'uploadCategories'])->name('categories.upload');
-
+    //Ingredient Categories
     Route::get('/import-ingredientCategories', [IngredientCategoryController::class, 'importingredientCategory'])->name('categories_ingredients.import');
     Route::post('/upload-ingredientCategories', [IngredientCategoryController::class, 'uploadingredientCategories'])->name('categories_ingredients.upload');
+    //Ingredient
+    Route::get('/import-ingredients', [IngredientController::class, 'importingredient'])->name('ingredients.import');
+    Route::post('/upload-ingredients', [IngredientController::class, 'uploadingredient'])->name('ingredients.upload');
+    //Recipe
+    Route::get('/import-recipes', [RecipeController::class, 'importrecipe'])->name('recipes.import');
+    Route::post('/upload-recipes', [RecipeController::class, 'uploadrecipe'])->name('recipes.upload');
+
+    //Exports
+    Route::get('categories/export/', [CategoryController::class, 'export'])->name('categories.export');
+    Route::get('categoriesingredients/export/', [IngredientCategoryController::class, 'export'])->name('categories_ingredient.export');
+    Route::get('ingredients/export/', [IngredientController::class, 'export'])->name('ingredients.export');
+    Route::get('recipes/export/', [RecipeController::class, 'export'])->name('recipes.export');
+
+   //pdf
+   Route::get('/export-ingredientCategories', [IngredientCategoryController::class, 'exportingredientCategories'])->name('categories_ingredients.export');
+
+
     //CRUD
     //Recipes
     Route::get('/recipes', [AdminController::class, 'recipeIndex'])->name('recipes.index');

@@ -1,18 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Exports\ingredientsCategoriesExport;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Imports\ingredientCategoriesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\IngredientsCategory;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
+use DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 
-
-// use App\Imports\CategoriesImport;
-// use Maatwebsite\Excel\Facades\Excel;
-// use App\Models\Category;
-// use Illuminate\Http\Request;
-// use Yajra\DataTables\DataTables;
 
 
 class IngredientCategoryController extends Controller
@@ -46,21 +43,20 @@ class IngredientCategoryController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Validate the request data
-    $validatedData = $request->validate([
-        'name' => 'required',
-        'description' => 'required',
-    ]);
-    // Create the category
-    $ingredientscategories = IngredientsCategory::create($validatedData);
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+        // Create the category
+        $ingredientscategories = IngredientsCategory::create($validatedData);
 
-    // Debug and inspect the data
-    //dd($category);
+        // Debug and inspect the data
+        //dd($category);
 
-    return redirect()->route('categories_ingredients.index')->with('success', 'Category added successfully.');
-    
-}
+        return redirect()->route('categories_ingredients.index')->with('success', 'Category added successfully.');
+    }
 
     public function edit(IngredientsCategory $ingredientscategories)
     {
@@ -90,12 +86,26 @@ class IngredientCategoryController extends Controller
         return redirect()->route('categories_ingredients.index')->with('success', 'Category deleted successfully.');
     }
 
-    public function importingredientCategory(){
+    public function importingredientCategory()
+    {
         return view('Admin.categories_ingredients.import');
     }
-    public function uploadingredientCategories(Request $request){
+    public function uploadingredientCategories(Request $request)
+    {
 
-    Excel::import(new ingredientCategoriesImport, $request->file);
-        return redirect()->route('categories_ingredients.index')->with('sucess','User Imported Sucessfully');
+        Excel::import(new ingredientCategoriesImport, $request->file);
+        return redirect()->route('categories_ingredients.index')->with('sucess', 'User Imported Sucessfully');
+    }
+    public function exportingredientCategories(Request $request)
+    {
+        $data = IngredientsCategory::all();
+
+        $pdf = PDF::loadView('Admin.categories_ingredients.pdf', ['data' => $data]);
+        return $pdf->download('categoriesingredient.pdf');
+    }
+
+    public function export()
+    {
+        return Excel::download(new ingredientsCategoriesExport, 'ingredientCategory.xlsx');
     }
 }

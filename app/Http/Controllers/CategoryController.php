@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports;
+use App\Exports\CategoryExport;
 use App\Imports\CategoriesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
 class CategoryController extends Controller
 {
@@ -69,6 +72,11 @@ class CategoryController extends Controller
 
     Excel::import(new CategoriesImport, $request->file);
         return redirect()->route('categories.index')->with('sucess','User Imported Sucessfully');
+    }
+
+    public function export() 
+    {
+        return Excel::download(new CategoryExport, 'RecipeCategory.xlsx');
     }
 }
 

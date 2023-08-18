@@ -38,6 +38,8 @@ class CartController extends Controller
             return response()->json(['status' => "Login to continue"]);
         }
     }
+
+    
     public function viewcart()
     {
         $cartItems = Cart::where('user_id', Auth::id())->get();

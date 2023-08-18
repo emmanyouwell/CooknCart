@@ -49,7 +49,7 @@
         </div>
         <div class="btn-group mb-3" role="group" aria-label="Basic outlined example">
             <a href="{{ route('categories.import') }}" class="btn btn-outline-primary">Upload</a>
-            <a href="#" class="btn btn-outline-primary">Export</a>
+            <a href="{{ route('categories.export') }}" class="btn btn-outline-primary">Export</a>
         </div>
             <table class="table-bordered" id="categoriesTable">
                 <thead>

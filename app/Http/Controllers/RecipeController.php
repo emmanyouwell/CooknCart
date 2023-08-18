@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\recipesExport;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Category;
@@ -13,6 +15,8 @@ use Auth;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 use App\Models\MultiRecipe;
+use App\Imports\RecipesImport;
+use Maatwebsite\Excel\Facades\Excel;
 class RecipeController extends Controller
 {
     public function index(Request $request)
@@ -286,5 +290,18 @@ class RecipeController extends Controller
         } else {
             return redirect('/')->with('message', "No such ingredient found");
         }
+    }
+
+    public function importrecipe(){
+        return view('Admin.recipes.import');
+    }
+    public function uploadrecipe(Request $request){
+
+    Excel::import(new RecipesImport, $request->file);
+        return redirect()->route('recipes.index')->with('sucess','Ingredients Imported Sucessfully');
+    }
+    public function export() 
+    {
+        return Excel::download(new recipesExport, 'Recipe.xlsx');
     }
 }

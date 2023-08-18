@@ -8,6 +8,11 @@ use App\Models\IngredientsCategory;
 use App\Models\MultiIngredients;
 use Yajra\DataTables\DataTables;
 use Intervention\Image\Facades\Image;
+use App\Exports\ingredientsExport;
+use Maatwebsite\Excel\Concerns\FromCollection;
+
+use App\Imports\IngredientsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Storage;
 
@@ -293,4 +298,18 @@ class IngredientController extends Controller
     //         session()->flash('success', 'Product removed successfully');
     //     }
     // }
+
+    public function importingredient(){
+        return view('Admin.ingredients.import');
+    }
+    public function uploadingredient(Request $request){
+
+    Excel::import(new IngredientsImport, $request->file);
+        return redirect()->route('ingredients.index')->with('sucess','Ingredients Imported Sucessfully');
+    }
+
+    public function export() 
+    {
+        return Excel::download(new ingredientsExport, 'ingredient.xlsx');
+    }
 }

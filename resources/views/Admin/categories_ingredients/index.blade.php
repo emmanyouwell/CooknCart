@@ -8,7 +8,8 @@
         </div>
         <div class="btn-group mb-3" role="group" aria-label="Basic outlined example">
             <a href="{{ route('categories_ingredients.import') }}" class="btn btn-outline-primary">Upload</a>
-            <a href="#" class="btn btn-outline-primary">Export</a>
+            <a href="{{ route('categories_ingredient.export') }}" class="btn btn-outline-primary">Export</a>
+            {{-- <a href="{{ route('categories_ingredients.export') }}" class="btn btn-outline-primary">Export PDF</a> --}}
         </div>
         <table id="categories_ingredients-table" class="table table-bordered">
             <thead>
